@@ -1,3 +1,5 @@
+<%@page pageEncoding="utf-8" contentType="text/html;charset=utf-8" %>
+<%--加上这一句来处理中文乱码--%>
 <div class="easyui-layout" data-options="fit:true">
     <div data-options="region:'west',border:true,split:true," title="分类管理" style="width:150px; padding:5px;">
         <ul id="wu-category-tree" class="easyui-tree"></ul>

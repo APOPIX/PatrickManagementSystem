@@ -1,3 +1,5 @@
+<%@page pageEncoding="utf-8" contentType="text/html;charset=utf-8" %>
+<%--加上这一句来处理中文乱码--%>
 <div class="easyui-layout" data-options="fit:true">
 	<div class="easyui-panel pd5" data-options="fit:true,border:true">
         <p style="font-size:14px">Here is the content loaded via AJAX.</p>

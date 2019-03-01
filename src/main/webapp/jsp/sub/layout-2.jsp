@@ -1,3 +1,5 @@
+<%@page pageEncoding="utf-8" contentType="text/html;charset=utf-8" %>
+<%--加上这一句来处理中文乱码--%>
 <div class="easyui-layout" data-options="fit:true">
     <!-- Begin of toolbar -->
     <div id="wu-toolbar-2">
