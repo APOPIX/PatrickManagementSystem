@@ -9,5 +9,8 @@
         <module name="PatrickManagementSystem" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="PatrickManagementSystem" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
