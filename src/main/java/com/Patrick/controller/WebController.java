@@ -154,8 +154,8 @@ public class WebController {
     @RequestMapping(value = "ban_user.action")
     // 封禁用户
     public ModelAndView ban_user(@Param(value = "role") int role,
-                                   @Param(value = "current_login_staff_id") int current_login_staff_id,
-                                   @Param(value = "user_id") int user_id) {
+                                 @Param(value = "current_login_staff_id") int current_login_staff_id,
+                                 @Param(value = "user_id") int user_id) {
         System.out.println("进入封禁的controller");
         webService.banUser(user_id);
         ModelAndView modelAndView = new ModelAndView();
@@ -166,12 +166,13 @@ public class WebController {
         modelAndView.setViewName("jsp/user_list.jsp");
         return modelAndView;
     }
+
     @RequestMapping(value = "sales_statistics_full.html")
     //全时间销量统计
     public ModelAndView sales_statistics_full(@Param(value = "role") int role,
-                                             @Param(value = "current_login_staff_id") int current_login_staff_id
-                                        /*@Param(value = "date_range") String[] date_range*/
-                                        ) {
+                                              @Param(value = "current_login_staff_id") int current_login_staff_id
+            /*@Param(value = "date_range") String[] date_range*/
+    ) {
         System.out.println("进入销量统计的controller");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("role", role);
@@ -181,18 +182,19 @@ public class WebController {
         modelAndView.setViewName("jsp/sales_statistics.jsp");
         return modelAndView;
     }
+
     @RequestMapping(value = "sales_statistics_range.html")
     //时间段销量统计
     public ModelAndView sales_statistics_range(@Param(value = "role") int role,
-                                        @Param(value = "current_login_staff_id") int current_login_staff_id,
-                                        @Param(value = "begin_date") String begin_date,
-                                        @Param(value = "end_date") String end_date
-                                        ) {
+                                               @Param(value = "current_login_staff_id") int current_login_staff_id,
+                                               @Param(value = "begin_date") String begin_date,
+                                               @Param(value = "end_date") String end_date
+    ) {
         System.out.println("进入销量统计的controller");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("role", role);
         modelAndView.addObject("current_login_staff_id", current_login_staff_id);
-        modelAndView.addObject("SalesStatisticsList", webService.salesStatisticsByDateRange(begin_date,end_date));
+        modelAndView.addObject("SalesStatisticsList", webService.salesStatisticsByDateRange(begin_date, end_date));
         //重定向到sales_statistics_full.html
         modelAndView.setViewName("jsp/sales_statistics.jsp");
         return modelAndView;
@@ -201,7 +203,7 @@ public class WebController {
     @RequestMapping(value = "browse_statistics_full.html")
     //全时间浏览量统计
     public ModelAndView browse_statistics_full(@Param(value = "role") int role,
-                                        @Param(value = "current_login_staff_id") int current_login_staff_id
+                                               @Param(value = "current_login_staff_id") int current_login_staff_id
             /*@Param(value = "date_range") String[] date_range*/
     ) {
         System.out.println("进入浏览量统计的controller");
@@ -217,17 +219,38 @@ public class WebController {
     @RequestMapping(value = "browse_statistics_range.html")
     //时间段浏览量统计
     public ModelAndView browse_statistics_range(@Param(value = "role") int role,
-                                               @Param(value = "current_login_staff_id") int current_login_staff_id,
-                                               @Param(value = "begin_date") String begin_date,
-                                               @Param(value = "end_date") String end_date
+                                                @Param(value = "current_login_staff_id") int current_login_staff_id,
+                                                @Param(value = "begin_date") String begin_date,
+                                                @Param(value = "end_date") String end_date
     ) {
         System.out.println("进入时间段浏览量统计的controller");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("role", role);
         modelAndView.addObject("current_login_staff_id", current_login_staff_id);
-        modelAndView.addObject("BrowseStatisticsList", webService.browseStatisticsByDateRange(begin_date,end_date));
+        modelAndView.addObject("BrowseStatisticsList", webService.browseStatisticsByDateRange(begin_date, end_date));
         //重定向到browse_statistics.html
         modelAndView.setViewName("jsp/browse_statistics.jsp");
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "order_list.html")
+    //订单列表
+    public ModelAndView browse_statistics_range(@Param(value = "role") int role,
+                                                @Param(value = "current_login_staff_id") int current_login_staff_id,
+                                                @Param(value = "key") String key
+    ) {
+        System.out.println("进入订单列表的controller");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("role", role);
+        modelAndView.addObject("current_login_staff_id", current_login_staff_id);
+        if (key.length() == 0) {//搜索关键词为空，显示全部订单
+            modelAndView.addObject("OrderList", webService.selectAllOrdersOrderById());
+        } else {
+            modelAndView.addObject("OrderList", webService.searchAllOrdersByKey(key));
+        }
+        //重定向到order_list.html
+        modelAndView.setViewName("jsp/order_list.jsp");
         return modelAndView;
     }
     //////////////////////

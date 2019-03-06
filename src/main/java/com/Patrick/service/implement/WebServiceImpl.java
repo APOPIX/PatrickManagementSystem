@@ -1,9 +1,6 @@
 package com.Patrick.service.implement;
 
-import com.Patrick.dao.BrowseStatistics;
-import com.Patrick.dao.SalesStatistics;
-import com.Patrick.dao.Staff;
-import com.Patrick.dao.User;
+import com.Patrick.dao.*;
 import com.Patrick.mapper.WebMapper;
 import com.Patrick.service.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +72,15 @@ public class WebServiceImpl implements WebService {
     @Override
     public List<BrowseStatistics> browseStatisticsByDateRange(String beginDate, String endDate) {
         return webMapper.browseStatisticsByDateRange(beginDate, endDate);
+    }
+
+    @Override
+    public List<Orders> selectAllOrdersOrderById() {
+        return webMapper.selectAllOrdersOrderById();
+    }
+
+    @Override
+    public List<Orders> searchAllOrdersByKey(String key) {
+        return webMapper.searchAllOrdersByKey(key);
     }
 }

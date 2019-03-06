@@ -64,6 +64,7 @@
         )as orders_by_time group by product_id, store_id
         )as raw_result left join products on raw_result.product_id = products.id left join branch_store on raw_result.store_id = branch_store.id
     </select>
+
     <!--下面的SQL语句实现统计某段时间的浏览量-->
     <select id="browseStatisticsByDateRange" resultMap="browseStatisticsMap">
         SELECT product_id, product_name, store_id, store_name,  browse_num from(
@@ -73,6 +74,14 @@
         ) as browse_in_time_range
         group by product_id, store_id
         )as raw_result left join products on raw_result.product_id = products.id left join branch_store on store_id = branch_store.id;
+    </select>
+    <!--下面的SQL语句实现按照订单ID检索全部订单-->
+    <select id="searchAllOrdersByKey" resultMap="OrdersMap">
+        select * from orders where order_id = ${key} order by `id` asc;
+    </select>
+    <!--下面的SQL语句实现按照ID顺序检索全部订单-->
+    <select id="selectAllOrdersOrderById" resultMap="OrdersMap">
+        select * from orders order by `id` asc;
     </select>
 
     <!-- 下面的SQL语句实现数据库信息向Staff类的传输（即数据库——>DAO层） -->
@@ -108,11 +117,25 @@
     </resultMap>
 
     <resultMap id="browseStatisticsMap" type="com.Patrick.dao.BrowseStatistics">
-        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"SalesStatistics.java"），一般取同名 -->
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"BrowseStatistics.java"），一般取同名 -->
         <result column="product_id" property="product_id" jdbcType="INTEGER"/>
         <result column="product_name" property="product_name" jdbcType="VARCHAR"/>
         <result column="store_id" property="store_id" jdbcType="INTEGER"/>
         <result column="store_name" property="store_name" jdbcType="VARCHAR"/>
         <result column="browse_num" property="browse_num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="OrdersMap" type="com.Patrick.dao.Orders">
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"Orders.java"），一般取同名 -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="order_id" jdbcType="INTEGER"/>
+        <result column="user_phone" property="user_phone" jdbcType="VARCHAR"/>
+        <result column="product_id" property="product_id" jdbcType="INTEGER"/>
+        <result column="store_id" property="store_id" jdbcType="INTEGER"/>
+        <result column="amount" property="amount" jdbcType="INTEGER"/>
+        <result column="single_price" property="single_price" jdbcType="DOUBLE"/>
+        <result column="total_price" property="total_price" jdbcType="DOUBLE"/>
+        <result column="order_status" property="order_status" jdbcType="INTEGER"/>
+        <result column="time_stamp" property="time_stamp" jdbcType="TIMESTAMP"/>
     </resultMap>
 </mapper>

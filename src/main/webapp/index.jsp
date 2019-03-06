@@ -112,7 +112,7 @@
                         <ul class="menu">
 
                             <li class="active">
-                                <a href="">
+                                <a href="/">
                                     <i class="fa fa-desktop"></i> 登录
                                 </a>
                             </li>
@@ -159,8 +159,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="ordermanage.html">
-                                                <i class="fa fa-caret-right"></i> 订单管理子功能2
+                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=">
+                                                <i class="fa fa-caret-right"></i> 订单列表
                                             </a>
                                         </li>
                                         <li>

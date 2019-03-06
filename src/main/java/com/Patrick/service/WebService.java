@@ -1,9 +1,6 @@
 package com.Patrick.service;
 
-import com.Patrick.dao.BrowseStatistics;
-import com.Patrick.dao.SalesStatistics;
-import com.Patrick.dao.Staff;
-import com.Patrick.dao.User;
+import com.Patrick.dao.*;
 
 import java.util.List;
 
@@ -33,4 +30,7 @@ public interface WebService {
 
     List<BrowseStatistics> browseStatisticsByDateRange(String beginDate, String endDate);
 
+    List<Orders> selectAllOrdersOrderById();
+
+    List<Orders>  searchAllOrdersByKey(String key);
 }

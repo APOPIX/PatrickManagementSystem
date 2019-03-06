@@ -1,9 +1,6 @@
 package com.Patrick.mapper;
 
-import com.Patrick.dao.BrowseStatistics;
-import com.Patrick.dao.SalesStatistics;
-import com.Patrick.dao.Staff;
-import com.Patrick.dao.User;
+import com.Patrick.dao.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -44,11 +41,17 @@ public interface WebMapper {
     List<SalesStatistics> salesStatisticsByDateRange(@Param(value = "begin_date") String beginDate, @Param(value = "end_date") String endDate);
 
     //无传入参数
-    List<SalesStatistics>  salesStatisticsFull();
+    List<SalesStatistics> salesStatisticsFull();
 
     //无传入参数
     List<BrowseStatistics> browseStatisticsFull();
 
     //将"String"类型的变量"beginDate"和"endDate"以"beginDate"和"endDate"为参数名传入到WebMapper.xml中
     List<BrowseStatistics> browseStatisticsByDateRange(@Param(value = "begin_date") String beginDate, @Param(value = "end_date") String endDate);
+
+    //无传入参数
+    List<Orders> selectAllOrdersOrderById();
+
+    //将"String"类型的变量"key"以"key"为参数名传入到WebMapper.xml中
+    List<Orders> searchAllOrdersByKey(@Param(value = "key") String key);
 }
