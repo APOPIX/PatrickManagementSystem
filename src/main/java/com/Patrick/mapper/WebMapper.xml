@@ -19,8 +19,61 @@
     <select id="selectAllStaffOrderById" resultMap="StaffMap">
     select * from staff order by id asc
     </select>
+    <!--下面的SQL语句实现按照id顺序从users表中检索所有内容-->
+    <select id="selectAllUserOrderById" resultMap="UserMap">
+    select * from `users` order by id asc
+    </select>
 
+    <!--下面的SQL语句实现按照id从staff表中检索staff-->
+    <select id="selectStaffById" resultMap="StaffMap">
+    select * from staff where id = ${staff_id}
+    </select>
 
+    <!--下面的SQL语句实现按照id来更新staff表中staff信息-->
+    <select id="updateStaffInfo" resultMap="StaffMap">
+    UPDATE staff SET `role` = ${staff_role}, `staff_name` = "${staff_role}", `staff_password` ="${staff_password}"  WHERE (`id` = ${staff_id});
+    </select>
+
+    <!--下面的SQL语句实现按照id从Users表中解封用户-->
+    <select id="unbanUser" resultMap="UserMap">
+    UPDATE users SET `active` = 1 WHERE (`id` = ${user_id});
+    </select>
+
+    <!--下面的SQL语句实现按照id从Users表中封禁用户-->
+    <select id="banUser" resultMap="UserMap">
+    UPDATE users SET `active` = 0 WHERE (`id` = ${user_id});
+    </select>
+
+    <!--下面的SQL语句实现统计所有时间的销量-->
+    <select id="salesStatisticsFull" resultMap="salesStatisticsMap">
+        select product_id, product_name, store_id, store_name, sales from (
+        SELECT product_id, store_id, sum(amount) as sales FROM orders as orders_by_time group by product_id, store_id
+        )as raw_result left join products on raw_result.product_id = products.id left join branch_store on raw_result.store_id = branch_store.id
+    </select>
+    <!--下面的SQL语句实现统计所有时间的浏览量-->
+    <select id="browseStatisticsFull" resultMap="browseStatisticsMap">
+    SELECT product_id, product_name, store_id, store_name,  browse_num from(
+    SELECT product_id,  store_id, count(*) as browse_num FROM browse group by product_id, store_id
+    )as raw_result left join products on raw_result.product_id = products.id left join branch_store on store_id = branch_store.id;
+    </select>
+    <!--下面的SQL语句实现统计某段时间的销量-->
+    <select id="salesStatisticsByDateRange" resultMap="salesStatisticsMap">
+        select product_id, product_name, store_id, store_name, sales from (
+        SELECT product_id, store_id, sum(amount) as sales FROM (
+        select * from orders  where orders.time_stamp <![CDATA[ >= ]]> "${begin_date}" and orders.time_stamp  <![CDATA[ <= ]]> "${end_date}"
+        )as orders_by_time group by product_id, store_id
+        )as raw_result left join products on raw_result.product_id = products.id left join branch_store on raw_result.store_id = branch_store.id
+    </select>
+    <!--下面的SQL语句实现统计某段时间的浏览量-->
+    <select id="browseStatisticsByDateRange" resultMap="browseStatisticsMap">
+        SELECT product_id, product_name, store_id, store_name,  browse_num from(
+        SELECT product_id,  store_id, count(*) as browse_num FROM
+        (
+        select * from browse where browse.browse_time <![CDATA[ >= ]]> "${begin_date}" and browse.browse_time <![CDATA[ <= ]]> "${end_date}"
+        ) as browse_in_time_range
+        group by product_id, store_id
+        )as raw_result left join products on raw_result.product_id = products.id left join branch_store on store_id = branch_store.id;
+    </select>
 
     <!-- 下面的SQL语句实现数据库信息向Staff类的传输（即数据库——>DAO层） -->
     <resultMap id="StaffMap" type="com.Patrick.dao.Staff">
@@ -29,5 +82,37 @@
         <result column="role" property="role" jdbcType="INTEGER"/>
         <result column="staff_name" property="staff_name" jdbcType="VARCHAR"/>
         <result column="staff_password" property="staff_password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="UserMap" type="com.Patrick.dao.User">
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"User.java"），一般取同名 -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_phone" property="user_phone" jdbcType="VARCHAR"/>
+        <result column="user_name" property="user_name" jdbcType="VARCHAR"/>
+        <result column="user_password" property="user_password" jdbcType="VARCHAR"/>
+        <result column="money" property="money" jdbcType="DOUBLE"/>
+        <result column="gender" property="gender" jdbcType="CHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="portrait_url" property="portrait_url" jdbcType="VARCHAR"/>
+        <result column="last_login" property="last_login" jdbcType="TIMESTAMP"/>
+        <result column="active" property="active" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="salesStatisticsMap" type="com.Patrick.dao.SalesStatistics">
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"SalesStatistics.java"），一般取同名 -->
+        <result column="product_id" property="product_id" jdbcType="INTEGER"/>
+        <result column="product_name" property="product_name" jdbcType="VARCHAR"/>
+        <result column="store_id" property="store_id" jdbcType="INTEGER"/>
+        <result column="store_name" property="store_name" jdbcType="VARCHAR"/>
+        <result column="sales" property="sales" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="browseStatisticsMap" type="com.Patrick.dao.BrowseStatistics">
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"SalesStatistics.java"），一般取同名 -->
+        <result column="product_id" property="product_id" jdbcType="INTEGER"/>
+        <result column="product_name" property="product_name" jdbcType="VARCHAR"/>
+        <result column="store_id" property="store_id" jdbcType="INTEGER"/>
+        <result column="store_name" property="store_name" jdbcType="VARCHAR"/>
+        <result column="browse_num" property="browse_num" jdbcType="INTEGER"/>
     </resultMap>
 </mapper>

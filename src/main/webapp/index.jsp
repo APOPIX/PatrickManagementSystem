@@ -164,13 +164,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="ordermanage.html">
-                                                <i class="fa fa-caret-right"></i> 订单管理子功能3
+                                            <a href="browse_statistics_full.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 热度统计
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="ordermanage.html">
-                                                <i class="fa fa-caret-right"></i> 订单管理子功能4
+                                            <a href="sales_statistics_full.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 销量统计
                                             </a>
                                         </li>
                                     </ul>
@@ -184,18 +184,18 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="staff_register.html?role=${role}">
+                                            <a href="staff_register.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
                                                 <i class="fa fa-caret-right"></i> 添加管理人员
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staff_info_management.html?role=${role}">
-                                                <i class="fa fa-caret-right"></i>  人员信息管理
+                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i>  管理人员列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staffmanage.html">
-                                                <i class="fa fa-caret-right"></i> 人员管理子功能3
+                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 商城用户列表
                                             </a>
                                         </li>
                                         <li>

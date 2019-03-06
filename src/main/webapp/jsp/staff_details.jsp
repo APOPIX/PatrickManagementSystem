@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8"/>
 
-    <%--<link rel="icon" type="image/ico" href="http://tattek.com/minimal/../../assets/images/favicon.ico"/>--%>
+    <%--<link rel="icon" type="image/ico" href="http://tattek.com/minimal/../assets/images/favicon.ico"/>--%>
     <!-- Bootstrap -->
     <link href="../assets/css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -87,6 +87,9 @@
 
                 <!-- Quick Actions -->
                 <ul class="nav navbar-nav quick-actions">
+
+
+                    </li>
 
 
                 </ul>
@@ -181,7 +184,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="jsp/staff_register.html&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="staff_register.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
                                                 <i class="fa fa-caret-right"></i> 添加管理人员
                                             </a>
                                         </li>
@@ -208,92 +211,124 @@
                     </li>
                 </ul>
                 <!-- Sidebar end -->
+
+
             </div>
             <!--/.nav-collapse -->
+
+
         </div>
         <!-- Fixed navbar end -->
 
 
         <!-- Page content -->
         <div id="content" class="col-md-12">
+
+
             <!-- page header -->
             <div class="pageheader">
+
+
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
                     <span>后台管理系统.</span></h2>
+
+
             </div>
             <!-- /page header -->
 
 
             <!-- content main container -->
-            <br>
+
             <%--主要内容--%>
-            <div class="main">
-                <div style=" margin:0 auto;margin-left: 200px;margin-right: 200px">
-                    <!-- tile -->
-                    <section class="tile color transparent-black">
-                        <!-- tile header -->
-                        <div class="tile-header">
-                            <h1><strong>添加管理人员</strong></h1>
-                        </div>
-                        <!-- /tile header -->
+            <section class="tile color transparent-black">
 
-                        <!-- tile body -->
-                        <div class="tile-body">
 
-                            <form class="form-horizontal" role="form" action="register.action" accept-charset="UTF-8" method="post">
-
-                                <div class="form-group">
-                                    <label for="staff_name_register" class="col-sm-4 control-label">用户名</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="staff_name_register" name = "staff_name_register" >
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="staff_password_register" class="col-sm-4 control-label">密码</label>
-                                    <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="staff_password_register" name = "staff_password_register">
-                                    </div>
-                                </div>
-                                <%--单选框--%>
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">设置权限</label>
-                                    <div class="col-sm-8">
-                                        <div class="radio radio-transparent">
-                                            <input type="radio" name="role_register" id="optionsRadios1" value=0 checked="">
-                                            <label for="optionsRadios1">商品管理员</label>
-                                        </div>
-                                        <div class="radio radio-transparent">
-                                            <input type="radio" name="role_register" id="optionsRadios2" value=1>
-                                            <label for="optionsRadios2">订单管理员</label>
-                                        </div>
-                                        <div class="radio radio-transparent">
-                                            <input type="radio" name="role_register" id="optionsRadios3" value=2>
-                                            <label for="optionsRadios3">超级管理员</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <%--设置靠右对齐--%>
-                                <div class="form-group form-footer" align="right">
-                                    <div style=" margin-right: 20px">
-                                        <button type="submit" class="btn btn-primary">提交注册</button>
-                                        <button type="reset" class="btn btn-default">重置信息</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /tile body -->
-
-                    </section>
-                    <!-- /tile -->
-
+                <!-- tile header -->
+                <div class="tile-header">
+                    <h1><strong>管理人员 </strong>详细信息</h1>
                 </div>
-            </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <div class="tile-body">
+                    <form method="post" action="staff_update.action">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <%--账户名更改框--%>
+                                <label for="staff_name_update">账户名</label>
+                                <input type="text" class="form-control" id="staff_name_update" name="staff_name_update"
+                                       value="${staffInfo.staff_name}">
+                                    <br>
+                                    <br>
+                                <%--密码更改框--%>
+                                <label for="staff_password_update">密码</label>
+                                <input type="text" class="form-control" id="staff_password_update"
+                                       name="staff_password_update"
+                                       value=${staffInfo.staff_password}>
+                            </div>
+                            <%--单选框--%>
+                            <div class="form-group col-sm-6">
+                                <label class="col-sm-4 control-label">更改权限</label>
+                                <br>
+                                <br>
+                                <div class="radio radio-transparent">
+                                    <c:if test="${staffInfo.role == 0}">
+                                        <input type="radio" name="role_update" id="optionsRadios1" value=0 checked="">
+                                    </c:if>
+                                    <c:if test="${staffInfo.role != 0}">
+                                        <input type="radio" name="role_update" id="optionsRadios1" value=0>
+                                    </c:if>
+                                    <label for="optionsRadios1">商品管理员</label>
+                                </div>
+                                <br>
+                                <div class="radio radio-transparent">
+                                    <c:if test="${staffInfo.role == 1}">
+                                        <input type="radio" name="role_update" id="optionsRadios2" value=1 checked="">
+                                    </c:if>
+                                    <c:if test="${staffInfo.role != 1}">
+                                        <input type="radio" name="role_update" id="optionsRadios2" value=1>
+                                    </c:if>
+                                    <label for="optionsRadios2">订单管理员</label>
+                                </div>
+                                <br>
+                                <div class="radio radio-transparent">
+                                    <c:if test="${staffInfo.role == 2}">
+                                        <input type="radio" name="role_update" id="optionsRadios3" value=2 checked="">
+                                    </c:if>
+                                    <c:if test="${staffInfo.role != 2}">
+                                        <input type="radio" name="role_update" id="optionsRadios3" value=2>
+                                    </c:if>
+                                    <label for="optionsRadios3">超级管理员</label>
+                                </div>
+                            </div>
+                            <%--把当前登陆账户的权限传输到后端--%>
+                            <input type="hidden" id="role" name="role" value= ${role}>
+                            <%--把当前登陆账户的id传输到后端--%>
+                            <%--TODO--%>
+                            <%--把被更改账户的id传输到后端--%>
+                            <input type="hidden" id="staff_id_update" name="staff_id_update"
+                                   value= ${staffInfo.staff_id}>
+                        </div>
+                        <div class="row" align="right" style="margin-right: 20px">
+                            <button type="submit" class="btn btn-primary btn-lg margin-bottom-20">更改</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /tile body -->
+
+
+            </section>
             <!-- /content container -->
+
+
         </div>
         <!-- Page content end -->
+
+
     </div>
     <!-- Make page fluid-->
+
+
 </div>
 <!-- Wrap all page content end -->
 

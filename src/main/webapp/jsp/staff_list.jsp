@@ -36,13 +36,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <%--引入iView--%>
-    <!-- import Vue.js -->
-    <script src="//vuejs.org/js/vue.min.js"></script>
-    <!-- import stylesheet -->
-    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
-    <!-- import iView -->
-    <script src="//unpkg.com/iview/dist/iview.min.js"></script>
+    <%--引入iView和Vue--%>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
     <%--给data[]赋值--%>
     <script>
         var data = [];
@@ -56,6 +53,7 @@
         );
         </c:forEach>
     </script>
+
 </head>
 <body class="bg-1">
 
@@ -181,13 +179,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="ordermanage.html">
-                                                <i class="fa fa-caret-right"></i> 订单管理子功能3
+                                            <a href="browse_statistics_full.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 热度统计
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="ordermanage.html">
-                                                <i class="fa fa-caret-right"></i> 订单管理子功能4
+                                            <a href="sales_statistics_full.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 销量统计
                                             </a>
                                         </li>
                                     </ul>
@@ -201,18 +199,18 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="staff_register.html?role=${role}">
+                                            <a href="staff_register.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
                                                 <i class="fa fa-caret-right"></i> 添加管理人员
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staff_info_management.html?role=${role}">
-                                                <i class="fa fa-caret-right"></i> 人员信息管理
+                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 管理人员列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staffmanage.html">
-                                                <i class="fa fa-caret-right"></i> 人员管理子功能3
+                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 商城用户列表
                                             </a>
                                         </li>
                                         <li>
@@ -247,102 +245,13 @@
             <!-- content main container -->
             <br>
             <%--主要内容--%>
-
-            <section class="tile color transparent-black">
-                <!-- tile header -->
-                <div class="tile-header bg-transparent-black-2">
-                    <h1><strong>后台管理人员</strong> 信息列表</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search...">
-                    </div>
-                    <div class="controls">
-                        <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
-                        <a href="#" class="remove"><i class="fa fa-times"></i></a>
-                    </div>
-                </div>
-                <!-- /tile header -->
-
-                <!-- tile body -->
-                <div class="tile-body nopadding">
-
-                    <table class="table table-bordered table-sortable">
-                        <thead>
-                        <tr>
-                            <th>
-                                <div class="checkbox check-transparent">
-                                    <input type="checkbox" value="1" id="allchck">
-                                    <label for="allchck"></label>
-                                </div>
-                            </th>
-                            <th class="sortable sort-asc">编号</th>
-                            <th class="sortable sort-alpha">员工名称</th>
-                            <th>权限级别</th>
+            <div id="app">
+                <%--@on-current-change为事件，jumpToStaffDetails为响应函数--%>
+                <i-table @on-current-change="jumpToStaffDetails" stripe border highlight-row ref="currentRowTable" :columns="columns"
+                         :data="staff_data"></i-table>
+            </div>
 
 
-                            <%--<th style="width: 30px;"></th>--%>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        <tr>
-                            <c:forEach items="${staffList}" var="staff">
-                            <td>
-                                    <%--选择工作人员的复选框--%>
-                                <div class="checkbox check-transparent">
-                                    <input type="checkbox" name="chooseStaff" value="${staff.staff_id}"
-                                           id="${staff.staff_id}">
-                                    <label for="${staff.staff_id}" style="width: 16px"></label>
-                                </div>
-                            </td>
-
-                            <td>${staff.staff_id}</td>
-                            <td>${staff.staff_name}</td>
-                            <c:if test="${staff.role==0}">
-                                <td>商品管理员</td>
-                            </c:if>
-                            <c:if test="${staff.role==1}">
-                                <td>订单管理员</td>
-                            </c:if>
-                            <c:if test="${staff.role==2}">
-                                <td>超级管理员</td>
-                            </c:if>
-                            <td><a href="#" class="check-toggler checked"></a></td>
-                        </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-
-                </div>
-                <!-- /tile body -->
-
-
-                <!-- tile footer -->
-                <div class="tile-footer bg-transparent-black-2 rounded-bottom-corners">
-                    <div class="row">
-
-                        <div class="col-sm-4 text-center">
-                            <small class="inline table-options paging-info">showing 1-3 of 24 items</small>
-                        </div>
-
-                        <div class="col-sm-4 text-right sm-center">
-                            <ul class="pagination pagination-xs nomargin pagination-custom">
-                                <li class="disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a>
-                                </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- /tile footer -->
-
-
-            </section>
             <!-- /content container -->
         </div>
         <!-- Page content end -->
@@ -386,7 +295,49 @@
 <script src="../assets/js/vendor/chosen/chosen.jquery.min.js"></script>
 
 <script src="../assets/js/minimal.min.js"></script>
+<%--引入Vue的代码必须要放在body的末尾--%>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                columns: [
+                    {
+                        type: 'index',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '工作人员编号',
+                        key: 'staff_id',
+                        sortable: true
+                    },
+                    {
+                        title: '账户名',
+                        key: 'staff_name',
+                        sortable: true
+                    },
+                    {
+                        title: '权限级别（0：商品管理员 1：订单管理员 2：超级管理员）',
+                        key: 'role',
+                        sortable: true
+                    },
+                ],
+                //下面的data是在前面header部分的js代码中处理的
+                staff_data: data
+            }
+        },
+        methods: {
+            jumpToStaffDetails(currentRow, oldCurrentRow){
+                //跳转到管理人员详细信息管理页面
+                self.location.href="staff_details.html?role=${role}&staff_id="+currentRow.staff_id;
+            }
+        },
+        events:{
 
+        }
+    })
+</script>
 </body>
 </html>
 

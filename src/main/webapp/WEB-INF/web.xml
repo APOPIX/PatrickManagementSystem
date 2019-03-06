@@ -57,7 +57,7 @@
         <!-- 配置成"*.html"以匹配所有后缀名为html的请求 -->
         <!-- 这里我遇到了一个奇怪的地方：如果我将url-pattern设置成/匹配所有请求，就无法加载样式 -->
         <!--<url-pattern>*.html</url-pattern>-->
-        <!--<url-pattern>*.action</url-pattern>-->
+        <url-pattern>*.action</url-pattern>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 

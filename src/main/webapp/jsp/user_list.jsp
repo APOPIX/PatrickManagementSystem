@@ -36,6 +36,30 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <%--引入iView和Vue--%>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <%--给data[]赋值--%>
+    <script>
+        var data = [];
+        //处理后端传来的userList
+        <c:forEach items="${userList}" var="user">
+        data.push(
+            {
+                user_id: "${user.id}",
+                user_phone: "${user.user_phone}",
+                user_name: "${user.user_name}",
+                money: "${user.money}",
+                gender: "${user.gender}",
+                email: "${user.email}",
+                active:${user.active},
+                last_login: "${user.last_login.toString()}"
+            }
+        );
+        </c:forEach>
+    </script>
+
 </head>
 <body class="bg-1">
 
@@ -181,7 +205,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="jsp/staff_register.html&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="staff_register.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
                                                 <i class="fa fa-caret-right"></i> 添加管理人员
                                             </a>
                                         </li>
@@ -227,68 +251,14 @@
             <!-- content main container -->
             <br>
             <%--主要内容--%>
-            <div class="main">
-                <div style=" margin:0 auto;margin-left: 200px;margin-right: 200px">
-                    <!-- tile -->
-                    <section class="tile color transparent-black">
-                        <!-- tile header -->
-                        <div class="tile-header">
-                            <h1><strong>添加管理人员</strong></h1>
-                        </div>
-                        <!-- /tile header -->
-
-                        <!-- tile body -->
-                        <div class="tile-body">
-
-                            <form class="form-horizontal" role="form" action="register.action" accept-charset="UTF-8" method="post">
-
-                                <div class="form-group">
-                                    <label for="staff_name_register" class="col-sm-4 control-label">用户名</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="staff_name_register" name = "staff_name_register" >
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="staff_password_register" class="col-sm-4 control-label">密码</label>
-                                    <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="staff_password_register" name = "staff_password_register">
-                                    </div>
-                                </div>
-                                <%--单选框--%>
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">设置权限</label>
-                                    <div class="col-sm-8">
-                                        <div class="radio radio-transparent">
-                                            <input type="radio" name="role_register" id="optionsRadios1" value=0 checked="">
-                                            <label for="optionsRadios1">商品管理员</label>
-                                        </div>
-                                        <div class="radio radio-transparent">
-                                            <input type="radio" name="role_register" id="optionsRadios2" value=1>
-                                            <label for="optionsRadios2">订单管理员</label>
-                                        </div>
-                                        <div class="radio radio-transparent">
-                                            <input type="radio" name="role_register" id="optionsRadios3" value=2>
-                                            <label for="optionsRadios3">超级管理员</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <%--设置靠右对齐--%>
-                                <div class="form-group form-footer" align="right">
-                                    <div style=" margin-right: 20px">
-                                        <button type="submit" class="btn btn-primary">提交注册</button>
-                                        <button type="reset" class="btn btn-default">重置信息</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /tile body -->
-
-                    </section>
-                    <!-- /tile -->
-
-                </div>
+            <div id="app">
+                <%--@on-current-change为事件，jumpToStaffDetails为响应函数--%>
+                <i-table stripe border highlight-row ref="currentRowTable"
+                         :columns="columns"
+                         :data="staff_data"></i-table>
             </div>
+
+
             <!-- /content container -->
         </div>
         <!-- Page content end -->
@@ -332,7 +302,115 @@
 <script src="../assets/js/vendor/chosen/chosen.jquery.min.js"></script>
 
 <script src="../assets/js/minimal.min.js"></script>
+<%--引入Vue的代码必须要放在body的末尾--%>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                columns: [
+                    {
+                        type: 'index',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '用户ID',
+                        width: 120,
+                        key: 'user_id',
+                        sortable: true,
+                        align: 'center'
 
+                    },
+                    {
+                        title: '手机',
+                        key: 'user_phone',
+                        sortable: true,
+                        align: 'center'
+                    },
+                    {
+                        title: '用户名',
+                        key: 'user_name',
+                        sortable: true,
+                        align: 'center'
+                    },
+                    {
+                        title: '余额',
+                        key: 'money',
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        title: '性别',
+                        width: 80,
+                        key: 'gender',
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        title: '邮箱',
+                        key: 'email',
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        title: '上次登录',
+                        key: 'last_login',
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            if (params.row.active === 1) {
+                                //若用户活动中
+                                return h('div', [
+                                    h('Button', {
+                                        props: {
+                                            type: 'error',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.location.href = "ban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
+                                            }
+                                        }
+                                    }, '禁用')
+                                ]);
+                            } else {
+                                return h('div', [
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                window.location.href = "unban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
+                                            }
+                                        }
+                                    }, '启用')
+                                ])
+                            }
+                        }
+                    }
+                ],
+                //下面的data是在前面header部分的js代码中处理的
+                staff_data: data
+            }
+        },
+        methods: {
+            <%--jumpToStaffDetails(currentRow, oldCurrentRow) {--%>
+            <%--//跳转到管理人员详细信息管理页面--%>
+            <%--self.location.href = "staff_details.html?role=${role}&staff_id=" + currentRow.staff_id;--%>
+            <%--}--%>
+        },
+        events: {}
+    })
+</script>
 </body>
 </html>
-      
+
