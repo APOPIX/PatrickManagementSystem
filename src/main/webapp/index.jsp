@@ -159,7 +159,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=">
+                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表
                                             </a>
                                         </li>
@@ -189,18 +189,18 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i>  管理人员列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 商城用户列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staffmanage.html">
-                                                <i class="fa fa-caret-right"></i> 人员管理子功能4
+                                            <a href="management_log.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                                <i class="fa fa-caret-right"></i> 历史操作记录
                                             </a>
                                         </li>
                                     </ul>

@@ -43,18 +43,14 @@
     <%--给data[]赋值--%>
     <script>
         var data = [];
-        //处理后端传来的userList
-        <c:forEach items="${userList}" var="user">
-        data.push(
-            {
-                user_id: "${user.id}",
-                user_phone: "${user.user_phone}",
-                user_name: "${user.user_name}",
-                money: "${user.money}",
-                gender: "${user.gender}",
-                email: "${user.email}",
-                active:${user.active},
-                last_login: "${user.last_login.toString()}"
+        //处理后端传来的staffList
+        <c:forEach items="${logList}" var="log">
+        data.push({
+                id: "${log.id}",
+                staff_id: "${log.staff_id}",
+                staff_name: "${log.staff_name}",
+                action: "${log.action}",
+                time_stamp: "${log.time_stamp.toString()}"
             }
         );
         </c:forEach>
@@ -253,8 +249,7 @@
             <%--主要内容--%>
             <div id="app" align="right">
                 <%--搜索框--%>
-                <i-input @on-search="search" search style="width: 400px" placeholder="输入记录ID以检索......"></i-input>
-                <%--@on-current-change为事件，jumpToStaffDetails为响应函数--%>
+                <i-input @on-search="search" search style="width: 400px" placeholder="输入工作人员ID以检索......"></i-input>
                 <i-table stripe border highlight-row ref="currentRowTable"
                          :columns="columns"
                          :data="staff_data"></i-table>
@@ -315,89 +310,30 @@
                         type: 'index',
                         width: 60,
                         align: 'center'
-                    },
-                    {
-                        title: '用户ID',
-                        width: 120,
-                        key: 'user_id',
-                        sortable: true,
-                        align: 'center'
-
-                    },
-                    {
-                        title: '手机',
-                        key: 'user_phone',
-                        sortable: true,
-                        align: 'center'
-                    },
-                    {
-                        title: '用户名',
-                        key: 'user_name',
-                        sortable: true,
-                        align: 'center'
-                    },
-                    {
-                        title: '余额',
-                        key: 'money',
-                        align: 'center',
+                    }, {
+                        title: '记录编号',
+                        key: 'id',
                         sortable: true
                     },
                     {
-                        title: '性别',
-                        width: 80,
-                        key: 'gender',
-                        align: 'center',
+                        title: '工作人员编号',
+                        key: 'staff_id',
                         sortable: true
                     },
                     {
-                        title: '邮箱',
-                        key: 'email',
-                        align: 'center',
+                        title: '账户名',
+                        key: 'staff_name',
                         sortable: true
                     },
                     {
-                        title: '上次登录',
-                        key: 'last_login',
-                        align: 'center',
-                        sortable: true
-                    },
-                    {
-                        title: '操作',
+                        title: '动作',
                         key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render: (h, params) => {
-                            if (params.row.active === 1) {
-                                //若用户活动中
-                                return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'error',
-                                            size: 'small'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.location.href = "ban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
-                                            }
-                                        }
-                                    }, '禁用')
-                                ]);
-                            } else {
-                                return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.location.href = "unban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
-                                            }
-                                        }
-                                    }, '启用')
-                                ])
-                            }
-                        }
+                        sortable: true
+                    },
+                    {
+                        title: '时间',
+                        key: 'time_stamp',
+                        sortable: true
                     }
                 ],
                 //下面的data是在前面header部分的js代码中处理的
@@ -407,8 +343,7 @@
         methods: {
             search(key) {
                 //点击搜索
-                // console.log(key);
-                self.location.href = "user_list.html?role=${role}&key=" + key + "&current_login_staff_id=${current_login_staff_id}";
+                self.location.href = "management_log.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=" + key;
             }
         },
         events: {}

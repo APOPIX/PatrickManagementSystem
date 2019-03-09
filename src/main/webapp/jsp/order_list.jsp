@@ -43,18 +43,22 @@
     <%--给data[]赋值--%>
     <script>
         var data = [];
-        //处理后端传来的userList
-        <c:forEach items="${userList}" var="user">
+        //处理后端传来的orderList
+        <c:forEach items="${orderList}" var="order">
         data.push(
             {
-                user_id: "${user.id}",
-                user_phone: "${user.user_phone}",
-                user_name: "${user.user_name}",
-                money: "${user.money}",
-                gender: "${user.gender}",
-                email: "${user.email}",
-                active:${user.active},
-                last_login: "${user.last_login.toString()}"
+                id:${order.id},
+                order_id: ${order.order_id},
+                user_phone: "${order.user_phone}",
+                product_id: ${order.product_id},
+                product_name: "${order.product_name}",
+                store_id: ${order.store_id},
+                store_name: "${order.store_name}",
+                amount:${order.amount},
+                single_price: ${order.single_price},
+                total_price: ${order.total_price},
+                order_status: ${order.order_status},
+                time_stamp: "${order.time_stamp.toString()}"
             }
         );
         </c:forEach>
@@ -180,7 +184,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=">
+                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表
                                             </a>
                                         </li>
@@ -210,18 +214,18 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 管理人员列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 商城用户列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staffmanage.html">
-                                                <i class="fa fa-caret-right"></i> 人员管理子功能4
+                                            <a href="management_log.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                                <i class="fa fa-caret-right"></i> 历史操作记录
                                             </a>
                                         </li>
                                     </ul>
@@ -312,61 +316,157 @@
                     {
                         type: 'index',
                         width: 60,
-                        align: 'center'
+                        align: 'center',
+                        fixed: 'left'
                     },
                     {
-                        title: '用户ID',
-                        width: 120,
-                        key: 'user_id',
+                        title: 'ID',
+                        width: 80,
+                        key: 'id',
                         sortable: true,
-                        align: 'center'
+                        align: 'center',
+                        fixed: 'left'
+
+                    },
+                    {
+                        title: '订单ID',
+                        width: 100,
+                        key: 'order_id',
+                        sortable: true,
+                        align: 'center',
+                        fixed: 'left'
 
                     },
                     {
                         title: '手机',
+                        width: 150,
                         key: 'user_phone',
                         sortable: true,
                         align: 'center'
                     },
                     {
-                        title: '用户名',
-                        key: 'user_name',
+                        title: '产品ID',
+                        width: 100,
+                        key: 'product_id',
                         sortable: true,
                         align: 'center'
                     },
                     {
-                        title: '余额',
-                        key: 'money',
+                        title: '产品名',
+                        width: 150,
+                        key: 'product_name',
                         align: 'center',
                         sortable: true
                     },
                     {
-                        title: '性别',
-                        width: 80,
-                        key: 'gender',
+                        title: '门店ID',
+                        width: 100,
+                        key: 'store_id',
                         align: 'center',
                         sortable: true
                     },
                     {
-                        title: '邮箱',
-                        key: 'email',
+                        title: '门店名',
+                        width: 150,
+                        key: 'store_name',
                         align: 'center',
                         sortable: true
                     },
                     {
-                        title: '上次登录',
-                        key: 'last_login',
+                        title: '数量',
+                        width: 100,
+                        key: 'amount',
                         align: 'center',
                         sortable: true
+                    },
+                    {
+                        title: '单价',
+                        width: 100,
+                        key: 'single_price',
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        title: '总价',
+                        width: 100,
+                        key: 'total_price',
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        title: '创建时间',
+                        width: 200,
+                        key: 'time_stamp',
+                        align: 'center',
+                        sortable: true
+                    },
+                    {
+                        title: '状态',
+                        width: 150,
+                        key: 'order_status',
+                        align: 'center',
+                        sortable: true,
+                        render: (h, params) => {
+                            if (params.row.order_status === 0) {
+                                return h('div', [
+                                    "待付款"
+                                ]);
+                            }
+                            if (params.row.order_status === 1) {
+                                return h('div', [
+                                    "待发货"
+                                ]);
+                            }
+                            if (params.row.order_status === 2) {
+                                return h('div', [
+                                    "已发货"
+                                ]);
+                            }
+                            if (params.row.order_status === 3) {
+                                return h('div', [
+                                    "已完成"
+                                ]);
+                            }
+
+                        }
                     },
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
                         align: 'center',
+                        fixed: 'right',
+                        width: 120,
                         render: (h, params) => {
-                            if (params.row.active === 1) {
-                                //若用户活动中
+                            if (params.row.order_status === 1) {
+                                //订单待发货
+                                return h('div', [
+                                    h('Button', {
+                                        props: {
+                                            // type: 'error',
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                //转到发货的controller
+                                                window.location.href = "deliver.action?id=" + params.row.id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
+                                            }
+                                        }
+                                    }, '发货'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'error',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                //转到异常处理的controller
+                                                window.location.href = "order_manage.html?current_login_staff_id=" + "${current_login_staff_id}"+"&role="+${role} + "&id=" + params.row.id.toString();
+                                            }
+                                        }
+                                    }, '管理')
+                                ]);
+                            } else {
                                 return h('div', [
                                     h('Button', {
                                         props: {
@@ -375,25 +475,13 @@
                                         },
                                         on: {
                                             click: () => {
-                                                window.location.href = "ban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
+                                                //转到异常处理的controller
+                                                window.location.href = "order_manage.html?current_login_staff_id=" + "${current_login_staff_id}"+"&role="+${role} + "&id=" + params.row.id.toString();
                                             }
                                         }
-                                    }, '禁用')
+                                    }, '管理')
                                 ]);
-                            } else {
-                                return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.location.href = "unban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
-                                            }
-                                        }
-                                    }, '启用')
-                                ])
+
                             }
                         }
                     }

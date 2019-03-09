@@ -174,7 +174,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=">
+                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表
                                             </a>
                                         </li>
@@ -204,18 +204,18 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 管理人员列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 商城用户列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staffmanage.html">
-                                                <i class="fa fa-caret-right"></i> 人员管理子功能4
+                                            <a href="management_log.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                                <i class="fa fa-caret-right"></i> 历史操作记录
                                             </a>
                                         </li>
                                     </ul>
@@ -245,9 +245,13 @@
             <!-- content main container -->
             <br>
             <%--主要内容--%>
-            <div id="app">
+            <div id="app" align="right">
+                <%--搜索框--%>
+                <i-input @on-search="search" search style="width: 400px" placeholder="输入记录ID以检索......"></i-input>
+
                 <%--@on-current-change为事件，jumpToStaffDetails为响应函数--%>
-                <i-table @on-current-change="jumpToStaffDetails" stripe border highlight-row ref="currentRowTable" :columns="columns"
+                <i-table @on-current-change="jumpToStaffDetails" stripe border highlight-row ref="currentRowTable"
+                         :columns="columns"
                          :data="staff_data"></i-table>
             </div>
 
@@ -328,14 +332,17 @@
             }
         },
         methods: {
-            jumpToStaffDetails(currentRow, oldCurrentRow){
+            jumpToStaffDetails(currentRow, oldCurrentRow) {
                 //跳转到管理人员详细信息管理页面
-                self.location.href="staff_details.html?role=${role}&staff_id="+currentRow.staff_id;
+                self.location.href = "staff_details.html?role=${role}&staff_id=" + currentRow.staff_id + "&current_login_staff_id=${current_login_staff_id}";
+            },
+            search(key) {
+                //点击搜索
+                // console.log(key);
+                self.location.href = "staff_list.html?role=${role}&key=" + key + "&current_login_staff_id=${current_login_staff_id}";
             }
         },
-        events:{
-
-        }
+        events: {}
     })
 </script>
 </body>

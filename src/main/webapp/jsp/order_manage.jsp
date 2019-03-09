@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8"/>
 
-    <%--<link rel="icon" type="image/ico" href="http://tattek.com/minimal/../../assets/images/favicon.ico"/>--%>
+    <%--<link rel="icon" type="image/ico" href="http://tattek.com/minimal/../assets/images/favicon.ico"/>--%>
     <!-- Bootstrap -->
     <link href="../assets/css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -36,30 +36,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <%--引入iView和Vue--%>
-    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
-    <script type="text/javascript" src="../js/vue.min.js"></script>
-    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
-    <%--给data[]赋值--%>
-    <script>
-        var data = [];
-        //处理后端传来的userList
-        <c:forEach items="${userList}" var="user">
-        data.push(
-            {
-                user_id: "${user.id}",
-                user_phone: "${user.user_phone}",
-                user_name: "${user.user_name}",
-                money: "${user.money}",
-                gender: "${user.gender}",
-                email: "${user.email}",
-                active:${user.active},
-                last_login: "${user.last_login.toString()}"
-            }
-        );
-        </c:forEach>
-    </script>
-
 </head>
 <body class="bg-1">
 
@@ -111,6 +87,9 @@
 
                 <!-- Quick Actions -->
                 <ul class="nav navbar-nav quick-actions">
+
+
+                    </li>
 
 
                 </ul>
@@ -232,40 +211,168 @@
                     </li>
                 </ul>
                 <!-- Sidebar end -->
+
+
             </div>
             <!--/.nav-collapse -->
+
+
         </div>
         <!-- Fixed navbar end -->
 
 
         <!-- Page content -->
         <div id="content" class="col-md-12">
+
+
             <!-- page header -->
             <div class="pageheader">
+
+
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
                     <span>后台管理系统.</span></h2>
+
+
             </div>
             <!-- /page header -->
 
 
             <!-- content main container -->
-            <br>
+
             <%--主要内容--%>
-            <div id="app" align="right">
-                <%--搜索框--%>
-                <i-input @on-search="search" search style="width: 400px" placeholder="输入记录ID以检索......"></i-input>
-                <%--@on-current-change为事件，jumpToStaffDetails为响应函数--%>
-                <i-table stripe border highlight-row ref="currentRowTable"
-                         :columns="columns"
-                         :data="staff_data"></i-table>
-            </div>
+            <section class="tile color transparent-black">
 
 
+                <!-- tile header -->
+                <div class="tile-header">
+                    <h1><strong>管理人员 </strong>详细信息</h1>
+                </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <div class="tile-body">
+                    <form method="post" action="order_update.action">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <%--买家手机号码更改框--%>
+                                <label for="user_phone_update">买家手机号码</label>
+                                <input type="text" class="form-control" id="user_phone_update"
+                                       name="user_phone_update"
+                                       value="${order.user_phone}">
+                                <br>
+                                <br>
+                                <%--订单编号更改框--%>
+                                <label for="order_id_update">订单编号</label>
+                                <input type="text" class="form-control" id="order_id_update"
+                                       name="order_id_update"
+                                       value=${order .order_id}>
+                                <br>
+                                <br>
+                                <%--产品编号更改框--%>
+                                <label for="product_id_update">产品编号</label>
+                                <input type="text" class="form-control" id="product_id_update"
+                                       name="product_id_update"
+                                       value=${order.product_id}>
+                                <br>
+                                <br>
+                                <%--门店编号更改框--%>
+                                <label for="store_id_update">门店编号</label>
+                                <input type="text" class="form-control" id="store_id_update"
+                                       name="store_id_update"
+                                       value=${order.store_id}>
+                                <%--购买数量更改框--%>
+                                <label for="amount_update">购买数量</label>
+                                <input type="text" class="form-control" id="amount_update"
+                                       name="amount_update"
+                                       value=${order.amount}>
+                                <%--单价更改框--%>
+                                <label for="single_price_update">单价</label>
+                                <input type="text" class="form-control" id="single_price_update"
+                                       name="single_price_update"
+                                       value=${order.single_price}>
+                                <%--总价更改框--%>
+                                <label for="total_price_update">总价</label>
+                                <input type="text" class="form-control" id="total_price_update"
+                                       name="total_price_update"
+                                       value=${order.total_price}>
+                            </div>
+                            <%--单选框，更改状态--%>
+                            <div class="form-group col-sm-6">
+                                <label class="col-sm-4 control-label">更改订单状态</label>
+                                <br>
+                                <br>
+                                <div class="radio radio-transparent">
+                                    <c:if test="${order.order_status == 0}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios1" value=0
+                                               checked="">
+                                    </c:if>
+                                    <c:if test="${order.order_status != 0}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios1" value=0>
+                                    </c:if>
+                                    <label for="optionsRadios1">待付款</label>
+                                </div>
+                                <br>
+                                <div class="radio radio-transparent">
+                                    <c:if test="${order.order_status == 1}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios2" value=1
+                                               checked="">
+                                    </c:if>
+                                    <c:if test="${order.order_status != 1}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios2" value=1>
+                                    </c:if>
+                                    <label for="optionsRadios2">待发货</label>
+                                </div>
+                                <br>
+                                <div class="radio radio-transparent">
+                                    <c:if test="${order.order_status == 2}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios3" value=2
+                                               checked="">
+                                    </c:if>
+                                    <c:if test="${order.order_status != 2}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios3" value=2>
+                                    </c:if>
+                                    <label for="optionsRadios3">已发货</label>
+                                </div>
+                                <br>
+                                <div class="radio radio-transparent">
+                                    <c:if test="${order.order_status == 3}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios4" value=3
+                                               checked="">
+                                    </c:if>
+                                    <c:if test="${order.order_status != 3}">
+                                        <input type="radio" name="order_status_update" id="optionsRadios4" value=3>
+                                    </c:if>
+                                    <label for="optionsRadios4">已完成</label>
+                                </div>
+                            </div>
+                            <%--把当前登陆账户的权限传输到后端--%>
+                            <input type="hidden" id="role" name="role" value= ${role}>
+                            <%--把当前登陆账户的id传输到后端--%>
+                            <input type="hidden" id="current_login_staff_id" name="current_login_staff_id"
+                                   value= ${current_login_staff_id}>
+                            <%--把当前订单元组的id传输到后端--%>
+                            <input type="hidden" id="id" name="id" value= ${order.id}>
+                        </div>
+                        <div class="row" align="right" style="margin-right: 20px">
+                            <button type="submit" class="btn btn-primary btn-lg margin-bottom-20">更改</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /tile body -->
+
+
+            </section>
             <!-- /content container -->
+
+
         </div>
         <!-- Page content end -->
+
+
     </div>
     <!-- Make page fluid-->
+
+
 </div>
 <!-- Wrap all page content end -->
 
@@ -304,116 +411,7 @@
 <script src="../assets/js/vendor/chosen/chosen.jquery.min.js"></script>
 
 <script src="../assets/js/minimal.min.js"></script>
-<%--引入Vue的代码必须要放在body的末尾--%>
-<script>
-    new Vue({
-        el: '#app',
-        data() {
-            return {
-                columns: [
-                    {
-                        type: 'index',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
-                        title: '用户ID',
-                        width: 120,
-                        key: 'user_id',
-                        sortable: true,
-                        align: 'center'
 
-                    },
-                    {
-                        title: '手机',
-                        key: 'user_phone',
-                        sortable: true,
-                        align: 'center'
-                    },
-                    {
-                        title: '用户名',
-                        key: 'user_name',
-                        sortable: true,
-                        align: 'center'
-                    },
-                    {
-                        title: '余额',
-                        key: 'money',
-                        align: 'center',
-                        sortable: true
-                    },
-                    {
-                        title: '性别',
-                        width: 80,
-                        key: 'gender',
-                        align: 'center',
-                        sortable: true
-                    },
-                    {
-                        title: '邮箱',
-                        key: 'email',
-                        align: 'center',
-                        sortable: true
-                    },
-                    {
-                        title: '上次登录',
-                        key: 'last_login',
-                        align: 'center',
-                        sortable: true
-                    },
-                    {
-                        title: '操作',
-                        key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render: (h, params) => {
-                            if (params.row.active === 1) {
-                                //若用户活动中
-                                return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'error',
-                                            size: 'small'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.location.href = "ban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
-                                            }
-                                        }
-                                    }, '禁用')
-                                ]);
-                            } else {
-                                return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                window.location.href = "unban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
-                                            }
-                                        }
-                                    }, '启用')
-                                ])
-                            }
-                        }
-                    }
-                ],
-                //下面的data是在前面header部分的js代码中处理的
-                staff_data: data
-            }
-        },
-        methods: {
-            search(key) {
-                //点击搜索
-                // console.log(key);
-                self.location.href = "user_list.html?role=${role}&key=" + key + "&current_login_staff_id=${current_login_staff_id}";
-            }
-        },
-        events: {}
-    })
-</script>
 </body>
 </html>
 

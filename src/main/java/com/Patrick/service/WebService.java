@@ -14,7 +14,7 @@ public interface WebService {
 
     List<User> selectAllUserOrderById();
 
-    Staff selectStaffById(int staff_id);
+    List<Staff> selectStaffById(int staff_id);
 
     void updateStaffInfo(int staff_id, String staff_name, String staff_password, int staff_role);
 
@@ -30,7 +30,23 @@ public interface WebService {
 
     List<BrowseStatistics> browseStatisticsByDateRange(String beginDate, String endDate);
 
-    List<Orders> selectAllOrdersOrderById();
+    List<OrderListObject> selectAllOrdersOrderById();
 
-    List<Orders>  searchAllOrdersByKey(String key);
+    List<OrderListObject>  searchAllOrdersByKey(int key);
+
+    void deliver(int id);
+
+    Orders selectOrderById(int id);
+
+    void updateOrderInfo(int id, int order_id_update, String user_phone_update, int product_id_update, int store_id_update, int amount_update, double single_price, double total_price_update, int order_status_update);
+
+    void managementLog(int staff_id, String action);
+
+    List<User> selectUserById(int id);
+
+    void deleteStaffById(int staff_id);
+
+    List<ManagementLog> selectAllLogOrderById();
+
+    List<ManagementLog> selectAllLogById(int id);
 }

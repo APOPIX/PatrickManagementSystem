@@ -6,6 +6,8 @@ import com.Patrick.service.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,8 +37,8 @@ public class WebServiceImpl implements WebService {
     }
 
     @Override
-    public Staff selectStaffById(int staff_id) {
-        return webMapper.selectStaffById(staff_id).get(0);
+    public List<Staff> selectStaffById(int staff_id) {
+        return webMapper.selectStaffById(staff_id);
     }
 
     @Override
@@ -75,12 +77,53 @@ public class WebServiceImpl implements WebService {
     }
 
     @Override
-    public List<Orders> selectAllOrdersOrderById() {
+    public List<OrderListObject> selectAllOrdersOrderById() {
         return webMapper.selectAllOrdersOrderById();
     }
 
     @Override
-    public List<Orders> searchAllOrdersByKey(String key) {
+    public List<OrderListObject> searchAllOrdersByKey(int key) {
         return webMapper.searchAllOrdersByKey(key);
+    }
+
+    @Override
+    public void deliver(int id) {
+        webMapper.deliver(id);
+    }
+
+    @Override
+    public Orders selectOrderById(int id) {
+        return webMapper.selectOrderById(id);
+    }
+
+    @Override
+    public void updateOrderInfo(int id, int order_id_update, String user_phone_update, int product_id_update, int store_id_update, int amount_update, double single_price_update, double total_price_update, int order_status_update) {
+        webMapper.updateOrderInfo(id, order_id_update, user_phone_update, product_id_update, store_id_update, amount_update, single_price_update, total_price_update, order_status_update);
+    }
+
+    @Override
+    public void managementLog(int staff_id, String action) {
+        String time_stamp = new Timestamp(new Date().getTime()).toString();
+        webMapper.managementLog(staff_id, action, time_stamp);
+    }
+
+    @Override
+    public List<User> selectUserById(int id) {
+        return webMapper.selectUserById(id);
+    }
+
+    @Override
+    public void deleteStaffById(int staff_id) {
+        webMapper.deleteStaffById(staff_id);
+    }
+
+    @Override
+    public List<ManagementLog> selectAllLogOrderById() {
+        return webMapper.selectAllLogOrderById();
+    }
+
+    @Override
+    public List<ManagementLog> selectAllLogById(int id) {
+        return webMapper.selectAllLogById(id);
     }
 }

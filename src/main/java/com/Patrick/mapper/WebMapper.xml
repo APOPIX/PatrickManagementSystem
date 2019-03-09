@@ -7,31 +7,51 @@
     <!-- 下面的select标签中，"id"与"WebMapper.java"中的方法一一对应，"resultMap"与最后"resultMap"标签中的"id"呈多对一映射关系 -->
     <!--下面的SQL语句实现按照用户名和密码在Staff表中查询元组-->
     <select id="login" resultMap="StaffMap">
-      select * from staff where staff_name = "${staff_name}" and staff_password = "${staff_password}"
+      select * from staff where staff_name = "${staff_name}" and staff_password = "${staff_password}";
     </select>
 
     <!--下面的SQL语句实现Staff表中插入元组-->
     <select id="register">
-    INSERT INTO staff (`role`, `staff_password`, `staff_name`) VALUES (${role_register}, "${staff_password_register}", "${staff_name_register}")
+    INSERT INTO staff (`role`, `staff_password`, `staff_name`) VALUES (${role_register}, "${staff_password_register}", "${staff_name_register}");
+    </select>
+    <!--下面的SQL语句实现修改orders中元组实现发货-->
+    <select id="deliver">
+    UPDATE `lexiandb`.`orders` SET `order_status` = 2 WHERE (`id` = ${id});
+    </select>
+    <!--下面的SQL语句实现更新orders中元组实现异常处理-->
+    <select id="updateOrderInfo">
+    UPDATE `lexiandb`.`orders` SET `order_id` = ${order_id_update}, `user_phone` = "${user_phone_update}", `product_id` = ${product_id_update}, `store_id` = ${store_id_update}, `amount` = ${amount_update}, `single_price` = ${single_price_update}, `total_price` =${total_price_update}, `order_status` = ${order_status_update} WHERE (`id` = ${id});
     </select>
 
     <!--下面的SQL语句实现按照id顺序从staff表中检索所有内容-->
     <select id="selectAllStaffOrderById" resultMap="StaffMap">
-    select * from staff order by id asc
+    select * from staff order by id asc;
     </select>
     <!--下面的SQL语句实现按照id顺序从users表中检索所有内容-->
     <select id="selectAllUserOrderById" resultMap="UserMap">
-    select * from `users` order by id asc
+    select * from `users` order by id asc;
+    </select>
+    <!--下面的SQL语句实现按照id从users表中检索元组-->
+    <select id="selectUserById" resultMap="UserMap">
+    select * from `users` where `id`= ${id} order by id asc;
     </select>
 
     <!--下面的SQL语句实现按照id从staff表中检索staff-->
     <select id="selectStaffById" resultMap="StaffMap">
-    select * from staff where id = ${staff_id}
+    select * from staff where id = ${staff_id};
     </select>
 
+    <!--下面的SQL语句实现按照id从Orders表中检索元组-->
+    <select id="selectOrderById" resultMap="OrdersMap">
+    select * from orders where id = ${id};
+    </select>
     <!--下面的SQL语句实现按照id来更新staff表中staff信息-->
     <select id="updateStaffInfo" resultMap="StaffMap">
     UPDATE staff SET `role` = ${staff_role}, `staff_name` = "${staff_role}", `staff_password` ="${staff_password}"  WHERE (`id` = ${staff_id});
+    </select>
+    <!--下面的SQL语句实现按照id来删除staff表中元组-->
+    <select id="deleteStaffById">
+    DELETE FROM `lexiandb`.`staff` WHERE (`id` = ${staff_id});
     </select>
 
     <!--下面的SQL语句实现按照id从Users表中解封用户-->
@@ -76,12 +96,34 @@
         )as raw_result left join products on raw_result.product_id = products.id left join branch_store on store_id = branch_store.id;
     </select>
     <!--下面的SQL语句实现按照订单ID检索全部订单-->
-    <select id="searchAllOrdersByKey" resultMap="OrdersMap">
-        select * from orders where order_id = ${key} order by `id` asc;
+    <select id="searchAllOrdersByKey" resultMap="OrderListObjectMap">
+        select result.id, order_id,user_phone,product_id,product_name,store_id,store_name,amount,single_price,total_price, order_status,time_stamp from(
+        select * from orders where order_id = ${key} order by `id` asc
+        )as result
+        left join products on products.id = result.product_id
+        left join branch_store on result.store_id = branch_store.id;
     </select>
     <!--下面的SQL语句实现按照ID顺序检索全部订单-->
-    <select id="selectAllOrdersOrderById" resultMap="OrdersMap">
-        select * from orders order by `id` asc;
+    <select id="selectAllOrdersOrderById" resultMap="OrderListObjectMap">
+        select result.id, order_id,user_phone,product_id,product_name,store_id,store_name,amount,single_price,total_price, order_status,time_stamp from(
+        select * from orders order by `id` asc
+        )as result
+        left join products on products.id = result.product_id
+        left join branch_store on result.store_id = branch_store.id;
+    </select>
+    <!--下面的SQL语句实现向management_log中插入操作记录-->
+    <select id="managementLog">
+    INSERT INTO `lexiandb`.`management_log` (`staff_id`, `action`, `time_stamp`) VALUES (${staff_id}, "${action}", "${time_stamp}");
+    </select>
+    <!--下面的SQL语句实现按照id顺序从management_log中选取所有记录-->
+    <select id="selectAllLogOrderById" resultMap="ManagementLogMap">
+    SELECT management_log.id,staff_id,staff_name,`action`,time_stamp FROM lexiandb.management_log left join staff on management_log.staff_id = staff.id;
+    </select>
+    <!--下面的SQL语句实现按照管理人员id从management_log中选取相关记录-->
+    <select id="selectAllLogById" resultMap="ManagementLogMap">
+    SELECT temp.id,staff_id,staff_name,`action`,time_stamp FROM
+    (select * from management_log WHERE staff_id = ${staff_id} )
+    as temp left join staff on temp.staff_id = staff.id;
     </select>
 
     <!-- 下面的SQL语句实现数据库信息向Staff类的传输（即数据库——>DAO层） -->
@@ -125,6 +167,21 @@
         <result column="browse_num" property="browse_num" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="OrderListObjectMap" type="com.Patrick.dao.OrderListObject">
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"OrderListObject.java"），一般取同名 -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="order_id" jdbcType="INTEGER"/>
+        <result column="user_phone" property="user_phone" jdbcType="VARCHAR"/>
+        <result column="product_id" property="product_id" jdbcType="INTEGER"/>
+        <result column="product_name" property="product_name" jdbcType="VARCHAR"/>
+        <result column="store_id" property="store_id" jdbcType="INTEGER"/>
+        <result column="store_name" property="store_name" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="INTEGER"/>
+        <result column="single_price" property="single_price" jdbcType="DOUBLE"/>
+        <result column="total_price" property="total_price" jdbcType="DOUBLE"/>
+        <result column="order_status" property="order_status" jdbcType="INTEGER"/>
+        <result column="time_stamp" property="time_stamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
     <resultMap id="OrdersMap" type="com.Patrick.dao.Orders">
         <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"Orders.java"），一般取同名 -->
         <id column="id" property="id" jdbcType="INTEGER"/>
@@ -136,6 +193,14 @@
         <result column="single_price" property="single_price" jdbcType="DOUBLE"/>
         <result column="total_price" property="total_price" jdbcType="DOUBLE"/>
         <result column="order_status" property="order_status" jdbcType="INTEGER"/>
+        <result column="time_stamp" property="time_stamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ManagementLogMap" type="com.Patrick.dao.ManagementLog">
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"ManagementLog.java"），一般取同名 -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="staff_id" property="staff_id" jdbcType="INTEGER"/>
+        <result column="staff_name" property="staff_name" jdbcType="VARCHAR"/>
+        <result column="action" property="action" jdbcType="VARCHAR"/>
         <result column="time_stamp" property="time_stamp" jdbcType="TIMESTAMP"/>
     </resultMap>
 </mapper>

@@ -159,7 +159,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=">
+                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表
                                             </a>
                                         </li>
@@ -189,18 +189,18 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 管理人员列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 商城用户列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staffmanage.html">
-                                                <i class="fa fa-caret-right"></i> 人员管理子功能4
+                                            <a href="management_log.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                                <i class="fa fa-caret-right"></i> 历史操作记录
                                             </a>
                                         </li>
                                     </ul>
@@ -258,8 +258,8 @@
                                 <label for="staff_name_update">账户名</label>
                                 <input type="text" class="form-control" id="staff_name_update" name="staff_name_update"
                                        value="${staffInfo.staff_name}">
-                                    <br>
-                                    <br>
+                                <br>
+                                <br>
                                 <%--密码更改框--%>
                                 <label for="staff_password_update">密码</label>
                                 <input type="text" class="form-control" id="staff_password_update"
@@ -304,12 +304,14 @@
                             <%--把当前登陆账户的权限传输到后端--%>
                             <input type="hidden" id="role" name="role" value= ${role}>
                             <%--把当前登陆账户的id传输到后端--%>
-                            <%--TODO--%>
+                            <input type="hidden" id="current_login_staff_id" name="current_login_staff_id"
+                                   value= ${current_login_staff_id}>
                             <%--把被更改账户的id传输到后端--%>
                             <input type="hidden" id="staff_id_update" name="staff_id_update"
                                    value= ${staffInfo.staff_id}>
                         </div>
                         <div class="row" align="right" style="margin-right: 20px">
+                            <button type="button" style="margin-right: 10px" onclick="window.location.href='staff_delete.action?role=${role}&current_login_staff_id=${current_login_staff_id}&staff_id=${staffInfo.staff_id}'" class="btn btn-danger btn-lg margin-bottom-20">删除</button>
                             <button type="submit" class="btn btn-primary btn-lg margin-bottom-20">更改</button>
                         </div>
                     </form>

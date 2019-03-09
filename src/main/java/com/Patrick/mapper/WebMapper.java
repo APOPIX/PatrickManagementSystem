@@ -50,8 +50,43 @@ public interface WebMapper {
     List<BrowseStatistics> browseStatisticsByDateRange(@Param(value = "begin_date") String beginDate, @Param(value = "end_date") String endDate);
 
     //无传入参数
-    List<Orders> selectAllOrdersOrderById();
+    List<OrderListObject> selectAllOrdersOrderById();
 
     //将"String"类型的变量"key"以"key"为参数名传入到WebMapper.xml中
-    List<Orders> searchAllOrdersByKey(@Param(value = "key") String key);
+    List<OrderListObject> searchAllOrdersByKey(@Param(value = "key") int key);
+
+    //将"int"类型的变量"id"以"id"为参数名传入到WebMapper.xml中
+    void deliver(@Param(value = "id") int id);
+
+    //将"int"类型的变量"id"以"id"为参数名传入到WebMapper.xml中
+    Orders selectOrderById(@Param(value = "id") int id);
+
+    //传入用于更新Orders 的参数
+    void updateOrderInfo(
+            @Param(value = "id") int id,
+            @Param(value = "order_id_update") int order_id_update,
+            @Param(value = "user_phone_update") String user_phone_update,
+            @Param(value = "product_id_update") int product_id_update,
+            @Param(value = "store_id_update") int store_id_update,
+            @Param(value = "amount_update") int amount_update,
+            @Param(value = "single_price_update") double single_price_update,
+            @Param(value = "total_price_update") double total_price_update,
+            @Param(value = "order_status_update") int order_status_update);
+
+    //传入用于插入操作记录的参数
+    void managementLog(@Param(value = "staff_id") int staff_id,
+                       @Param(value = "action") String action,
+                       @Param(value = "time_stamp") String time_stamp);
+
+    //将"int"类型的变量"id"以"id"为参数名传入到WebMapper.xml中
+    List<User> selectUserById(@Param(value = "id") int id);
+
+    //将"int"类型的变量"staff_id"以"staff_id"为参数名传入到WebMapper.xml中
+    void deleteStaffById(@Param(value = "staff_id") int staff_id);
+
+    //无传入参数
+    List<ManagementLog> selectAllLogOrderById();
+
+    //将"int"类型的变量"id"以"id"为参数名传入到WebMapper.xml中
+    List<ManagementLog> selectAllLogById(@Param(value = "staff_id") int staff_id);
 }
