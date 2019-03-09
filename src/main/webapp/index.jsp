@@ -153,11 +153,7 @@
                                         <i class="fa fa-pencil"></i> 订单管理 <b class="fa fa-plus dropdown-plus"></b>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="ordermanage.html">
-                                                <i class="fa fa-caret-right"></i> 订单管理子功能1
-                                            </a>
-                                        </li>
+
                                         <li>
                                             <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表

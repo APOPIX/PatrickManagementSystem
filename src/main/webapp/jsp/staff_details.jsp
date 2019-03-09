@@ -154,11 +154,6 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="ordermanage.html">
-                                                <i class="fa fa-caret-right"></i> 订单管理子功能1
-                                            </a>
-                                        </li>
-                                        <li>
                                             <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表
                                             </a>
@@ -230,7 +225,7 @@
 
 
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
-                    <span>后台管理系统.</span></h2>
+                    <span>详细信息.</span></h2>
 
 
             </div>
