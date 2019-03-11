@@ -1,10 +1,7 @@
 package com.Patrick.controller;
 
 
-import com.Patrick.dao.BranchStore;
-import com.Patrick.dao.OrderListObject;
-import com.Patrick.dao.ProductToStore;
-import com.Patrick.dao.Staff;
+import com.Patrick.dao.*;
 import com.Patrick.service.WebService;
 import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
@@ -464,6 +461,8 @@ public class WebController {
         System.out.println("我进入了商品和注册商品的主页面");
         JSONObject dataJson = webService.getCategoriesMapperJson();
         mv.addObject("categoryJson", dataJson.toString());
+        List<Product> products=webService.getProducts();
+        mv.addObject("my_products",products);
         mv.setViewName("jsp/categoryAndGoods.jsp");
         //插入操作记录
         String log = "进入商品和注册商品主页面";

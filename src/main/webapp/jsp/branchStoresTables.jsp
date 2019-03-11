@@ -439,7 +439,7 @@
                                             style="color:black">
                                         <option value="" hidden>县/区</option>
                                     </select>
-                                    <button class="form-control" id="submitPCD">提交</button>
+                                    <input type="button" class="form-control" id="submitPCD" value="提交"/>
                                 </div><!-- /.row -->
 
                             </div>

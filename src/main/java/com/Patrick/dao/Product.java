@@ -109,14 +109,12 @@ public class Product {
         this.create_time = create_time;
     }
 
-
-
-    public String getUint() {
-        return uint;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setUint(String uint) {
-        this.uint = uint;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     private String product_name;
@@ -140,6 +138,6 @@ public class Product {
     }
 
     private Time update_time;
-    private String uint;
+    private String unit;
 
 }

@@ -1,16 +1,22 @@
 package com.Patrick.controller;
 
+import com.Patrick.dao.CategoryMapper1;
+import com.Patrick.dao.CategoryMapper2;
 import com.Patrick.service.CategoryAndGoodsService;
 import com.Patrick.service.WebService;
 import com.Patrick.utils.Upload;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * created by 廖馨婷
@@ -76,31 +82,86 @@ public class CategoryAndGoodsController {
         return categoryAndGoodsService.deleteCategory(first_category, second_category, third_category);
     }
 
+
     @RequestMapping(value = "addProduct.do")
     @ResponseBody
-    public String addProduct(HttpServletRequest request, @RequestParam("files") MultipartFile file) throws IOException {
+    public String addProduct(HttpServletRequest request, @RequestParam("file0") MultipartFile file0, @RequestParam("file1")
+            MultipartFile file1, @RequestParam("file2") MultipartFile file2, @RequestParam("file3") MultipartFile file3) throws IOException {
         System.out.println("我进入了添加商品的控制类");
-        String third_category = request.getParameter("third_category");
-        System.out.println("I got the third category:" + third_category);
-        File toFile = null;
-//        for(MultipartFile file : files){
-        if (file.equals("") || file.getSize() <= 0) {
-            file = null;
-        } else {
-            InputStream ins = null;
-            ins = file.getInputStream();
-            toFile = new File("F:\\" + file.getOriginalFilename());
-            inputStreamToFile(ins, toFile);
-            ins.close();
+        String product_id_str = request.getParameter("id");
+        int product_id = Integer.parseInt(product_id_str);
+        String product_name = request.getParameter("name");
+        String product_details = request.getParameter("details");
+        String product_short_introduction = request.getParameter("short_introduction");
+        String product_unit = request.getParameter("unit");
+        String product_third_category = request.getParameter("third_category");
+        String product_current_time = request.getParameter("current_time");
+        String product_current_date=request.getParameter("current_date");
+        System.out.println("获取的时间："+product_current_time);
+        int hr=0;
+        int hrIndex=product_current_time.indexOf(':');
+        if(product_current_time.contains("下")){
+            hr=Integer.parseInt(product_current_time.substring(product_current_time.indexOf('午')+1,hrIndex));
+            product_current_time=(hr+12)+product_current_time.substring(hrIndex);
+        }else{
+            product_current_time=product_current_time.substring(product_current_time.indexOf('午')+1);
         }
-//        }
+        String processed_current_time=product_current_date+" "+product_current_time;
+        CategoryMapper2 categorymap23 = categoryAndGoodsService.getcategoryMapper2ByThirdCategory(product_third_category);
+        CategoryMapper1 categorymap12 = categoryAndGoodsService.getcategoryMapper1Bysecond_category(categorymap23.getFather_category());
 
-
-//        System.out.println(userName);
-        //插入操作记录
-        String log = "添加商品";
-        webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
-        return "file";
+        MultipartFile files[] = {file0, file1, file2, file3};
+        List<String> urls = new ArrayList<>();
+        List<String> fileNameList = new ArrayList<>();
+        List<String> relaPathList = new ArrayList<>();
+        List<String> realPathList = new ArrayList<>();
+        net.sf.json.JSONObject jo = new net.sf.json.JSONObject();
+        File toFile = null;
+        int photos_num = Integer.parseInt(request.getParameter("diffPhotos"));
+        for (int i = 0; i < photos_num; i++) {
+            System.out.println("至少我是进入循环了的！");
+            if (files[i].equals("") || files[i].getSize() <= 0) {
+                files[i] = null;
+                fileNameList.add("");
+                relaPathList.add("");
+                realPathList.add("");
+            } else {
+                System.out.println("我处理了" + files[i].getOriginalFilename());
+                InputStream ins = null;
+                ins = files[i].getInputStream();
+                String ext = StringUtils.substring(files[i].getOriginalFilename(), files[i].getOriginalFilename().lastIndexOf("."));
+                String filepath = UUID.randomUUID().toString() + ext;
+                String loadPath = "C:\\\\PatrickAdminUploadFolder\\" + filepath;
+                toFile = new File(loadPath);
+                if(!toFile.getParentFile().exists()){
+                    toFile.getParentFile().mkdirs();
+                }
+                inputStreamToFile(ins, toFile);
+                ins.close();
+                fileNameList.add(files[i].getOriginalFilename());
+                relaPathList.add(filepath);
+//                loadPath=loadPath.replaceAll("/","\\\\");
+                realPathList.add(loadPath);
+            }
+            jo.put("success", 1);
+            jo.put("error", null);
+            jo.put("fileNameList", fileNameList);
+            jo.put("relaPathList", relaPathList);
+            jo.put("realPathList", realPathList);
+            urls.addAll(realPathList);
+        }
+        if (urls.size() < 4) {
+            for (int i = 3; i >=urls.size(); i--) {
+                urls.add(i, "");
+//                urls.add("");
+            }
+            //如果不满足的话，用空字符串代替，否则插入的时候仅仅用前4张的url字符串
+        }
+        String uploadFeedback = categoryAndGoodsService.addNewProduct(product_id, product_name, product_short_introduction, product_details,
+                categorymap12.getFather_category(), categorymap12.getSon_category(), product_third_category,
+                urls.get(0), urls.get(1), urls.get(2), urls.get(3), processed_current_time, processed_current_time, product_unit);
+        jo.put("add_num", uploadFeedback);
+        return JSONObject.toJSONString(jo);
     }
 
     public static void inputStreamToFile(InputStream ins, File file) {
@@ -116,71 +177,8 @@ public class CategoryAndGoodsController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
 }
-//    @RequestMapping(value="addProduct.do")
-//    @ResponseBody
-//    public String addProduct(HttpServletRequest request, @RequestParam("files") MultipartFile[] files){
-//        System.out.println("我进入了添加商品的控制类");
-//        String product_id_str=request.getParameter("id");
-//        int product_id=Integer.parseInt(product_id_str);
-//        String product_name=request.getParameter("name");
-//        String product_details=request.getParameter("details");
-//        String product_short_introduction=request.getParameter("short_introduction");
-//        String product_uint=request.getParameter("uint");
-//        String product_third_category=request.getParameter("third_category");
-//        String product_current_time=request.getParameter("current_time");
-//        CategoryMapper2 categorymap23 = categoryAndGoodsService.getcategoryMapper2ByThirdCategory(product_third_category);
-//        CategoryMapper1 categorymap12 = categoryAndGoodsService.getcategoryMapper1Bysecond_category(categorymap23.getFather_category());
-//
-//        List<String> urls = new ArrayList<>();
-//        List<String> fileNameList = new ArrayList<>();
-//        List<String> relaPathList = new ArrayList<>();
-//        List<String> realPathList = new ArrayList<>();
-//        net.sf.json.JSONObject jo = new net.sf.json.JSONObject();
-//        Client client = new Client();
-//        try {
-//            for (MultipartFile file : files) {
-////            String ext = StringUtils.substring(file.getOriginalFilename(), file.getOriginalFilename().lastIndexOf("."));
-////            String filepath= UUID.randomUUID().toString()+ext;
-//                System.out.println("我进入了上传文件的地方！");
-//                String upload_info = uploader.upload(client, file, uploadHost, imgPath);
-////            System.out.println(upload_num);
-//                //明天研究文件保存的方式
-//                if (!"".equals(upload_info)) {
-//                    String[] infoList = upload_info.split(";");
-//                    fileNameList.add(infoList[0]);
-//                    relaPathList.add(infoList[1]);
-//                    realPathList.add(infoList[2]);
-//                } else {    //上传失败
-//                    fileNameList.add("");
-//                    relaPathList.add("");
-//                    realPathList.add("");
-//                }
-//                jo.put("success", 1);
-//                jo.put("error", null);
-//                jo.put("fileNameList", fileNameList);
-//                jo.put("relaPathList", relaPathList);
-//                jo.put("realPathList", realPathList);
-//                urls = realPathList;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            jo.put("success", 0);
-//            jo.put("error", " 上传失败！");
-//        }
-//        if (urls.size() < 4) {
-//            for (int i = 3; i > urls.size(); i++) {
-//                urls.add(i, "");
-//            }
-//            //如果不满足的话，用空字符串代替，否则插入的时候仅仅用前4张的url字符串
-//        }
-//
-//
-//        String uploadFeedback= categoryAndGoodsService.addNewProduct(product_id, product_name,product_short_introduction,product_details,
-//                categorymap12.getFather_category(),categorymap12.getSon_category(),product_third_category,
-//                urls.get(0), urls.get(1), urls.get(2), urls.get(3), product_current_time, product_current_time, product_uint);
-//        jo.put("add_num",uploadFeedback);
-//        return JSON.toJSONString(jo);
-//    }
-//}
+

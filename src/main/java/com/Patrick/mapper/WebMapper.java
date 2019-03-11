@@ -237,6 +237,15 @@ public interface WebMapper {
                    @Param("second_category")String second_category,@Param("third_category")String third_category,
                    @Param("product_short_introduction")String product_short_introduction,@Param("product_detail")String product_detail,
                    @Param("url0")String url0,@Param("url1")String url1,@Param("url2")String url2,@Param("url3")String url3,
-                   @Param("current_time")String current_time,@Param("update_time")String update_time,@Param("uint")String unit);
+                   @Param("current_time")String current_time,@Param("update_time")String update_time,@Param("unit")String unit);
+
+    /**
+     *@Description: 通过iD 查找商品
+     *Param:
+     *Return:
+     *Author:廖馨婷
+     *Date:2019/3/10
+     */
+    int getProductById(@Param("id")int id);
     //////////////////////////////Xenia/////////////////////////////////
 }

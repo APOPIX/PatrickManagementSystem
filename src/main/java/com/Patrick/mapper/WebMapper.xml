@@ -463,8 +463,11 @@
 
     <!--处理商品-->
     <insert id="addProduct">
-        insert into products(id,product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit) values (#{id},#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{uint});
+        insert into products(id,product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit) values (#{id},#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{unit});
     </insert>
+    <select id="getProductById"  resultType="int">
+        SELECT count(*) FROM products where id=#{id};
+    </select>
 
     <!--/////////////////////////Xenia////////////////////////////////////////////-->
 

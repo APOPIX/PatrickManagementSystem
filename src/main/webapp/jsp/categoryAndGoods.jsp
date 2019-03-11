@@ -46,6 +46,8 @@
     <%--.jq22-icon{color: #fff;}--%>
     <%--</style>--%>
     <script src="../js/vue.min.js"></script>
+    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+
     <style>
         .upload_warp_img_div_del {
             position: absolute;
@@ -107,6 +109,7 @@
             text-indent: 14px;
             border-top: 1px solid #ccc;
             font-size: 14px;
+            color: #000000;
         }
 
         .upload_warp_right {
@@ -299,6 +302,32 @@
             // console.log(categoryData);
         })
     </script>
+    <script>
+        my_products_data=[];
+        <c:forEach items="${my_products}" var="myproduct">
+        <%--processedurl1="${myproduct.pic1_url}";--%>
+        <%--processedurl2="${myproduct.pic2_url}";--%>
+        <%--processedurl3="${myproduct.pic3_url}";--%>
+        <%--processedurl4="${myproduct.pic4_url}";--%>
+
+        my_products_data.push({
+            product_id:"${myproduct.id}",
+            product_name:"${myproduct.product_name}",
+            first_category:"${myproduct.first_category}",
+            second_category:"${myproduct.second_category}",
+            third_category:"${myproduct.third_category}",
+            unit:"${myproduct.unit}",
+            short_introduction:"${myproduct.product_brief_introduction}",
+            url1:"${myproduct.pic1_url}",
+            url2:"${myproduct.pic2_url}",
+            url3:"${myproduct.pic3_url}",
+            url4:"${myproduct.pic4_url}",
+            product_details:"${myproduct.product_detail}"
+        });
+        </c:forEach>
+
+    </script>
+
 </head>
 <body class="bg-1">
 
@@ -737,7 +766,8 @@ X
 
                         <div class="form-group form-footer">
                             <div class="col-sm-offset-4 col-sm-8">
-                                <button onclick="submitProduct()" type="file" class="btn btn-primary">提交</button>
+                                <input onclick="submitProduct()" type="button" value="提交"
+                                       class="btn btn-primary"/>
                                 <button type="reset" class="btn btn-default">重置</button>
                             </div>
                         </div>
@@ -753,153 +783,16 @@ X
             <br>
             <br>
             <%--显示商品的表格--%>
-            <%--<section class="tile color transparent-black">--%>
 
-
-            <%--<!-- tile header -->--%>
-            <%--<div class="tile-header">--%>
-            <%--<h1><strong>商品</strong> 详细信息列表</h1>--%>
-            <%--<div class="search">--%>
-            <%--<input type="text" placeholder="Search...">--%>
-            <%--</div>--%>
-            <%--<div class="controls">--%>
-            <%--<a href="#" class="refresh"><i class="fa fa-refresh"></i></a>--%>
-            <%--<a href="#" class="remove"><i class="fa fa-times"></i></a>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<!-- /tile header -->--%>
-
-            <%--<!-- tile widget -->--%>
-            <%--<div class="tile-widget bg-transparent-black-2">--%>
-            <%--<div class="row">--%>
-
-            <%--<div class="col-sm-4 col-xs-6">--%>
-            <%--<div class="input-group table-options">--%>
-            <%--<span class="input-group-btn">--%>
-            <%--<button class="btn btn-default addStore" type="button">添加</button>--%>
-            <%--</span>--%>
-            <%--<span class="input-group-btn">--%>
-            <%--<button class="btn btn-default deleteStore" type="button">删除</button>--%>
-            <%--</span>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-
-            <%--<div class="col-sm-8 col-xs-6 text-right">--%>
-
-            <%--<div class="btn-group btn-group-xs table-options">--%>
-            <%--<button type="button" class="btn btn-default">Day</button>--%>
-            <%--<button type="button" class="btn btn-default">Week</button>--%>
-            <%--<button type="button" class="btn btn-default">Month</button>--%>
-            <%--</div>--%>
-
-            <%--</div>--%>
-
-
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<!-- /tile widget -->--%>
-
-
-            <%--<!-- tile body -->--%>
-            <%--<div class="tile-body nopadding">--%>
-
-            <%--<table class="table table-bordered table-sortable">--%>
-            <%--<thead>--%>
-            <%--<tr>--%>
-            <%--<th>--%>
-            <%--<div class="checkbox check-transparent">--%>
-            <%--<input type="checkbox" value="1" id="allchck">--%>
-            <%--<label for="allchck"></label>--%>
-            <%--</div>--%>
-            <%--</th>--%>
-            <%--<th class="sortable sort-asc">商品编号</th>--%>
-            <%--<th class="sortable sort-alpha">商品名称</th>--%>
-            <%--<th class="sortable sort-asc">一级类别</th>--%>
-            <%--<th class="sort-alpha">二级类别</th>--%>
-            <%--<th class="sort-alpha">三级类别</th>--%>
-            <%--<th>简介</th>--%>
-            <%--<th>详情</th>--%>
-            <%--<th>图片url?都渲染在这里</th>--%>
-            <%--&lt;%&ndash;<th>经度</th>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<th>纬度</th>&ndash;%&gt;--%>
-            <%--<!--之后可以不罗列经纬度-->--%>
-            <%--<th>创建时间</th>--%>
-            <%--<th>更改时间</th>--%>
-            <%--<th>计量单位</th>--%>
-
-
-            <%--&lt;%&ndash;<th style="width: 30px;"></th>&ndash;%&gt;--%>
-            <%--</tr>--%>
-            <%--</thead>--%>
-            <%--<tbody>--%>
-            <%--&lt;%&ndash;后面的内容解析暂时不改&ndash;%&gt;--%>
-            <%--<tr>--%>
-            <%--<c:forEach items="${stores}" var="store">--%>
-            <%--<td>--%>
-            <%--<div class="checkbox check-transparent">--%>
-            <%--<input type="checkbox" name="chooseStore" value="${store.store_id}"--%>
-            <%--id="${store.store_id}">--%>
-            <%--<label for="${store.store_id}" style="width: 16px"></label>--%>
-            <%--</div>--%>
-            <%--</td>--%>
-
-            <%--<td>${store.store_id}</td>--%>
-            <%--<td>${store.store_name}</td>--%>
-            <%--<td>${store.store_tel}</td>--%>
-            <%--<td>${store.province}</td>--%>
-            <%--<td>${store.city}</td>--%>
-            <%--<td>${store.district}</td>--%>
-            <%--<td>${store.store_address}</td>--%>
-            <%--&lt;%&ndash;<td>${store.longitude}</td>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<td>${store.latitude}</td>&ndash;%&gt;--%>
-            <%--<td>${store.store_introduction}</td>--%>
-            <%--<td>${store.store_start_time}</td>--%>
-            <%--<td>${store.store_close_time}</td>--%>
-            <%--<c:if test="${store.store_status==0}">--%>
-            <%--<td>此店休业</td>--%>
-            <%--</c:if>--%>
-            <%--<c:if test="${store.store_status==1}">--%>
-            <%--<td>此店营业</td>--%>
-            <%--</c:if>--%>
-            <%--&lt;%&ndash;<td>${store.store_status}</td>&ndash;%&gt;--%>
-
-            <%--<td><a href="#" class="check-toggler checked"></a></td>--%>
-            <%--</tr>--%>
-            <%--</c:forEach>--%>
-            <%--</tbody>--%>
-            <%--</table>--%>
-
-            <%--</div>--%>
-            <%--<!-- /tile body -->--%>
-
-
-            <%--<!-- tile footer -->--%>
-            <%--<div class="tile-footer bg-transparent-black-2 rounded-bottom-corners">--%>
-            <%--<div class="row">--%>
-
-            <%--<div class="col-sm-4 text-center">--%>
-            <%--<small class="inline table-options paging-info">showing 1-3 of 24 items</small>--%>
-            <%--</div>--%>
-
-            <%--<div class="col-sm-4 text-right sm-center">--%>
-            <%--<ul class="pagination pagination-xs nomargin pagination-custom">--%>
-            <%--<li class="disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a>--%>
-            <%--</li>--%>
-            <%--<li class="active"><a href="#">1</a></li>--%>
-            <%--<li><a href="#">2</a></li>--%>
-            <%--<li><a href="#">3</a></li>--%>
-            <%--<li><a href="#">4</a></li>--%>
-            <%--<li><a href="#">5</a></li>--%>
-            <%--<li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>--%>
-            <%--</ul>--%>
-            <%--</div>--%>
-
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<!-- /tile footer -->--%>
-
-
-            <%--</section>--%>
+            <div id="goods_table">
+                <template>
+                    <i-table :columns="columns" :data="products_data" size="small" ref="table"></i-table>
+                    <br>
+                    <Button type="primary" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
+                    <Button type="primary" size="large" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export sorting and filtered data</Button>
+                    <Button type="primary" size="large" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
+                </template>
+            </div>
             <%--/显示商品的表格--%>
 
         </div>
@@ -1173,6 +1066,7 @@ X
                     $('#selectable-output').prepend('<p>' + node.text + ' was selected</p>');
                 },
                 onNodeUnselected: function (event, node) {
+                    formData.delete("third_category", node.text);
                     $('#selectable-output').prepend('<p>' + node.text + ' was unselected</p>');
                 }
             });
@@ -1333,46 +1227,165 @@ X
         alert(myfiles);
         // 获取当前系统时间()
         var myTime = new Date();
-        currentTime = myTime.getFullYear() + "-" + myTime.getMonth() + "-" + (myTime.getDay() + 1) + " " + myTime.toLocaleTimeString().substring(2, myTime.toLocaleTimeString().length);
-        // alert("current_time:"+currentTime);
-        formData.append("current_time:",currentTime);
+        currentDate = myTime.getFullYear() + "-" + myTime.getMonth() + "-" + (myTime.getDay() + 1);
+        currentTime=myTime.toLocaleTimeString();
+        alert("current_time:"+currentTime);
+        formData.append("current_time",currentTime);
+        formData.append("current_date",currentDate);
         formData.append("unit", $("#good_unit").val());
 
-        // if($('#upload_file')[0].files.length>=4)
-        // {
-        //     formData.append("file0",$('#upload_file')[0].files[0]);
-        //     formData.append("file1",$('#upload_file')[0].files[1]);
-        //     formData.append("file2",$('#upload_file')[0].files[2]);
-        //     formData.append("file3",$('#upload_file')[0].files[3]);
-        // }else {
-        //     for(index=0;index<$('#upload_file')[0].files.length;index++){
-        //         formData.append("file"+index,$('#upload_file')[0].files[index]);
-        //     }
-        // }
-        formData.append("files",myfiles);
+        if (myfiles.length == 0) {
+            alert("您未添加任何图片！");
+            return;
+        }
+        else if (myfiles.length >= 4) {
+            formData.append("file0", myfiles[0]);
+            formData.append("file1", myfiles[1]);
+            formData.append("file2", myfiles[2]);
+            formData.append("file3", myfiles[3]);
+            formData.append("diffPhotos", 0);
+        } else {
+            for (index = 0; index < myfiles.length; index++) {
+                formData.append("file" + index, myfiles[index]);
+            }
+            for (index = myfiles.length; index <= 4; index++) {
+                formData.append("file" + (index - 1), myfiles[0]);
+                //都用0号图片代替
+            }
+            formData.append("diffPhotos", myfiles.length);
+        }
 
        alert("获取表单信息完成！");
 
-        $.ajax({
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            let result = xmlhttp.responseText;
+            alert(result);
+        }
+        xmlhttp.open("post", "categoryAndGoods/addProduct.do", true);
+        xmlhttp.send(formData);
 
-            url: "categoryAndGoods/addProduct.do",
-            type: "post",
-            data: formData,
-            contentType: false,
-            dataType: "json",
-            processType: false,
-            async:false,
-            cache:false,
-            success: function (res) {
-                console.log(res);
-            },
-            error: function (res) {
-                console.log("更新目录的映射出错了！" + res);
-            }
-        })
+        // $.ajax({
+        //
+        //     url: "categoryAndGoods/addProduct.do",
+        //     type: "post",
+        //     data: formData,
+        //     contentType: false,
+        //     dataType: "json",
+        //     processType: false,
+        //     async:false,
+        //     cache:false,
+        //     success: function (res) {
+        //         console.log(res);
+        //     },
+        //     error: function (res) {
+        //         console.log("更新目录的映射出错了！" + res);
+        //     }
+        // })
     }
 
 </script>
+<%--渲染商品表格所用的iview插件--%>
+<%--引入iview--%>
+<script src="js/vue.min.js"></script>
+<!-- import stylesheet -->
+<link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+<!-- import iView -->
+<script src="//unpkg.com/iview/dist/iview.min.js"></script>
+<script>
+    var app2 = new Vue({
+        el: '#goods_table',
+
+        data() {
+            return {
+                columns:[
+                    {
+                        "title":"商品编号",
+                        "key":"product_id",
+                        "fixed":"left",
+                        "width":150
+                    },{
+                        "title":"商品名称",
+                        "key":"product_name",
+                        "sortable":true,
+                        "width":150
+                    },
+                    {
+                        "title":"一级类别",
+                        "key":"first_category",
+                        "sortable":true,
+                        "width":150
+                    },{
+                        "title":"二级类别",
+                        "key":"second_category",
+                        "sortable":true,
+                        "width":150
+                    },{
+                        "title":"三级类别",
+                        "key":"third_category",
+                        "sortable":true,
+                        "width":150
+                    },{
+                        "title":"单位",
+                        "key":"unit",
+                        "width":100
+                    },{
+                        "title":"简介",
+                        "key":"short_introduction",
+                        "width":250
+                    },{
+                        "title":"图片一",
+                        "key":"url1",
+                        "sortable":true,
+                        "width":150
+                    },{
+                        "title":"图片二",
+                        "key":"url2",
+                        "sortable":true,
+                        "width":150
+                    },{
+                        "title":"图片三",
+                        "key":"url3",
+                        "sortable":true,
+                        "width":150
+                    },{
+                        "title":"图片四",
+                        "key":"url4",
+                        "sortable":true,
+                        "width":150
+                    },{
+                        "title":"详细信息",
+                        "key":"product_details",
+                        "sortable":true,
+                        "width":150
+                    }
+                ],
+                products_data:my_products_data,
+            }
+        },
+        methods: {
+            exportData (type) {
+                if (type === 1) {
+                    this.$refs.table.exportCsv({
+                        filename: 'The original data'
+                    });
+                } else if (type === 2) {
+                    this.$refs.table.exportCsv({
+                        filename: 'Sorting and filtering data',
+                        original: false
+                    });
+                } else if (type === 3) {
+                    this.$refs.table.exportCsv({
+                        filename: 'Custom data',
+                        columns: this.columns.filter((col, index) => index < 4),
+                        data: this.products_data.filter((data, index) => index < 4)
+                    });
+                }
+            }
+        },
+    });
+</script>
+
 <%--/////////////////////////////////////////////////////Xenia/////////////////////////////--%>
 </body>
 

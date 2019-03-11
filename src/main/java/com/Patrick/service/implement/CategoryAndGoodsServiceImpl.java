@@ -119,12 +119,16 @@ public class CategoryAndGoodsServiceImpl implements CategoryAndGoodsService {
     }
 
     public String addNewProduct(int product_id, String product_name, String product_short_introduction, String product_details,
-                                String product_first_category, String product_second_category, String product_third_category,
-                                String url0, String url1, String urls2, String urls3,
-                                String product_current_time, String product_update_time, String product_uint) {
-        int add_num = webMapper.addProduct(product_id, product_name, product_short_introduction, product_details,
-                product_first_category, product_second_category, product_third_category,
-                url0, url1, urls2, urls3, product_current_time, product_update_time, product_uint);
+                                String product_first_category,String product_second_category,String product_third_category,
+                                String url0,String url1,String urls2,String urls3,
+                                String product_current_time, String product_update_time, String product_unit) {
+        int add_num=0;
+        int id_conflit_flag=webMapper.getProductById(product_id);
+        if(id_conflit_flag==0) {
+            add_num = webMapper.addProduct(product_id, product_name, product_short_introduction, product_details,
+                    product_first_category, product_second_category, product_third_category,
+                    url0, url1, urls2, urls3, product_current_time, product_update_time, product_unit);
+        }
         //url迭代的获取
         return JSON.toJSONString(add_num);
     }
