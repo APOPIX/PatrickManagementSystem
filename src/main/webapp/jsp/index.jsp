@@ -10,25 +10,26 @@
 
     <%--<link rel="icon" type="image/ico" href="http://tattek.com/minimal/assets/images/favicon.ico"/>--%>
     <!-- Bootstrap -->
-    <link href="assets/css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/vendor/animate/animate.min.css">
-    <link type="text/css" rel="stylesheet" media="all" href="assets/js/vendor/mmenu/css/jquery.mmenu.all.css"/>
-    <link rel="stylesheet" href="assets/js/vendor/videobackground/css/jquery.videobackground.css">
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap-checkbox.css">
-
+    <link rel="stylesheet" href="../assets/css/vendor/animate/animate.min.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../assets/js/vendor/mmenu/css/jquery.mmenu.all.css"/>
+    <link rel="stylesheet" href="../assets/js/vendor/videobackground/css/jquery.videobackground.css">
+    <link rel="stylesheet" href="../assets/css/vendor/bootstrap-checkbox.css">
+    <!-- 引入 ECharts 文件 -->
+    <script src="../js/echarts.js"></script>
     <%--<link crossorigin="anonymous" media="all" integrity="sha512-UFMpXZiU8/kG0aZl62l3OFZi0gwlVRLYrsamBbXttDRSbDmQk1ZyKj5R11ghzrHB/NaIPBuLauI34mVpsuxx5w==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-94eca081886beb7440fa7236f4fd103f.css" />--%>
     <%--<link crossorigin="anonymous" media="all" integrity="sha512-FIEp4ofjNZOwIuaCNdkF6w53h1fjud2bVTkAOnOQOL3+uw98WLUVoh+QIC6gJ/fWDkIeNNwkc/+gyn8NUJiWZw==" rel="stylesheet" href="https://github.githubassets.com/assets/site-2a37b0558327c9981d25e3ed83ae9eec.css" />--%>
     <%--<link crossorigin="anonymous" media="all" integrity="sha512-eqxTRxKT94LInlg/McScBezWtiFHXzx2NUh8bTSXsscsE8e7zxJE3tueMuDN+7DpHHo3ipfX6wnDuoechvkHAA==" rel="stylesheet" href="https://github.githubassets.com/assets/github-6a52a05624a8e37c96244b9669fd07a4.css" />--%>
-    <link rel="stylesheet" href="assets/js/vendor/rickshaw/css/rickshaw.min.css">
-    <link rel="stylesheet" href="assets/js/vendor/morris/css/morris.css">
-    <link rel="stylesheet" href="assets/js/vendor/tabdrop/css/tabdrop.css">
-    <link rel="stylesheet" href="assets/js/vendor/summernote/css/summernote.css">
-    <link rel="stylesheet" href="assets/js/vendor/summernote/css/summernote-bs3.css">
-    <link rel="stylesheet" href="assets/js/vendor/chosen/css/chosen.min.css">
-    <link rel="stylesheet" href="assets/js/vendor/chosen/css/chosen-bootstrap.css">
+    <link rel="stylesheet" href="../assets/js/vendor/rickshaw/css/rickshaw.min.css">
+    <link rel="stylesheet" href="../assets/js/vendor/morris/css/morris.css">
+    <link rel="stylesheet" href="../assets/js/vendor/tabdrop/css/tabdrop.css">
+    <link rel="stylesheet" href="../assets/js/vendor/summernote/css/summernote.css">
+    <link rel="stylesheet" href="../assets/js/vendor/summernote/css/summernote-bs3.css">
+    <link rel="stylesheet" href="../assets/js/vendor/chosen/css/chosen.min.css">
+    <link rel="stylesheet" href="../assets/js/vendor/chosen/css/chosen-bootstrap.css">
 
-    <link href="assets/css/minimal.css" rel="stylesheet">
+    <link href="../assets/css/minimal.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,6 +37,19 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <%--给data[]赋值--%>
+    <script>
+        var data = [];
+        var tag = [];
+        //处理后端传来的BrowseStatisticsList
+        <c:forEach items="${rankingList}" var="rank">
+        data.push(${rank.turnover});
+        tag.push("${rank.product_name}");
+        </c:forEach>
+        console.log(data);
+        console.log(tag);
+
+    </script>
 </head>
 <body class="bg-1">
 
@@ -126,8 +140,13 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <a href="categoryOnly">
+                                                <i class="fa fa-caret-right"></i> 类别信息
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="categoryAndGoods">
-                                                <i class="fa fa-caret-right"></i> 商品信息处理
+                                                <i class="fa fa-caret-right"></i> 商品信息
                                             </a>
                                         </li>
                                         <li>
@@ -183,7 +202,7 @@
                                         </li>
                                         <li>
                                             <a href="staff_list.html?key=0">
-                                                <i class="fa fa-caret-right"></i>  管理人员列表
+                                                <i class="fa fa-caret-right"></i> 管理人员列表
                                             </a>
                                         </li>
                                         <li>
@@ -215,7 +234,7 @@
 
 
         <!-- Page content -->
-        <div id="content" class="col-md-12">
+        <div id="content" class="col-md-12" align="center">
 
 
             <!-- page header -->
@@ -231,48 +250,52 @@
 
 
             <!-- content main container -->
-
-            <br>
-            <%--显示登陆状态--%>
-            <c:if test="${role> -1}">
-                已登录，
-                <br>
-                欢迎您，${staff_name} 。
-            </c:if>
-
-            <br>
-            <br>
-            <br>
-            <br>
             <%--主要内容--%>
-            <div class="main">
-                <div class="auth-form px-3" id="login" style="width: 400px; margin:0 auto ">
-                    <form action="login.action" accept-charset="UTF-8" method="post">
-                        <div class="auth-form-header p-0">
-                        </div>
-                        <div id="js-flash-container">
-                        </div>
-                        <div class="auth-form-body mt-3">
-                            <label for="staff_name">
-                                工作人员账户
-                            </label>
-                            <input type="text" name="staff_name" id="staff_name" class="form-control input-block"
-                                   tabindex="1" autocapitalize="off" autofocus="autofocus">
-                            <br>
-                            <label for="staff_password">
-                                Password <a class="label-link" href="">忘记密码？</a>
-                            </label>
-                            <input type="password" name="staff_password" id="staff_password"
-                                   class="form-control form-control input-block" tabindex="2">
-                            <br>
-                            <input type="submit" name="commit" value="Sign in" tabindex="3"
-                                   class="btn btn-primary btn-block" data-disable-with="正在登陆……">
-                        </div>
-                    </form>
-                    <br>
-                    <a class="label-link" href="">没有账户？ 立即注册！</a>
-                </div>
+            <%--<section class="tile color mytransparent-black">--%>
+            <%--<br>--%>
+            <div class="transparent-black" id="main" style="width: 1000px;height:600px;">
+                <%--显示登陆状态--%>
+                <%--<c:if test="${role> -1}">--%>
+                    <%--已登录，--%>
+                    <%--<br>--%>
+                    <%--欢迎您，${staff_name} 。--%>
+                <%--</c:if>--%>
+                <script type="text/javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart = echarts.init(document.getElementById('main'));
+                    var option = {
+                        xAxis: {
+                            type: 'category',
+                            data: tag,
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#ffffff',
+                                    width: 2,//这里是为了突出显示加上的
+                                }
+                            }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#ffffff',
+                                    width: 2,//这里是为了突出显示加上的
+                                }
+                            }
+                        },
+                        series: [{
+                            data: data,
+                            color: '#ffffff',
+                            type: 'bar'
+                        }]
+                    };
+
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                </script>
             </div>
+            <%--</section>--%>
             <!-- /content container -->
 
 
@@ -292,37 +315,36 @@
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="assets/js/vendor/bootstrap/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/js/vendor/mmenu/js/jquery.mmenu.min.js"></script>
-<script type="text/javascript" src="assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
-<script type="text/javascript" src="assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
-<script type="text/javascript" src="assets/js/vendor/animate-numbers/jquery.animateNumbers.js"></script>
-<script type="text/javascript" src="assets/js/vendor/videobackground/jquery.videobackground.js"></script>
-<script type="text/javascript" src="assets/js/vendor/blockui/jquery.blockUI.js"></script>
+<script src="../assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="../assets/js/vendor/mmenu/js/jquery.mmenu.min.js"></script>
+<script type="text/javascript" src="../assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="../assets/js/vendor/nicescroll/jquery.nicescroll.min.js"></script>
+<script type="text/javascript" src="../assets/js/vendor/animate-numbers/jquery.animateNumbers.js"></script>
+<script type="text/javascript" src="../assets/js/vendor/videobackground/jquery.videobackground.js"></script>
+<script type="text/javascript" src="../assets/js/vendor/blockui/jquery.blockUI.js"></script>
 
-<script src="assets/js/vendor/flot/jquery.flot.min.js"></script>
-<script src="assets/js/vendor/flot/jquery.flot.time.min.js"></script>
-<script src="assets/js/vendor/flot/jquery.flot.selection.min.js"></script>
-<script src="assets/js/vendor/flot/jquery.flot.animator.min.js"></script>
-<script src="assets/js/vendor/flot/jquery.flot.orderBars.js"></script>
-<script src="assets/js/vendor/easypiechart/jquery.easypiechart.min.js"></script>
+<script src="../assets/js/vendor/flot/jquery.flot.min.js"></script>
+<script src="../assets/js/vendor/flot/jquery.flot.time.min.js"></script>
+<script src="../assets/js/vendor/flot/jquery.flot.selection.min.js"></script>
+<script src="../assets/js/vendor/flot/jquery.flot.animator.min.js"></script>
+<script src="../assets/js/vendor/flot/jquery.flot.orderBars.js"></script>
+<script src="../assets/js/vendor/easypiechart/jquery.easypiechart.min.js"></script>
 
-<script src="assets/js/vendor/rickshaw/raphael-min.js"></script>
-<script src="assets/js/vendor/rickshaw/d3.v2.js"></script>
-<script src="assets/js/vendor/rickshaw/rickshaw.min.js"></script>
+<script src="../assets/js/vendor/rickshaw/raphael-min.js"></script>
+<script src="../assets/js/vendor/rickshaw/d3.v2.js"></script>
+<script src="../assets/js/vendor/rickshaw/rickshaw.min.js"></script>
 
-<script src="assets/js/vendor/morris/morris.min.js"></script>
+<script src="../assets/js/vendor/morris/morris.min.js"></script>
 
-<script src="assets/js/vendor/tabdrop/bootstrap-tabdrop.min.js"></script>
+<script src="../assets/js/vendor/tabdrop/bootstrap-tabdrop.min.js"></script>
 
-<script src="assets/js/vendor/summernote/summernote.min.js"></script>
+<script src="../assets/js/vendor/summernote/summernote.min.js"></script>
 
-<script src="assets/js/vendor/chosen/chosen.jquery.min.js"></script>
+<script src="../assets/js/vendor/chosen/chosen.jquery.min.js"></script>
 
-<script src="assets/js/minimal.min.js"></script>
-
+<script src="../assets/js/minimal.min.js"></script>
 </body>
 </html>
       

@@ -305,10 +305,6 @@
     <script>
         my_products_data=[];
         <c:forEach items="${my_products}" var="myproduct">
-        <%--processedurl1="${myproduct.pic1_url}";--%>
-        <%--processedurl2="${myproduct.pic2_url}";--%>
-        <%--processedurl3="${myproduct.pic3_url}";--%>
-        <%--processedurl4="${myproduct.pic4_url}";--%>
 
         my_products_data.push({
             product_id:"${myproduct.id}",
@@ -418,8 +414,13 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <a href="categoryOnly">
+                                                <i class="fa fa-caret-right"></i> 类别信息
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="categoryAndGoods">
-                                                <i class="fa fa-caret-right"></i> 商品信息处理
+                                                <i class="fa fa-caret-right"></i> 商品信息
                                             </a>
                                         </li>
                                         <li>
@@ -521,86 +522,6 @@
             <!-- /page header -->
 
 
-            <!-- content main container -->
-            <%--vue引入的用作类别划分的可编辑表格--%>
-            <section class="tile color transparent-black">
-                <div class="tile-header">
-                    <h1><strong>注册</strong>类别</h1>
-                    <div class="controls">
-                        <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
-                        <a href="#" class="remove"><i class="fa fa-times"></i></a>
-                    </div>
-                </div>
-                <div id="table">
-                    <div class="add form-group">
-                        <input type="text" v-model="addDetail.firstCategory" name="fistCategory" value=""
-                               placeholder="一级类别"/>
-                        <input type="text" v-model="addDetail.secondCategory" name="secondCategory" value=""
-                               placeholder="二级类别"/>
-                        <input type="test" v-model="addDetail.thirdCategory" name="thirdCategory" value=""
-                               placeholder="三级类别"/>
-                        <button @click="addCategory">新增</button>
-                    </div>
-                    <table cellpadding="0" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>一级类别</th>
-                            <th>二级类别</th>
-                            <th>三级类别</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody style="color: #ffffff;">
-                        <tr v-for="(item,index) in newsList">
-                            <td width="5%">{{index+1}}</td>
-                            <td width="25%">{{item.firstCategory}}</td>
-                            <td width="25%">{{item.secondCategory}}</td>
-                            <td width="25%">{{item.thirdCategory}}</td>
-                            <td width="20%"><span @click="deletelist(item,index)" class="delete">删除</span><span
-                                    class="edit" @click="edit(item)">编辑</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div id="mask" v-if="editlist">
-                        <div class="mask">
-                            <div class="title">
-                                编辑
-                                <span @click="editlist=false">
-X
-						</span>
-                            </div>
-                            <div class="content row">
-                                <br>
-                                <div class="form-group">
-                                    <div class="col-sm-1"></div>
-                                    <label for="firstCate">一级类别</label>
-                                    <input id="firstCate" type="text" v-model="editDetail.firstCategory"
-                                           name="fistCategory" value="" placeholder="一级类别"/>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-1"></div>
-                                    <label for="secondCate">二级类别</label>
-                                    <input id="secondCate" type="text" v-model="editDetail.secondCategory"
-                                           name="secondCategory" value="" placeholder="二级类别"/>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-1"></div>
-                                    <label for="thirdCate">三级类别</label>
-                                    <input id="thirdCate" type="text" v-model="editDetail.thirdCategory"
-                                           name="thirdCategory" value="" placeholder="三级类别"/>
-                                </div>
-                                <br>
-                                <div class="col-sm-2"></div>
-                                <button @click="update">更新</button>
-                                <button @click="editlist=false">取消</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <%--vue引入的用作类别划分的可编辑表格--%>
 
 
             <!-- /content container -->

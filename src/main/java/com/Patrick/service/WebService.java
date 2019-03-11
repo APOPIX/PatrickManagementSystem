@@ -50,6 +50,9 @@ public interface WebService {
     List<ManagementLog> selectAllLogOrderById();
 
     List<ManagementLog> selectAllLogById(int id);
+
+    List<SalesRanking> selectTopTenSalesRanking(String begin_date, String end_date);
+
     /////////////////////////////////Xenia///////////////////////////////////////////////
     /**
      *@Description: 获取门店的service 接口
@@ -90,5 +93,6 @@ public interface WebService {
      */
     List<CategoriesMapper> getCategoriesMapper();
     JSONObject getCategoriesMapperJson();
+
     /////////////////////////////////Xenia///////////////////////////////////////////////
 }

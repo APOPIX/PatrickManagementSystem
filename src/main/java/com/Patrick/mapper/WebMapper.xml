@@ -9,6 +9,12 @@
     <select id="login" resultMap="StaffMap">
       select * from staff where staff_name = "${staff_name}" and staff_password = "${staff_password}";
     </select>
+    <!--下面的SQL语句实现查询前十销量的产品-->
+    <select id="selectTopTenSalesRanking" resultMap="SalesRankingMap">
+        select product_name, turnover from (
+        SELECT product_id, sum(total_price) as turnover FROM lexiandb.orders where orders.time_stamp <![CDATA[ >= ]]> "${begin_date}" and  orders.time_stamp  <![CDATA[ <= ]]> "${end_date}" group by orders.product_id )
+        as temp left join products on products.id = temp.product_id order by turnover desc limit 10;
+    </select>
 
     <!--下面的SQL语句实现Staff表中插入元组-->
     <select id="register">
@@ -465,7 +471,7 @@
     <insert id="addProduct">
         insert into products(id,product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit) values (#{id},#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{unit});
     </insert>
-    <select id="getProductById"  resultType="int">
+    <select id="getProductById" resultType="int">
         SELECT count(*) FROM products where id=#{id};
     </select>
 
@@ -547,5 +553,10 @@
         <result column="staff_name" property="staff_name" jdbcType="VARCHAR"/>
         <result column="action" property="action" jdbcType="VARCHAR"/>
         <result column="time_stamp" property="time_stamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="SalesRankingMap" type="com.Patrick.dao.SalesRanking">
+        <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"SalesRanking.java"），一般取同名 -->
+        <result column="product_name" property="product_name" jdbcType="VARCHAR"/>
+        <result column="turnover" property="turnover" jdbcType="DOUBLE"/>
     </resultMap>
 </mapper>

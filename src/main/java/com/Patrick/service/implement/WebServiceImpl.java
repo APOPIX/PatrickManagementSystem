@@ -127,6 +127,11 @@ public class WebServiceImpl implements WebService {
     public List<ManagementLog> selectAllLogById(int id) {
         return webMapper.selectAllLogById(id);
     }
+
+    @Override
+    public List<SalesRanking> selectTopTenSalesRanking(String begin_date, String end_date) {
+        return webMapper.selectTopTenSalesRanking(begin_date, end_date);
+    }
     ////////////////////////////////////////Xenia//////////////////////////////////////
     /**
      *@Description:sevice 层面实现获取门店信息

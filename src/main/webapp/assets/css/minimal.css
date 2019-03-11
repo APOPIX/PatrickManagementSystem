@@ -1400,6 +1400,8 @@ body #content .tile {
     background-color: #8b8b8b; }
   body #content .tile.color.transparent-black {
     background-color: rgba(0, 0, 0, 0.3); }
+body #content .tile.color.mytransparent-black {
+  background-color: rgba(0, 0, 0, 0.6); }
     body #content .tile.color.transparent-black.textured {
       background: rgba(0, 0, 0, 0.3) url(../images/dot_pattern.png) repeat; }
   body #content .tile.color.transparent-white {

@@ -154,8 +154,13 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <a href="categoryOnly">
+                                                <i class="fa fa-caret-right"></i> 类别信息
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="categoryAndGoods">
-                                                <i class="fa fa-caret-right"></i> 商品信息处理
+                                                <i class="fa fa-caret-right"></i> 商品信息
                                             </a>
                                         </li>
                                         <li>

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,12 +30,16 @@ public class WebController {
             //插入操作记录
             String log = "登陆成功";
             webService.managementLog(staffList.get(0).getStaff_id(), log);
+            String begin_date = new Timestamp(new Date().getTime() - (1000 * 60 * 60 * 8 + (long) 1000 * 86400 * 30)).toString();
+            String end_date = new Timestamp(new Date().getTime() - 1000 * 60 * 60 * 8).toString();
             modelAndView.addObject("staff_name", staff_name);
             modelAndView.addObject("role", staffList.get(0).getRole());
             modelAndView.addObject("current_login_staff_id", staffList.get(0).getStaff_id());
+            modelAndView.addObject("rankingList", webService.selectTopTenSalesRanking(begin_date, end_date));
             request.getSession().setAttribute("staff_name", staff_name);
             request.getSession().setAttribute("role", staffList.get(0).getRole());
             request.getSession().setAttribute("current_login_staff_id", staffList.get(0).getStaff_id());
+            modelAndView.setViewName("jsp/index.jsp");
         } else {
             //登陆失败，向页面传递用户名"invalid"和角色 - 1，ID(int)
             modelAndView.addObject("staff_name", "invalid");
@@ -42,8 +48,8 @@ public class WebController {
             request.getSession().setAttribute("staff_name", "invalid");
             request.getSession().setAttribute("role", -1);
             request.getSession().setAttribute("current_login_staff_id", -1);
+            modelAndView.setViewName("login.jsp");
         }
-        modelAndView.setViewName("index.jsp");
 //        System.out.println("密码");
 //        System.out.println(staff_password);
 //        System.out.println("密码");
@@ -455,20 +461,35 @@ public class WebController {
      * Date:2019/3/4
      */
     @RequestMapping(value = "categoryAndGoods")
-    public ModelAndView getCategoryAndGoods(HttpServletRequest request) {
+    public ModelAndView getGoods(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
 //        需要获取类别和商品的信息
-        System.out.println("我进入了商品和注册商品的主页面");
+        System.out.println("我进入了商品的主页面");
         JSONObject dataJson = webService.getCategoriesMapperJson();
         mv.addObject("categoryJson", dataJson.toString());
-        List<Product> products=webService.getProducts();
-        mv.addObject("my_products",products);
+        List<Product> products = webService.getProducts();
+        mv.addObject("my_products", products);
         mv.setViewName("jsp/categoryAndGoods.jsp");
         //插入操作记录
         String log = "进入商品和注册商品主页面";
         webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
         return mv;
     }
+
+    @RequestMapping(value = "categoryOnly")
+    public ModelAndView getCategory(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+//        需要获取类别和商品的信息
+        System.out.println("我进入了类别的主页面");
+        JSONObject dataJson = webService.getCategoriesMapperJson();
+        mv.addObject("categoryJson", dataJson.toString());
+        mv.setViewName("jsp/categoryOnly.jsp");
+        //插入操作记录
+        String log = "进入商品类别管理页面";
+        webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
+        return mv;
+    }
+
 
     @RequestMapping(value = "goodsRegistToStore")
     public ModelAndView getGoodsRegistToStores(HttpServletRequest request) {

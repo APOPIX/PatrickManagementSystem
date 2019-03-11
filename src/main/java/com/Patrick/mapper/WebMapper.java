@@ -46,7 +46,7 @@ public interface WebMapper {
     //无传入参数
     List<BrowseStatistics> browseStatisticsFull();
 
-    //将"String"类型的变量"beginDate"和"endDate"以"beginDate"和"endDate"为参数名传入到WebMapper.xml中
+    //将"String"类型的变量"begin_date"和"end_date"以"begin_date"和"end_date"为参数名传入到WebMapper.xml中
     List<BrowseStatistics> browseStatisticsByDateRange(@Param(value = "begin_date") String beginDate, @Param(value = "end_date") String endDate);
 
     //无传入参数
@@ -89,6 +89,10 @@ public interface WebMapper {
 
     //将"int"类型的变量"id"以"id"为参数名传入到WebMapper.xml中
     List<ManagementLog> selectAllLogById(@Param(value = "staff_id") int staff_id);
+
+    //将"String"类型的变量"begin_date"和"end_date"以"begin_date"和"end_date"为参数名传入到WebMapper.xml中
+    List<SalesRanking> selectTopTenSalesRanking(@Param(value = "begin_date") String begin_date, @Param(value = "end_date") String end_date);
+
 
     //////////////////////////////Xenia/////////////////////////////////
 
@@ -247,5 +251,6 @@ public interface WebMapper {
      *Date:2019/3/10
      */
     int getProductById(@Param("id")int id);
+
     //////////////////////////////Xenia/////////////////////////////////
 }
