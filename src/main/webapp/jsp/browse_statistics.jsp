@@ -141,23 +141,23 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能1
+                                            <a href="branchStoresTables?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 门店表格
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能2
+                                            <a href="categoryAndGoods?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 商品信息处理
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能3
+                                            <a href="SpecialSector?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 特殊板块注册
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能4
+                                            <a href="goodsRegistToStore?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 门店商品管理
                                             </a>
                                         </li>
                                     </ul>
@@ -170,6 +170,7 @@
                                         <i class="fa fa-pencil"></i> 订单管理 <b class="fa fa-plus dropdown-plus"></b>
                                     </a>
                                     <ul class="dropdown-menu">
+
                                         <li>
                                             <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表
@@ -202,7 +203,7 @@
                                         </li>
                                         <li>
                                             <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
-                                                <i class="fa fa-caret-right"></i> 管理人员列表
+                                                <i class="fa fa-caret-right"></i>  管理人员列表
                                             </a>
                                         </li>
                                         <li>
@@ -223,8 +224,12 @@
                     </li>
                 </ul>
                 <!-- Sidebar end -->
+
+
             </div>
             <!--/.nav-collapse -->
+
+
         </div>
         <!-- Fixed navbar end -->
 

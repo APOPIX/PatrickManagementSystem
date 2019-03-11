@@ -11,7 +11,7 @@ package com.Patrick.dao;
 public class CategoryMapper1 {
     private int id; //PK
     private String father_category;
-    private String son_categoory;
+    private String son_category;
 
     public int getId() {
         return id;
@@ -29,11 +29,11 @@ public class CategoryMapper1 {
         this.father_category = father_category;
     }
 
-    public String getSon_categoory() {
-        return son_categoory;
+    public String getSon_category() {
+        return son_category;
     }
 
-    public void setSon_categoory(String son_categoory) {
-        this.son_categoory = son_categoory;
+    public void setSon_categoory(String son_category) {
+        this.son_category = son_category;
     }
 }

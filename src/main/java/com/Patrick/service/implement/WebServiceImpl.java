@@ -3,12 +3,12 @@ package com.Patrick.service.implement;
 import com.Patrick.dao.*;
 import com.Patrick.mapper.WebMapper;
 import com.Patrick.service.WebService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WebServiceImpl implements WebService {
@@ -103,7 +103,8 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public void managementLog(int staff_id, String action) {
-        String time_stamp = new Timestamp(new Date().getTime()).toString();
+        //转换时区
+        String time_stamp = new Timestamp(new Date().getTime() - 1000 * 60 * 60 * 8).toString();
         webMapper.managementLog(staff_id, action, time_stamp);
     }
 
@@ -126,4 +127,131 @@ public class WebServiceImpl implements WebService {
     public List<ManagementLog> selectAllLogById(int id) {
         return webMapper.selectAllLogById(id);
     }
+    ////////////////////////////////////////Xenia//////////////////////////////////////
+    /**
+     *@Description:sevice 层面实现获取门店信息
+     *Param:
+     *Return: 返回门店信息的列表
+     *Author:廖馨婷
+     *Date:2019/3/2
+     */
+    @Override
+    public List<BranchStore> getBranchStore(){
+        return webMapper.getBranchStore();
+    }
+
+    /**
+     *@Description: 获取门店和对应商品的注册信息
+     *Param:
+     *Return:
+     *Author:廖馨婷
+     *Date:2019/3/5
+     */
+    @Override
+    public List<ProductToStore> getProductsRegistedInStore(){
+        return webMapper.getProductsRegistedInStore();
+    }
+
+    @Override
+    public List<SpecialProduct> getProductsForSector(){
+        return webMapper.getProductsForSector();
+    }
+
+    @Override
+    public List<SpecialSector> getSectors(){
+        return webMapper.getSectors();
+    }
+    @Override
+    public List<Product> getProducts(){
+        return webMapper.getProducts();
+    }
+
+    /**
+     *@Description: 实现类别和商品页面的数据获取的代码
+     *Param:
+     *Return:
+     *Author:廖馨婷
+     *Date:2019/3/7
+     */
+    @Override
+    public List<CategoriesMapper> getCategoriesMapper(){
+        return webMapper.getCategoriesMappers();
+    }
+
+//    @Override
+//    public JSONObject getCategoriesMapperJson(){
+//        List<CategoryMapper1> firstMapping=webMapper.getcategoryMapper1();
+//        List<CategoryMapper2> secondMapping=webMapper.getcategoryMapper2();
+//        Map tempFirstParam=new HashMap();
+//        List<Map> firstMappingLists;
+//        Map tempSecondParam=new HashMap();
+//        for(CategoryMapper1 mapper1: firstMapping){
+//            firstMappingLists=new ArrayList<>();
+//            Map tempThirdParam=new HashMap();
+//            //面对的是同一个二级目录，获取的都会存在在id，三级映射过程中
+//            for(CategoryMapper2 mapper2: secondMapping){
+//                if(mapper1.getSon_category().equals(mapper2.getFather_category())){
+//                    tempThirdParam.put(Integer.toString(mapper2.getId()),mapper2.getSon_category());
+//                    //在这儿获取到三级对应的类别消息，然后将二三级映射的id和三级类别名称获取得到
+//                    tempSecondParam.put(mapper1.getSon_category(),tempThirdParam);
+//                    //这里用二级类别作为key然后23映射的id和三级目录,技巧是利用了key一定的时候kv会被刷新
+//                }
+//            }
+//            System.out.println("二三级映射的列表："+JSONObject.fromObject(tempSecondParam).toString());
+////            firstMappingLists.add(tempSecondParam);//所有相同的二级映射构成一个数组，作为特定一级类别的value
+////            tempFirstParam.put(mapper1.getFather_category(),firstMappingLists);
+//
+//            if(tempFirstParam.containsKey(mapper1.getFather_category())){
+//                firstMappingLists.add(tempSecondParam);
+//                tempFirstParam.put(mapper1.getFather_category(),firstMappingLists);
+//            }else{
+//                firstMappingLists=new ArrayList<>();
+//                firstMappingLists.add(tempSecondParam);
+//                tempFirstParam.put(mapper1.getFather_category(),firstMappingLists);
+//            }
+//        }
+//        JSONObject jsonObject= JSONObject.fromObject(tempFirstParam);
+//        System.out.println(jsonObject.toString());
+////        String jsonString = jsonObject.toString();
+////        System.out.println("我获取了json： "+jsonString);
+////        JsonFileGenerator.createJsonFile(jsonString,"F:/json","test");
+////        这句话用于利用util类获取商品类别的json，然后打印成json文件
+//        return jsonObject;
+//    }
+
+    @Override
+    public JSONObject getCategoriesMapperJson(){
+        List<CategoryMapper1> firstMapping=webMapper.getcategoryMapper1();
+        List<CategoryMapper2> secondMapping=webMapper.getcategoryMapper2();
+        Map tempFirstParam=new HashMap();
+        List<Map> mysecondMapping=new ArrayList<>();
+        for(CategoryMapper1 mapper1: firstMapping){
+            Map tempSecondParam=new HashMap();
+            Map tempThirdParam=new HashMap();
+            for(CategoryMapper2 mapper2: secondMapping){
+                if(mapper1.getSon_category().equals(mapper2.getFather_category())){
+                    tempThirdParam.put(Integer.toString(mapper2.getId()),mapper2.getSon_category());
+                    tempSecondParam.put(mapper1.getSon_category(),tempThirdParam);
+//                    获取了三级目录的数组
+                }
+            }
+            if(tempFirstParam.containsKey(mapper1.getFather_category())){
+                mysecondMapping=(List)tempFirstParam.get(mapper1.getFather_category());
+                mysecondMapping.add(tempSecondParam);
+                tempFirstParam.put(mapper1.getFather_category(),mysecondMapping);
+            }else{
+                mysecondMapping=new ArrayList<>();
+                mysecondMapping.add(tempSecondParam);
+                tempFirstParam.put(mapper1.getFather_category(),mysecondMapping);
+            }
+
+        }
+        JSONObject jsonObject= JSONObject.fromObject(tempFirstParam);
+//        String jsonString = jsonObject.toString();
+//        System.out.println("我获取了json： "+jsonString);
+//        JsonFileGenerator.createJsonFile(jsonString,"F:/json","test");
+//        这句话用于利用util类获取商品类别的json，然后打印成json文件
+        return jsonObject;
+    }
+    //////////////////////////////////////Xenia//////////////////////////////////////
 }

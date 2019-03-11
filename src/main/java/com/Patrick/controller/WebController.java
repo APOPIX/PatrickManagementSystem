@@ -1,9 +1,12 @@
 package com.Patrick.controller;
 
 
+import com.Patrick.dao.BranchStore;
 import com.Patrick.dao.OrderListObject;
+import com.Patrick.dao.ProductToStore;
 import com.Patrick.dao.Staff;
 import com.Patrick.service.WebService;
+import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -431,5 +434,71 @@ public class WebController {
         return modelAndView;
     }
     //////////////////////
+    ///////////////////////////Xenia///////////////////////////////
+    /**
+     * @Description:测试搜索商店的列表
+     * Param:
+     * Return: 框架的modelAndView
+     * Author:廖馨婷
+     * Date:2019/3/2
+     */
+    @RequestMapping(value = "branchStoresTables")
+    public ModelAndView getStoreList() {
+        ModelAndView mv = new ModelAndView();
+        System.out.println("我进入了controller");
+        List<BranchStore> stores = webService.getBranchStore();
+        System.out.println("我获取了数据");
+
+        mv.addObject("stores", stores);
+        mv.setViewName("jsp/branchStoresTables.jsp");
+        System.out.println("我完成了整个工作");
+        System.out.println(stores.toString());
+        return mv;
+    }
+    /**
+     *@Description: 进入商品类别和商品注册信息的页面
+     *Param:
+     *Return:
+     *Author:廖馨婷
+     *Date:2019/3/4
+     */
+    @RequestMapping(value = "categoryAndGoods")
+    public ModelAndView getCategoryAndGoods(){
+        ModelAndView mv=new ModelAndView();
+//        需要获取类别和商品的信息
+        System.out.println("我进入了商品和注册商品的主页面");
+        JSONObject dataJson=webService.getCategoriesMapperJson();
+        mv.addObject("categoryJson",dataJson.toString());
+        mv.setViewName("jsp/categoryAndGoods.jsp");
+        return mv;
+    }
+
+    @RequestMapping(value = "goodsRegistToStore")
+    public ModelAndView getGoodsRegistToStores(){
+//        @Param(value="store_id")String store_id
+        System.out.println("我进了商品注册到门店的controller");
+        ModelAndView mv=new ModelAndView();
+        List<ProductToStore> productToStores=webService.getProductsRegistedInStore();
+        mv.addObject("products_by_stores_list",productToStores);
+        mv.setViewName("jsp/goodsRegistToStore.jsp");
+        System.out.println("我获取了所有的商店和产品注册信息");
+        return mv;
+    }
+
+    @RequestMapping(value="SpecialSector")
+    public ModelAndView getSpecialSector(){
+        System.out.println("我进了特殊板块的controller");
+        ModelAndView mv=new ModelAndView();
+//        List<SpecialProduct> specialProducts=webService.getProductsForSector();
+//        mv.addObject("special_products_list",specialProducts);
+//        List<SpecialSector> specialSectors=webService.getSectors();
+//        mv.addObject("special_sectors_list",specialSectors);
+//        List<Product> products=webService.getProducts();
+//        mv.addObject("products_list",products);
+        mv.setViewName("jsp/SpecialSector.jsp");
+        System.out.println("我获取了所有的商店和特殊板块信息");
+        return mv;
+    }
+
 
 }

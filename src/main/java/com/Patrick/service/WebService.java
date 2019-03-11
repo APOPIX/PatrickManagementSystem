@@ -1,6 +1,7 @@
 package com.Patrick.service;
 
 import com.Patrick.dao.*;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -49,4 +50,45 @@ public interface WebService {
     List<ManagementLog> selectAllLogOrderById();
 
     List<ManagementLog> selectAllLogById(int id);
+    /////////////////////////////////Xenia///////////////////////////////////////////////
+    /**
+     *@Description: 获取门店的service 接口
+     *Param:
+     *Return: 门店信息的列表
+     *Author:廖馨婷
+     *Date:2019/3/2
+     */
+    List<BranchStore> getBranchStore();
+
+    /**
+     *@Description: 用于展示商店和商品对应的表格
+     *Param:
+     *Return:
+     *Author:廖馨婷
+     *Date:2019/3/5
+     */
+    List<ProductToStore> getProductsRegistedInStore();
+
+    List<SpecialProduct> getProductsForSector();
+    List<SpecialSector> getSectors();
+
+    /**
+     *@Description: 获取商品信息
+     *Param:
+     *Return:
+     *Author:廖馨婷
+     *Date:2019/3/6
+     */
+    List<Product> getProducts();
+
+    /**
+     *@Description: 处理和商品类别页面有关的数据获取
+     *Param:
+     *Return:
+     *Author:廖馨婷
+     *Date:2019/3/7
+     */
+    List<CategoriesMapper> getCategoriesMapper();
+    JSONObject getCategoriesMapperJson();
+    /////////////////////////////////Xenia///////////////////////////////////////////////
 }

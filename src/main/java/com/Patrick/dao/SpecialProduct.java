@@ -9,16 +9,16 @@ package com.Patrick.dao;
  * @program: testv11
  */
 public class SpecialProduct {
-    private int sectorId; //PK 数据库里是id
+    private int id; //PK 数据库里是id
     private String sector_name;
     private int product_id;
 
-    public int getSectorId() {
-        return sectorId;
+    public int getId() {
+        return id;
     }
 
-    public void setSectorId(int sectorId) {
-        this.sectorId = sectorId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSector_name() {

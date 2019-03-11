@@ -89,9 +89,6 @@
                 <ul class="nav navbar-nav quick-actions">
 
 
-                    </li>
-
-
                 </ul>
                 <!-- /Quick Actions -->
 
@@ -124,23 +121,23 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能1
+                                            <a href="branchStoresTables?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 门店表格
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能2
+                                            <a href="categoryAndGoods?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 商品信息处理
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能3
+                                            <a href="SpecialSector?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 特殊板块注册
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="productmanage.html">
-                                                <i class="fa fa-caret-right"></i> 商品管理子功能4
+                                            <a href="goodsRegistToStore?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                                <i class="fa fa-caret-right"></i> 门店商品管理
                                             </a>
                                         </li>
                                     </ul>

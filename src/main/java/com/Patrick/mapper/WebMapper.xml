@@ -126,6 +126,348 @@
     as temp left join staff on temp.staff_id = staff.id;
     </select>
 
+
+    <!--/////////////////////////Xenia////////////////////////////////////////////-->
+    <!--获取商品和门店的注册信息-->
+    <select id="getProductsRegistedInStore" resultType="com.Patrick.dao.ProductToStore">
+        SELECT *
+        FROM products_by_store;
+    </select>
+
+    <!--删除门店和商品注册信息-->
+    <delete id="deleteGSRecord">
+        DELETE FROM products_by_store
+        WHERE id = #{id};
+    </delete>
+    <!--注册新的门店和商品的信息-->
+    <insert id="addGSRecord">
+        INSERT INTO products_by_store (store_id, product_id, inventory, original_price, discount, product_status)
+        VALUES (#{store_id}, #{product_id}, #{inventory}, #{original_price}, #{discount}, #{product_status});
+    </insert>
+    <!--更新门店和商品的对应信息-->
+
+    <update id="updateGSRecord">
+        UPDATE products_by_store
+        SET store_id       = #{store_id}, product_id = #{product_id}, inventory = #{inventory},
+            original_price = #{original_price}, discount = #{discount}, product_status = #{product_status}
+        WHERE id = #{record_id}
+    </update>
+    <!--获取门店信息-->
+    <resultMap id="branchStoreResult" type="com.Patrick.dao.BranchStore">
+        <id column="id" property="store_id" jdbcType="INTEGER"/>
+        <result column="store_name" property="store_name"/>
+        <result column="store_tel" property="store_tel" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="store_address" property="store_address" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="store_introduction" property="store_introduction" jdbcType="VARCHAR"/>
+        <result column="store_start_time" property="store_start_time" jdbcType="TIME"/>
+        <result column="store_close_time" property="store_close_time" jdbcType="TIME"/>
+        <result column="store_status" property="store_status" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <select id="getBranchStore" resultMap="branchStoreResult">
+        SELECT *
+        FROM branch_store;
+    </select>
+
+    <!--parameterType="com.Patrick.dao.BranchStore"-->
+    <insert id="addStore">
+        INSERT INTO branch_store
+        (store_name,store_tel,province,city,district,store_address,longitude,latitude,store_introduction,store_start_time,store_close_time,store_status)
+        VALUES
+        (#{storeName},#{storeTel},#{storeProvince},#{storeCity},#{storeDistrict},#{storeAddress},#{storeLongitude},#{storeLatitude},#{storeIntroduction},#{openTime},#{closeTime},#{storeStatus});
+        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+        <!--&lt;!&ndash;<if test="id!=null">&ndash;&gt;-->
+        <!--&lt;!&ndash;id,&ndash;&gt;-->
+        <!--&lt;!&ndash;</if>&ndash;&gt;-->
+        <!--<if test="store_name!=null">-->
+        <!--store_name,-->
+        <!--</if>-->
+        <!--<if test="store_tel!=null">-->
+        <!--store_tel,-->
+        <!--</if>-->
+        <!--<if test="province!=null">-->
+        <!--province,-->
+        <!--</if>-->
+        <!--<if test="city!=null">-->
+        <!--city,-->
+        <!--</if>-->
+        <!--<if test="district!=null">-->
+        <!--district,-->
+        <!--</if>-->
+        <!--<if test="store_address!=null">-->
+        <!--store_address,-->
+        <!--</if>-->
+        <!--<if test="longitude!=null">-->
+        <!--longitude,-->
+        <!--</if>-->
+        <!--<if test="latitude!=null">-->
+        <!--latitude,-->
+        <!--</if>-->
+        <!--<if test="store_introduction!=null">-->
+        <!--store_introduction,-->
+        <!--</if>-->
+        <!--<if test="store_start_time!=null">-->
+        <!--store_start_time,-->
+        <!--</if>-->
+        <!--<if test="store_close_time!=null">-->
+        <!--store_close_time,-->
+        <!--</if>-->
+        <!--<if test="store_status!=null">-->
+        <!--store_status,-->
+        <!--</if>-->
+        <!--</trim>-->
+        <!--<trim prefix="values(" suffix=")" suffixOverrides=",">-->
+        <!--<if test="id!=null">-->
+        <!--#{id}-->
+        <!--</if>-->
+        <!--<if test="id!=null">-->
+        <!--#{id},-->
+        <!--</if>-->
+        <!--<if test="store_name!=null">-->
+        <!--#{store_name},-->
+        <!--</if>-->
+        <!--<if test="store_tel!=null">-->
+        <!--#{store_tel},-->
+        <!--</if>-->
+        <!--<if test="province!=null">-->
+        <!--#{province},-->
+        <!--</if>-->
+        <!--<if test="city!=null">-->
+        <!--#{city},-->
+        <!--</if>-->
+        <!--<if test="district!=null">-->
+        <!--#{district},-->
+        <!--</if>-->
+        <!--<if test="store_address!=null">-->
+        <!--#{store_address},-->
+        <!--</if>-->
+        <!--<if test="longitude!=null">-->
+        <!--#{longitude},-->
+        <!--</if>-->
+        <!--<if test="latitude!=null">-->
+        <!--#{latitude},-->
+        <!--</if>-->
+        <!--<if test="store_introduction!=null">-->
+        <!--#{store_introduction},-->
+        <!--</if>-->
+        <!--<if test="store_start_time!=null">-->
+        <!--#{store_start_time},-->
+        <!--</if>-->
+        <!--<if test="store_close_time!=null">-->
+        <!--#{store_close_time},-->
+        <!--</if>-->
+        <!--<if test="store_status!=null">-->
+        <!--#{store_status},-->
+        <!--</if>-->
+        <!--</trim>-->
+    </insert>
+
+    <update id="updateStore" parameterType="com.Patrick.dao.BranchStore">
+        UPDATE branch_store SET
+        <if test="store_name!=null">
+            #{store_name},
+        </if>
+        <if test="store_tel!=null">
+            #{store_tel},
+        </if>
+        <if test="province!=null">
+            #{province},
+        </if>
+        <if test="city!=null">
+            #{city},
+        </if>
+        <if test="district!=null">
+            #{district},
+        </if>
+        <if test="store_address!=null">
+            #{store_address},
+        </if>
+        <if test="longitude!=null">
+            #{longitude},
+        </if>
+        <if test="latitude!=null">
+            #{latitude},
+        </if>
+        <if test="store_introduction!=null">
+            #{store_introduction},
+        </if>
+        <if test="store_start_time!=null">
+            #{store_start_time},
+        </if>
+        <if test="store_close_time!=null">
+            #{store_close_time},
+        </if>
+        <if test="store_status!=null">
+            #{store_status},
+        </if>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteStore" parameterType="java.util.List">
+        -- 批量动态删除
+        DELETE FROM branch_store
+        WHERE id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--处理特殊商品板块-->
+    <insert id="addPSRecord">
+        INSERT INTO special_products (sector_name, product_id) VALUES (#{sector_name}, #{product_id});
+    </insert>
+    <update id="updatePSRecord">
+        UPDATE special_products
+        SET sector_name = #{record_id}, product_id = #{product_id}
+        WHERE id = #{record_id};
+    </update>
+    <delete id="deletePSRecord">
+        DELETE FROM special_products
+        WHERE id = #{id};
+    </delete>
+    <select id="getProductsForSector" resultType="com.Patrick.dao.SpecialProduct">
+        SELECT *
+        FROM special_products;
+    </select>
+
+    <!--添加特殊板块-->
+    <insert id="addSector">
+        INSERT INTO special_sectors (sector_name) VALUES (#{sector_name});
+    </insert>
+    <delete id="deleteSector">
+        DELETE FROM special_products
+        WHERE sector_name = (SELECT special_sectors.sector_name
+                             FROM special_sectors
+                             WHERE special_sectors.id = #{id});
+        DELETE FROM special_sectors
+        WHERE sector_name = #{sector_name};
+    </delete>
+    <select id="getSectors" resultType="com.Patrick.dao.SpecialSector">
+        SELECT *
+        FROM special_sectors;
+    </select>
+    <update id="updateSector">
+        UPDATE special_products
+        SET special_products.sector_name = #{new_sector_name}
+        WHERE special_products.sector_name = (SELECT special_sectors.sector_name
+                                              FROM special_sectors
+                                              WHERE special_sectors.id = #{id});
+        UPDATE special_sectors
+        SET special_sectors.sector_name = #{new_sector_name}
+        WHERE special_sectors.id = #{id};
+    </update>
+
+    <!--获取商品信息-->
+    <select id="getProducts" resultType="com.Patrick.dao.Product">
+        SELECT *
+        FROM products;
+    </select>
+
+    <!--获取商品和类别信息的语句-->
+    <!--单独获取两级的映射关系-->
+    <select id="getcategoryMapper1" resultType="com.Patrick.dao.CategoryMapper1">
+        SELECT *
+        FROM categorymapper1_2;
+    </select>
+    <select id="getcategoryMapper2" resultType="com.Patrick.dao.CategoryMapper2">
+        SELECT *
+        FROM categorymapper2_3;
+    </select>
+    <!--获取单条由id得到的记录mapper23-->
+    <select id="getcategoryMapper2ById" resultType="com.Patrick.dao.CategoryMapper2">
+        select * from categorymapper2_3 where id=#{mapId};
+    </select>
+    <select id="getcategoryMapper2ByThirdCategory" resultType="com.Patrick.dao.CategoryMapper2">
+ select * from categorymapper2_3 where son_category=#{third_category};
+    </select>
+    <!--利用second-category获取mapper12-->
+    <select id="getcategoryMapper1Bysecond_category" resultType="com.Patrick.dao.CategoryMapper1">
+        select * from categorymapper1_2 where son_category=#{second_category};
+    </select>
+    <!--按照更新需求逐条更新-->
+    <update id="updateFirstCategory">
+        update categorymapper1_2 set father_category=#{new_first_category} where father_category=#{old_first_category};
+    </update>
+    <update id="updateSecondCategoryInMap12">
+        update categorymapper1_2 set son_category=#{new_second_category} where son_category=#{old_second_category};
+    </update>
+    <update id="updateSecondCategoryInMap23">
+        update categorymapper2_3 set father_category=#{new_second_category} where son_category=#{old_third_category};
+    </update>
+    <update id="updateThirdCategory">
+        update categorymapper2_3 set son_category=#{new_third_category} where son_category=#{old_third_category};
+    </update>
+    <insert id="addCategoryMap12">
+        INSERT INTO categorymapper1_2 (father_category, son_category) VALUES (#{first_category}, #{second_category});
+    </insert>
+    <insert id="addCategoryMap23">
+        INSERT INTO categorymapper2_3 (father_category, son_category) VALUES (#{second_category}, #{third_category});
+    </insert>
+    <select id="countSecondCategoryInMap23" resultType="int">
+        SELECT count(son_category) from categorymapper2_3 WHERE father_category=#{second_category};
+    </select>
+    <select id="countFirstCategoryInMap12" resultType="int">
+        SELECT count(son_category) from categorymapper1_2 WHERE father_category=#{first_category};
+    </select>
+    <delete id="deleteCategoryMap23">
+        DELETE FROM categorymapper2_3 WHERE  father_category=#{second_category} and son_category=#{third_category};
+    </delete>
+    <delete id="deleteCategoryMap12">
+        DELETE FROM categorymapper1_2 WHERE  father_category=#{first_category} and son_category=#{second_category};
+    </delete>
+
+    <!--<sql id="mapper12Column">-->
+    <!--categorymapper1_2.id;-->
+    <!--categorymapper1_2.father_category;-->
+    <!--categorymapper1_2.son_category;-->
+    <!--</sql>-->
+    <!--<sql id="mapper23Column">-->
+    <!--categorymapper2_3.id;-->
+    <!--catgory_mapper2_3.father_category;-->
+    <!--category_mapper2_3.son_category;-->
+    <!--</sql>-->
+    <!--<sql id="categoriesMapper">-->
+    <!--category.map12id;-->
+    <!--category.map23id;-->
+    <!--category.first_category;-->
+    <!--category.second_category;-->
+    <!--category.third_category;-->
+    <!--</sql>-->
+    <!--<resultMap id="CategoriesMapperResult" type="com.Patrick.dao.CategoriesMapper">-->
+    <!--<id column="map23id" property="second_id" jdbcType="INTEGER"/>-->
+    <!--<result column="map12id" property="first_id" jdbcType="INTEGER"/>-->
+    <!--<result column="first_category" property="firstCategory" jdbcType="VARCHAR"/>-->
+    <!--<result column="second_category" property="secondCategory" jdbcType="VARCHAR"/>-->
+    <!--<association property="categoryMapper1" javaType="com.Patrick.dao.CategoryMapper1">-->
+    <!--<id column="id" property="id" javaType="INTEGER"/>-->
+    <!--<result column="father_category" property="first_category" jdbcType="VARCHAR"/>-->
+    <!--<result column="son_category" property="second_category" jdbcType="VARCHAR"/>-->
+    <!--</association>-->
+    <!--<association property="categoryMapper2" javaType="com.Patrick.dao.CategoryMapper2">-->
+    <!--<id column="id" property="id" javaType="INTEGER"/>-->
+    <!--<result column="father_category" property="first_category" jdbcType="VARCHAR"/>-->
+    <!--<result column="son_category" property="second_category" jdbcType="VARCHAR"/>-->
+    <!--</association>-->
+    <!--</resultMap>-->
+    <!--<select id="getCategoriesMappers" resultMap="CategoriesMapperResult">-->
+    <!--SELECT <include refid="categoriesMapper"/>,-->
+    <!--<include refid="mapper12Column"/>,-->
+    <!--<include refid="mapper23Column"/> from categorymapper1_2,categorymapper2_3 left join on categorymapper1_2.son_category=categorymapper2_3.father_category;-->
+
+    <!--</select>-->
+
+    <!--处理商品-->
+    <insert id="addProduct">
+        insert into products(id,product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit) values (#{id},#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{uint});
+    </insert>
+
+    <!--/////////////////////////Xenia////////////////////////////////////////////-->
+
     <!-- 下面的SQL语句实现数据库信息向Staff类的传输（即数据库——>DAO层） -->
     <resultMap id="StaffMap" type="com.Patrick.dao.Staff">
         <!-- 下面"result"标签中，"column"与数据库表中的列名对应，"property"与DAO层定义的类中的属性对应（在这里指"Staff.java"），一般取同名 -->

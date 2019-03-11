@@ -11,14 +11,14 @@ import java.sql.Time;
  * @program: testv11
  */
 public class Product {
-    private int product_id; //PK
+    private int id; //PK
 
-    public int getProduct_id() {
-        return product_id;
+    public int getId() {
+        return id;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getProduct_name() {
