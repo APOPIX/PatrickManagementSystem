@@ -339,12 +339,12 @@
         methods: {
             jumpToStaffDetails(currentRow, oldCurrentRow) {
                 //跳转到管理人员详细信息管理页面
-                self.location.href = "staff_details.html?role=${role}&staff_id=" + currentRow.staff_id + "&current_login_staff_id=${current_login_staff_id}";
+                self.location.href = "staff_details.html?staff_id=" + currentRow.staff_id ;
             },
             search(key) {
                 //点击搜索
                 // console.log(key);
-                self.location.href = "staff_list.html?role=${role}&key=" + key + "&current_login_staff_id=${current_login_staff_id}";
+                self.location.href = "staff_list.html?&key=" + key;
             }
         },
         events: {}

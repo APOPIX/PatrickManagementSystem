@@ -413,7 +413,7 @@
             search(key) {
                 //点击搜索
                 // console.log(key);
-                self.location.href = "user_list.html?role=${role}&key=" + key + "&current_login_staff_id=${current_login_staff_id}";
+                self.location.href = "user_list.html?key=" + key ;
             }
         },
         events: {}

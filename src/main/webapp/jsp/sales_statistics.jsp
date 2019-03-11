@@ -351,7 +351,7 @@
                 <%--self.location.href = "staff_details.html?role=${role}&staff_id=" + currentRow.staff_id;--%>
             },
             submitDateRange(dateRange){
-                self.location.href ="sales_statistics_range.html?role=${role}&current_login_staff_id=${current_login_staff_id}&begin_date="+dateRange[0]+"&end_date="+dateRange[1];
+                self.location.href ="sales_statistics_range.html?begin_date="+dateRange[0]+"&end_date="+dateRange[1];
                 // console.log(params);
             }
         },

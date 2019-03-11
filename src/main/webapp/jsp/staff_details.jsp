@@ -299,17 +299,12 @@
                                     <label for="optionsRadios3">超级管理员</label>
                                 </div>
                             </div>
-                            <%--把当前登陆账户的权限传输到后端--%>
-                            <input type="hidden" id="role" name="role" value= ${role}>
-                            <%--把当前登陆账户的id传输到后端--%>
-                            <input type="hidden" id="current_login_staff_id" name="current_login_staff_id"
-                                   value= ${current_login_staff_id}>
                             <%--把被更改账户的id传输到后端--%>
                             <input type="hidden" id="staff_id_update" name="staff_id_update"
                                    value= ${staffInfo.staff_id}>
                         </div>
                         <div class="row" align="right" style="margin-right: 20px">
-                            <button type="button" style="margin-right: 10px" onclick="window.location.href='staff_delete.action?role=${role}&current_login_staff_id=${current_login_staff_id}&staff_id=${staffInfo.staff_id}'" class="btn btn-danger btn-lg margin-bottom-20">删除</button>
+                            <button type="button" style="margin-right: 10px" onclick="window.location.href='staff_delete.action?staff_id=${staffInfo.staff_id}'" class="btn btn-danger btn-lg margin-bottom-20">删除</button>
                             <button type="submit" class="btn btn-primary btn-lg margin-bottom-20">更改</button>
                         </div>
                     </form>

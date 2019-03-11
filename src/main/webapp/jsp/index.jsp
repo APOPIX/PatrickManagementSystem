@@ -41,7 +41,7 @@
     <script>
         var data = [];
         var tag = [];
-        //处理后端传来的BrowseStatisticsList
+        //处理后端传来的rankingList
         <c:forEach items="${rankingList}" var="rank">
         data.push(${rank.turnover});
         tag.push("${rank.product_name}");

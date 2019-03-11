@@ -454,7 +454,7 @@
                                         on: {
                                             click: () => {
                                                 //转到发货的controller
-                                                window.location.href = "deliver.action?id=" + params.row.id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
+                                                window.location.href = "deliver.action?id=" + params.row.id ;
                                             }
                                         }
                                     }, '发货'),
@@ -466,7 +466,7 @@
                                         on: {
                                             click: () => {
                                                 //转到异常处理的controller
-                                                window.location.href = "order_manage.html?current_login_staff_id=" + "${current_login_staff_id}"+"&role="+${role} + "&id=" + params.row.id.toString();
+                                                window.location.href = "order_manage.html?&id=" + params.row.id.toString();
                                             }
                                         }
                                     }, '管理')
@@ -481,7 +481,7 @@
                                         on: {
                                             click: () => {
                                                 //转到异常处理的controller
-                                                window.location.href = "order_manage.html?current_login_staff_id=" + "${current_login_staff_id}"+"&role="+${role} + "&id=" + params.row.id.toString();
+                                                window.location.href = "order_manage.html?id=" + params.row.id.toString();
                                             }
                                         }
                                     }, '管理')

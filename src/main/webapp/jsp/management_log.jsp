@@ -348,7 +348,7 @@
         methods: {
             search(key) {
                 //点击搜索
-                self.location.href = "management_log.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=" + key;
+                self.location.href = "management_log.html?&key=" + key;
             }
         },
         events: {}

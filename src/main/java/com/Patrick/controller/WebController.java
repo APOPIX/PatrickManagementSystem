@@ -166,7 +166,7 @@ public class WebController {
         //做数据库更新操作
         webService.updateStaffInfo(staff_id_update, staff_name_update, staff_password_update, role_update);
         //从数据库查询更新后的信息
-        modelAndView.addObject("staffInfo", webService.selectStaffById(staff_id_update));
+        modelAndView.addObject("staffInfo", webService.selectStaffById(staff_id_update).get(0));
 
         System.out.println(webService.selectStaffById(staff_id_update).toString());
         //插入操作记录

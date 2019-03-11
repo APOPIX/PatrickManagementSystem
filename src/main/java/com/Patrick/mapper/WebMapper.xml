@@ -53,7 +53,7 @@
     </select>
     <!--下面的SQL语句实现按照id来更新staff表中staff信息-->
     <select id="updateStaffInfo" resultMap="StaffMap">
-    UPDATE staff SET `role` = ${staff_role}, `staff_name` = "${staff_role}", `staff_password` ="${staff_password}"  WHERE (`id` = ${staff_id});
+    UPDATE staff SET `role` = ${staff_role}, `staff_name` = "${staff_name}", `staff_password` ="${staff_password}"  WHERE (`id` = ${staff_id});
     </select>
     <!--下面的SQL语句实现按照id来删除staff表中元组-->
     <select id="deleteStaffById">
