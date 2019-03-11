@@ -377,29 +377,29 @@
                                 </a>
                             </li>
                             <%--一级菜单栏--%>
-                            <c:if test="${role == 0 || role == 2}">
+                            <c:if test="${sessionScope.get('role') == 0 || sessionScope.get('role') == 2}">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-pencil"></i> 商品管理 <b class="fa fa-plus dropdown-plus"></b>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="branchStoresTables?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="branchStoresTables">
                                                 <i class="fa fa-caret-right"></i> 门店表格
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="categoryAndGoods?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="categoryAndGoods">
                                                 <i class="fa fa-caret-right"></i> 商品信息处理
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="SpecialSector?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="SpecialSector">
                                                 <i class="fa fa-caret-right"></i> 特殊板块注册
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="goodsRegistToStore?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="goodsRegistToStore">
                                                 <i class="fa fa-caret-right"></i> 门店商品管理
                                             </a>
                                         </li>
@@ -407,7 +407,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${role == 1 || role == 2}">
+                            <c:if test="${sessionScope.get('role') == 1 || sessionScope.get('role') == 2}">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-pencil"></i> 订单管理 <b class="fa fa-plus dropdown-plus"></b>
@@ -415,17 +415,17 @@
                                     <ul class="dropdown-menu">
 
                                         <li>
-                                            <a href="order_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                            <a href="order_list.html?key=0">
                                                 <i class="fa fa-caret-right"></i> 订单列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="browse_statistics_full.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="browse_statistics_full.html">
                                                 <i class="fa fa-caret-right"></i> 热度统计
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="sales_statistics_full.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="sales_statistics_full.html">
                                                 <i class="fa fa-caret-right"></i> 销量统计
                                             </a>
                                         </li>
@@ -433,29 +433,29 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${role == 2}">
+                            <c:if test="${sessionScope.get('role') == 2}">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-pencil"></i> 人员管理 <b class="fa fa-plus dropdown-plus"></b>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="staff_register.html?role=${role}&current_login_staff_id=${current_login_staff_id}">
+                                            <a href="staff_register.html">
                                                 <i class="fa fa-caret-right"></i> 添加管理人员
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="staff_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                            <a href="staff_list.html?key=0">
                                                 <i class="fa fa-caret-right"></i>  管理人员列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="user_list.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                            <a href="user_list.html?key=0">
                                                 <i class="fa fa-caret-right"></i> 商城用户列表
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="management_log.html?role=${role}&current_login_staff_id=${current_login_staff_id}&key=0">
+                                            <a href="management_log.html?key=0">
                                                 <i class="fa fa-caret-right"></i> 历史操作记录
                                             </a>
                                         </li>

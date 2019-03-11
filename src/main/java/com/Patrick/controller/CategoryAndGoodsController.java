@@ -1,6 +1,7 @@
 package com.Patrick.controller;
 
 import com.Patrick.service.CategoryAndGoodsService;
+import com.Patrick.service.WebService;
 import com.Patrick.utils.Upload;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -24,67 +25,81 @@ import java.io.*;
 public class CategoryAndGoodsController {
     @Autowired
     CategoryAndGoodsService categoryAndGoodsService;
-//#不知道文件上传是不是写在这里
+    @Autowired//此注解使得接口"WebService"得以实例化
+            WebService webService;
+    //#不知道文件上传是不是写在这里
 //            uploadHost=PatrickManagementSystem_war_exploded/
 //    imgPath=
 //    @Value(value = "${imgPath}")
-    private String imgPath="http://localhost:8080/";
-//    @Value(value = "${uploadHost}")
-    private String uploadHost="upload/";
+    private String imgPath = "http://localhost:8080/";
+    //    @Value(value = "${uploadHost}")
+    private String uploadHost = "upload/";
 
     Upload uploader;
+
     @RequestMapping("addNewCategory.do")
-    public String addNewCategory(@RequestBody JSONObject data){
-        String first_category=data.getString("firstCategory");
-        String second_category=data.getString("secondCategory");
-        String third_category=data.getString("thirdCategory");
-        System.out.println("我进入类别控制器添加类别函数，然后获取类别信息："+first_category+" "+second_category+" "+third_category);
-        int add_num=categoryAndGoodsService.addNewCategory(first_category,second_category,third_category);
+    public String addNewCategory(@RequestBody JSONObject data, HttpServletRequest request) {
+        String first_category = data.getString("firstCategory");
+        String second_category = data.getString("secondCategory");
+        String third_category = data.getString("thirdCategory");
+        System.out.println("我进入类别控制器添加类别函数，然后获取类别信息：" + first_category + " " + second_category + " " + third_category);
+        int add_num = categoryAndGoodsService.addNewCategory(first_category, second_category, third_category);
+        //插入操作记录
+        String log = "获取类别信息：" + first_category + " " + second_category + " " + third_category;
+        webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
         return JSON.toJSONString(add_num);
     }
+
     @RequestMapping("updateCategory.do")
-    public String updateCategory(@RequestBody JSONObject data)
-    {
-        String first_category=data.getString("firstCategory");
-        String second_category=data.getString("secondCategory");
-        String third_category=data.getString("thirdCategory");
-        int map23Id=data.getIntValue("id");
-        System.out.println("my id："+map23Id);
+    public String updateCategory(@RequestBody JSONObject data, HttpServletRequest request) {
+        String first_category = data.getString("firstCategory");
+        String second_category = data.getString("secondCategory");
+        String third_category = data.getString("thirdCategory");
+        int map23Id = data.getIntValue("id");
+        System.out.println("my id：" + map23Id);
 //        System.out.println("我进入类别控制器更新类别函数，然后获取类别信息："+first_category+" "+second_category+" "+third_category);
-        String handleResult=categoryAndGoodsService.updateCategory(map23Id,first_category,second_category,third_category);
-        return handleResult;
+        //插入操作记录
+        String log = "更新类别信息：" + first_category + " " + second_category + " " + third_category;
+        webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
+        return categoryAndGoodsService.updateCategory(map23Id, first_category, second_category, third_category);
     }
+
     @RequestMapping("deleteCategory.do")
-    public String deleteCategory(@RequestBody JSONObject data){
-        String first_category=data.getString("firstCategory");
-        String second_category=data.getString("secondCategory");
-        String third_category=data.getString("thirdCategory");
-        System.out.println("我进入类别控制器删除类别函数，然后获取类别信息："+first_category+" "+second_category+" "+third_category);
-        String handleResult=categoryAndGoodsService.deleteCategory(first_category,second_category,third_category);
-        return handleResult;
+    public String deleteCategory(@RequestBody JSONObject data, HttpServletRequest request) {
+        String first_category = data.getString("firstCategory");
+        String second_category = data.getString("secondCategory");
+        String third_category = data.getString("thirdCategory");
+        System.out.println("我进入类别控制器删除类别函数，然后获取类别信息：" + first_category + " " + second_category + " " + third_category);
+        //插入操作记录
+        String log = "删除类别信息：" + first_category + " " + second_category + " " + third_category;
+        webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
+        return categoryAndGoodsService.deleteCategory(first_category, second_category, third_category);
     }
-    @RequestMapping(value="addProduct.do")
+
+    @RequestMapping(value = "addProduct.do")
     @ResponseBody
     public String addProduct(HttpServletRequest request, @RequestParam("files") MultipartFile file) throws IOException {
         System.out.println("我进入了添加商品的控制类");
         String third_category = request.getParameter("third_category");
-        System.out.println("I got the third category:"+third_category);
+        System.out.println("I got the third category:" + third_category);
         File toFile = null;
 //        for(MultipartFile file : files){
-            if (file.equals("") || file.getSize() <= 0) {
-                file = null;
-            } else {
-                InputStream ins = null;
-                ins = file.getInputStream();
-                toFile = new File("F:\\"+file.getOriginalFilename());
-                inputStreamToFile(ins, toFile);
-                ins.close();
-            }
+        if (file.equals("") || file.getSize() <= 0) {
+            file = null;
+        } else {
+            InputStream ins = null;
+            ins = file.getInputStream();
+            toFile = new File("F:\\" + file.getOriginalFilename());
+            inputStreamToFile(ins, toFile);
+            ins.close();
+        }
 //        }
 
 
 //        System.out.println(userName);
-
+        //插入操作记录
+        String log = "添加商品";
+        webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
         return "file";
     }
 
@@ -102,7 +117,7 @@ public class CategoryAndGoodsController {
             e.printStackTrace();
         }
     }
-    }
+}
 //    @RequestMapping(value="addProduct.do")
 //    @ResponseBody
 //    public String addProduct(HttpServletRequest request, @RequestParam("files") MultipartFile[] files){
