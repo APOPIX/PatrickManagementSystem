@@ -96,17 +96,17 @@ public class CategoryAndGoodsController {
         String product_unit = request.getParameter("unit");
         String product_third_category = request.getParameter("third_category");
         String product_current_time = request.getParameter("current_time");
-        String product_current_date=request.getParameter("current_date");
-        System.out.println("获取的时间："+product_current_time);
-        int hr=0;
-        int hrIndex=product_current_time.indexOf(':');
-        if(product_current_time.contains("下")){
-            hr=Integer.parseInt(product_current_time.substring(product_current_time.indexOf('午')+1,hrIndex));
-            product_current_time=(hr+12)+product_current_time.substring(hrIndex);
-        }else{
-            product_current_time=product_current_time.substring(product_current_time.indexOf('午')+1);
+        String product_current_date = request.getParameter("current_date");
+        System.out.println("获取的时间：" + product_current_time);
+        int hr = 0;
+        int hrIndex = product_current_time.indexOf(':');
+        if (product_current_time.contains("下")) {
+            hr = Integer.parseInt(product_current_time.substring(product_current_time.indexOf('午') + 1, hrIndex));
+            product_current_time = (hr + 12) + product_current_time.substring(hrIndex);
+        } else {
+            product_current_time = product_current_time.substring(product_current_time.indexOf('午') + 1);
         }
-        String processed_current_time=product_current_date+" "+product_current_time;
+        String processed_current_time = product_current_date + " " + product_current_time;
         CategoryMapper2 categorymap23 = categoryAndGoodsService.getcategoryMapper2ByThirdCategory(product_third_category);
         CategoryMapper1 categorymap12 = categoryAndGoodsService.getcategoryMapper1Bysecond_category(categorymap23.getFather_category());
 
@@ -130,11 +130,23 @@ public class CategoryAndGoodsController {
                 InputStream ins = null;
                 ins = files[i].getInputStream();
                 String ext = StringUtils.substring(files[i].getOriginalFilename(), files[i].getOriginalFilename().lastIndexOf("."));
-                String filepath = UUID.randomUUID().toString() + ext;
-                String loadPath = "C:\\\\PatrickAdminUploadFolder\\" + filepath;
+                String filepath = "uploadFile/" + UUID.randomUUID().toString() + ext;
+//                D:\IDEA\apache-tomcat-9.0.4-windows-x64\apache-tomcat-9.0.4\bin\cb3d9d6d-78f4-4b97-9304-ffbf135b45e6.jpg
+//                String loadPath = "C:/PatrickAdminUploadFolder/" + filepath;
+                String projectPath = request.getSession().getServletContext().getRealPath("/");
+                System.out.println("*****************"+projectPath);
+                String loadPath = projectPath+(filepath.replace('/','\\'));
+                System.out.println(loadPath);
+//                String loadPath =  filepath;
                 toFile = new File(loadPath);
+//
                 if(!toFile.getParentFile().exists()){
                     toFile.getParentFile().mkdirs();
+                }
+                try {
+                    toFile.createNewFile();//如果目录下没有myfile.txt这个文件则新建一个。
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 inputStreamToFile(ins, toFile);
                 ins.close();
@@ -143,16 +155,18 @@ public class CategoryAndGoodsController {
 //                loadPath=loadPath.replaceAll("/","\\\\");
                 realPathList.add(loadPath);
             }
-            jo.put("success", 1);
-            jo.put("error", null);
-            jo.put("fileNameList", fileNameList);
-            jo.put("relaPathList", relaPathList);
-            jo.put("realPathList", realPathList);
-            urls.addAll(realPathList);
         }
+        jo.put("success", 1);
+        jo.put("error", null);
+        jo.put("fileNameList", fileNameList);
+        jo.put("relaPathList", relaPathList);
+        jo.put("realPathList", realPathList);
+        urls.addAll(relaPathList);
+        System.out.println(realPathList.size());
+        System.out.println(urls.size());
         if (urls.size() < 4) {
-            for (int i = 3; i >=urls.size(); i--) {
-                urls.add(i, "");
+            for (int i = 3; i >= realPathList.size(); i--) {
+                urls.add("");
 //                urls.add("");
             }
             //如果不满足的话，用空字符串代替，否则插入的时候仅仅用前4张的url字符串
@@ -179,6 +193,18 @@ public class CategoryAndGoodsController {
         }
 
     }
+
+    @RequestMapping("/deleteProduct.do")
+    public String deleteSector(@RequestBody JSONObject data, HttpServletRequest request) {
+        String product_id = data.getString("product_id");
+        System.out.println("保存：我其实有获取数据的：" + product_id);
+        int delete_num = categoryAndGoodsService.deleteProduct(Integer.parseInt(product_id));
+        //插入操作记录
+        String log = "删除特殊板块,商品编号：" + product_id;
+        webService.managementLog((Integer) request.getSession().getAttribute("current_login_staff_id"), log);
+        return JSON.toJSONString(delete_num);
+    }
+
 
 }
 

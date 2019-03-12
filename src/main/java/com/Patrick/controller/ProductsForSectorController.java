@@ -123,9 +123,9 @@ public class ProductsForSectorController {
 
     @RequestMapping("/updateSector.do")
     public String updateSector(@RequestBody JSONObject data,HttpServletRequest request) {
-        int id = data.getIntValue("id");
+        int id = data.getIntValue("record_id");
         String sector_name = data.getString("sector_name");
-        System.out.println("保存：我其实有获取数据的：" + sector_name);
+        System.out.println("保存：我其实有获取数据的：" + id);
         int update_num = productForSectorService.updateSector(id, sector_name);
         //插入操作记录
         String log = "更新特殊板块,板块名：" + sector_name;

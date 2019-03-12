@@ -382,7 +382,7 @@
                                         },
                                         on: {
                                             click: () => {
-                                                window.location.href = "ban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
+                                                window.location.href = "ban_user.action?user_id=" + params.row.user_id;
                                             }
                                         }
                                     }, '禁用')
@@ -396,7 +396,7 @@
                                         },
                                         on: {
                                             click: () => {
-                                                window.location.href = "unban_user.action?user_id=" + params.row.user_id + "&current_login_staff_id=" + "${current_login_staff_id}" + "&role=" + "${role}";
+                                                window.location.href = "unban_user.action?user_id=" + params.row.user_id;
                                             }
                                         }
                                     }, '启用')

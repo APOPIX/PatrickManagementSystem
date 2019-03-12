@@ -345,11 +345,13 @@
     <insert id="addSector">
         INSERT INTO special_sectors (sector_name) VALUES (#{sector_name});
     </insert>
-    <delete id="deleteSector">
+    <delete id="deleteSector1">
         DELETE FROM special_products
         WHERE sector_name = (SELECT special_sectors.sector_name
                              FROM special_sectors
                              WHERE special_sectors.id = #{id});
+                             </delete>
+    <delete id="deleteSector2">
         DELETE FROM special_sectors
         WHERE sector_name = #{sector_name};
     </delete>
@@ -357,15 +359,11 @@
         SELECT *
         FROM special_sectors;
     </select>
-    <update id="updateSector">
-        UPDATE special_products
-        SET special_products.sector_name = #{new_sector_name}
-        WHERE special_products.sector_name = (SELECT special_sectors.sector_name
-                                              FROM special_sectors
-                                              WHERE special_sectors.id = #{id});
-        UPDATE special_sectors
-        SET special_sectors.sector_name = #{new_sector_name}
-        WHERE special_sectors.id = #{id};
+    <update id="updateSector1">
+        UPDATE special_products SET special_products.sector_name = #{new_sector_name} WHERE special_products.sector_name in (SELECT special_sectors.sector_name FROM special_sectors WHERE special_sectors.id = #{id});
+       </update>
+    <update id="updateSector2">
+        UPDATE special_sectors SET special_sectors.sector_name = #{new_sector_name} WHERE special_sectors.id = #{id};
     </update>
 
     <!--获取商品信息-->
@@ -469,8 +467,12 @@
 
     <!--处理商品-->
     <insert id="addProduct">
-        insert into products(id,product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit) values (#{id},#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{unit});
+        insert into products(id,product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit)
+         values (#{id},#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{unit});
     </insert>
+    <delete id="deleteProduct">
+        delete from products where id=#{product_id};
+    </delete>
     <select id="getProductById" resultType="int">
         SELECT count(*) FROM products where id=#{id};
     </select>

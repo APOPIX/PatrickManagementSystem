@@ -180,9 +180,12 @@ public interface WebMapper {
      *Date:2019/3/6
      */
     int addSector(@Param("sector_name")String sector_name);
-    int deleteSector(@Param("sector_name")String sector_name);
+    int deleteSector1(@Param("sector_name")String sector_name);
+    int deleteSector2(@Param("sector_name")String sector_name);
+
     List<SpecialSector> getSectors();
-    int updateSector(@Param("id")int id,@Param("new_sector_name")String new_sector_name);
+    int updateSector1(@Param("id")int id,@Param("new_sector_name")String new_sector_name);
+    int updateSector2(@Param("id")int id,@Param("new_sector_name")String new_sector_name);
 
     /**
      *@Description: 获取商品的信息
@@ -237,11 +240,13 @@ public interface WebMapper {
      *Author:廖馨婷
      *Date:2019/3/10
      */
-    int addProduct(@Param("id")int id,@Param("product_name")String product_name,@Param("first_category")String first_category,
+    int addProduct(@Param("id")int id,@Param("product_name")String product_name,@Param("product_short_introduction")String product_short_introduction,
+                   @Param("product_detail")String product_detail,@Param("first_category")String first_category,
                    @Param("second_category")String second_category,@Param("third_category")String third_category,
-                   @Param("product_short_introduction")String product_short_introduction,@Param("product_detail")String product_detail,
+
                    @Param("url0")String url0,@Param("url1")String url1,@Param("url2")String url2,@Param("url3")String url3,
                    @Param("current_time")String current_time,@Param("update_time")String update_time,@Param("unit")String unit);
+    int deleteProduct(@Param("product_id")int product_id);
 
     /**
      *@Description: 通过iD 查找商品

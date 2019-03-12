@@ -44,11 +44,12 @@ public class ProductForSectorServiceImpl implements ProductForSectorService {
     }
     @Override
     public int deleteSector(String sector_name){
-        return webMapper.deleteSector(sector_name);
+        return webMapper.deleteSector1(sector_name)+ webMapper.deleteSector2(sector_name);
     }
     @Override
     public int updateSector(int id,String sector_name){
-        return webMapper.updateSector(id,sector_name);
+        return webMapper.updateSector1(id,sector_name)+webMapper.updateSector2(id,sector_name);
+
     }
 
 }

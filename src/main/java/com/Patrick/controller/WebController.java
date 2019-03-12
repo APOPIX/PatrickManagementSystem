@@ -510,12 +510,12 @@ public class WebController {
     public ModelAndView getSpecialSector(HttpServletRequest request) {
         System.out.println("我进了特殊板块的controller");
         ModelAndView mv = new ModelAndView();
-//        List<SpecialProduct> specialProducts=webService.getProductsForSector();
-//        mv.addObject("special_products_list",specialProducts);
-//        List<SpecialSector> specialSectors=webService.getSectors();
-//        mv.addObject("special_sectors_list",specialSectors);
-//        List<Product> products=webService.getProducts();
-//        mv.addObject("products_list",products);
+        List<SpecialProduct> specialProducts=webService.getProductsForSector();
+        mv.addObject("special_products_list",specialProducts);
+        List<SpecialSector> specialSectors=webService.getSectors();
+        mv.addObject("special_sectors_list",specialSectors);
+        List<Product> products=webService.getProducts();
+        mv.addObject("products_list",products);
         mv.setViewName("jsp/SpecialSector.jsp");
         System.out.println("我获取了所有的商店和特殊板块信息");
         //插入操作记录

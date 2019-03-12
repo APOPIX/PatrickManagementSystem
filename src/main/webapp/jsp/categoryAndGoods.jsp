@@ -535,7 +535,7 @@
 
                 <!-- tile header -->
                 <div class="tile-header">
-                    <h1><strong>注册</strong>商品</h1>
+                    <h1><strong>登记</strong>商品</h1>
                     <div class="controls">
                         <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
                         <a href="#" class="remove"><i class="fa fa-times"></i></a>
@@ -547,7 +547,7 @@
                 <div class="tile-body">
 
                     <form class="form-horizontal">
-                        <%--<div style="margin-right: 200px">--%>
+                        <div style="margin-right: 200px">
                             <div class="form-group">
                                 <label for="good_id" class="col-sm-4 control-label">商品编号</label>
                                 <div class="col-sm-8">
@@ -692,7 +692,7 @@
                                 <button type="reset" class="btn btn-default">重置</button>
                             </div>
                         </div>
-
+                        </div>
                     </form>
 
                 </div>
@@ -704,16 +704,35 @@
             <br>
             <br>
             <%--显示商品的表格--%>
+            <section class="tile color transparent-black">
 
-            <div id="goods_table">
+
+                <!-- tile header -->
+                <div class="tile-header">
+                    <h1><strong>商品</strong>信息表</h1>
+                    <div class="controls">
+                        <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
+                        <a href="#" class="remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            <div id="goods_table" style="margin-left: 20px;margin-right: 20px">
                 <template>
-                    <i-table :columns="columns" :data="products_data" size="small" ref="table"></i-table>
+                    <i-table :columns="columns" :data="products_data" size="small" ref="table">
+                        <%--<template slot-scope="{ row, index }" slot="action">--%>
+                            <%--<Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>--%>
+                            <%--<Button type="error" size="small" @click="remove(index)">Delete</Button>--%>
+                        <%--</template>--%>
+                    </i-table>
                     <br>
+                    <%--<Button  @click="add">添加</Button>--%>
                     <Button type="primary" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
                     <Button type="primary" size="large" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export sorting and filtered data</Button>
                     <Button type="primary" size="large" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
+                    <br>
+                    <br>
                 </template>
             </div>
+            </section>
             <%--/显示商品的表格--%>
 
         </div>
@@ -774,188 +793,6 @@
 <script type="text/javascript" src="../assets/js/datepicker/clockface.js"></script>
 <script type="text/javascript" src="../assets/js/datepicker/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="../assets/js/tag/jquery.tagsinput.js"></script>
-<%--为了实现可编辑框添加的js代码--%>
-<script>
-
-    // 目前表格缺少的是向后端传数据和检查是否是合理的级联关系，第一级的响应问题仍然存在
-    var app = new Vue({
-        el: '#table',
-        data: {
-            addDetail: {},
-            editlist: false,
-            editDetail: {},
-            newsList: myCategoryLists,
-            editid: ''
-        },
-        mounted() {
-
-        },
-        methods: {
-
-            //新增
-            addCategory() {
-                //这里的思路应该是把this.addDetail传给服务端，然后加载列表this.newsList
-                //this.newsList.push(this.addDetail)
-                newCategory = {
-                    firstCategory: this.addDetail.firstCategory,
-                    secondCategory: this.addDetail.secondCategory,
-                    thirdCategory: this.addDetail.thirdCategory,
-                    id: Math.floor(Math.random() * 1000000 + 1)
-                };
-                console.log(newCategory.firstCategory);
-                this.newsList.push(newCategory);
-                $.ajax({
-                    type: "POST",
-                    url: '/categoryAndGoods/addNewCategory.do',
-                    data: JSON.stringify(newCategory),
-                    contentType: "application/json;charset=UTF-8",
-                    dataType: "json",
-                    success: function (res) {
-                        console.log(res);
-                        this.addDetail.firstCategory = "";
-                        this.addDetail.secondCategory = "";
-                        this.addDetail.thirdCategory = "";
-                    },
-                    error: function (res) {
-                        console.log("添加目录的映射出错了！");
-                    }
-
-                })
-            },
-            //删除
-            deletelist(item, i) {
-                // mydata=this.newsList[i];
-                //其实只需要一个参数，i得到list的位置或者item就是该行的内容
-                $.ajax({
-                    type: "POST",
-                    url: '/categoryAndGoods/deleteCategory.do',
-                    data: JSON.stringify(item),
-                    contentType: "application/json;charset=UTF-8",
-                    dataType: "json",
-                    success: function (res) {
-                        console.log(res);
-                    },
-                    error: function (res) {
-                        console.log("删除目录的映射出错了！");
-                    }
-
-                });
-                this.newsList.splice(i, 1);
-                // 这边可以传id给服务端进行删除  ID = id
-                // axios.get('url',{ID:id}).then((res) =>{
-                // 			加载列表
-                // })
-            },
-            //编辑
-            edit(item) {
-                console.log(item)
-                this.editDetail = {
-                    firstCategory: item.firstCategory,
-                    secondCategory: item.secondCategory,
-                    thirdCategory: item.thirdCategory,
-                    id: item.id,
-                }
-                this.editlist = true
-                this.editid = item.id
-
-            },
-            //确认更新
-            update() {
-                //编辑的话，也是传id去服务端
-                //axios.get('url',{ID:id}).then((res) =>{
-                //			加载列表
-                //})
-                var mydata;
-                let _this = this
-                for (let i = 0; i < _this.newsList.length; i++) {
-                    if (_this.newsList[i].id == this.editid) {
-                        _this.newsList[i] = {
-                            firstCategory: _this.editDetail.firstCategory,
-                            secondCategory: _this.editDetail.secondCategory,
-                            thirdCategory: _this.editDetail.thirdCategory,
-                            id: this.editid
-                        }
-                        mydata = _this.newsList[i];
-                        this.editlist = false
-                    }
-                }
-                $.ajax({
-                    type: "POST",
-                    url: '/PatrickManagementSystem_war_exploded/categoryAndGoods/updateCategory.do',
-                    data: JSON.stringify(mydata),
-                    contentType: "application/json;charset=UTF-8",
-                    dataType: "json",
-                    success: function (res) {
-                        console.log(res);
-                    },
-                    error: function (res) {
-                        console.log("更新目录的映射出错了！" + res);
-                    }
-                })
-            }
-        }
-    })
-
-</script>
-<script>
-    $(document).ready(function () {
-
-        //check all checkboxes
-        $('table thead input[type="checkbox"]').change(function () {
-            $(this).parents('table').find('tbody input[type="checkbox"]').prop('checked', $(this).prop('checked'));
-        });
-
-        // sortable table
-        $('.table.table-sortable th.sortable').click(function () {
-            var o = $(this).hasClass('sort-asc') ? 'sort-desc' : 'sort-asc';
-            $(this).parents('table').find('th.sortable').removeClass('sort-asc').removeClass('sort-desc');
-            $(this).addClass(o);
-        });
-
-
-        //chosen select input
-        $(".chosen-select").chosen({disable_search_threshold: 10});
-
-
-        $(".deleteStore").on('click', function () {
-            var options = document.getElementsByName("chooseStore");
-            check_vals = [];
-            for (var k = 0; k < options.length; k++) {
-                if (options[k].checked) {
-                    check_vals.push(options[k].value);
-                }
-            }
-            if (check_vals.length == 0) {
-                alert("您未选择任何要删除的商品信息！")
-            } else {
-                console.log(JSON.stringify(check_vals));
-            }
-            $.ajax({
-                url: "categoryAndGoods/deleteGoods.do",
-                type: "post",
-                data: {idsList: JSON.stringify(check_vals)},
-                dataType: "json",
-                success: function (result) {
-                    if (result) {
-                        console.log("success");
-                    } else {
-                        console.log("没有数据");
-                    }
-                }
-            })
-
-        })
-
-
-        //check toggling
-        $('.check-toggler').on('click', function () {
-            $(this).toggleClass('checked');
-        })
-
-    })
-
-</script>
-
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -1229,7 +1066,8 @@
                         "title":"商品名称",
                         "key":"product_name",
                         "sortable":true,
-                        "width":150
+                        "width":150,
+                        "fixed":"left"
                     },
                     {
                         "title":"一级类别",
@@ -1255,31 +1093,91 @@
                         "key":"short_introduction",
                         "width":250
                     },{
-                        "title":"图片一",
-                        "key":"url1",
-                        "sortable":true,
-                        "width":150
-                    },{
-                        "title":"图片二",
-                        "key":"url2",
-                        "sortable":true,
-                        "width":150
-                    },{
-                        "title":"图片三",
-                        "key":"url3",
-                        "sortable":true,
-                        "width":150
-                    },{
-                        "title":"图片四",
-                        "key":"url4",
-                        "sortable":true,
-                        "width":150
-                    },{
                         "title":"详细信息",
                         "key":"product_details",
                         "sortable":true,
                         "width":150
-                    }
+                    },{
+                        title:'商品图片',
+                        key:'product_pic1',
+                        width:150,
+                        render:(h,params)=>{
+                            return h('img',{
+                                attrs:{
+                                    src:params.row.url1,style:'width:100px;border-radius:2px'
+                                }
+                            })
+                        }
+                    },{
+                        title:'商品图片',
+                        key:'product_pic2',
+                        width:150,
+                        render:(h,params)=>{
+                            return h('img',{
+                                attrs:{
+                                    src:params.row.url2,style:'width:100px;border-radius:2px'
+                                }
+                            })
+                        }
+                    },{
+                        title:'商品图片',
+                        key:'product_pic3',
+                        width:150,
+                        render:(h,params)=>{
+                            return h('img',{
+                                attrs:{
+                                    src:params.row.url3,style:'width:100px;border-radius:2px'
+                                }
+                            })
+                        }
+                    },{
+                        title:'商品图片',
+                        key:'product_pic4',
+                        width:150,
+                        render:(h,params)=>{
+                            return h('img',{
+                                attrs:{
+                                    src:params.row.url4,style:'width:100px;border-radius:2px'
+                                }
+                            })
+                        }
+                    },{
+                        title: '操作',
+                        key: 'action',
+                        fixed: 'right',
+                        slot:'action',
+                        width: 120,
+                        align:'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index)
+                                        }
+                                    }
+                                }, 'View'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index)
+                                        }
+                                    }
+                                }, 'Delete')
+                            ]);
+                        }
+                }
                 ],
                 products_data:my_products_data,
             }
@@ -1302,9 +1200,38 @@
                         data: this.products_data.filter((data, index) => index < 4)
                     });
                 }
-            }
-        },
-    });
+            },
+
+            show (index) {
+
+                let this_in=this;
+                    var productData=this.products_data[index];
+                this.$Modal.info({
+                    title: '商品信息',
+                    content: '商品编号：${productData.product_id}<br>商品名称：${productData.product_name}<br>商品类别：${productData.first_category} ${productData.second_category} ${productData.third_category}<br>单位：${productData.unit}<br>详细信息：${productData.product_details}'
+                })
+            },
+            remove(index) {
+                test = this.products_data[index];
+                this.products_data.splice(index, 1);
+                $.ajax({
+                    type: "POST",
+                    url: '/categoryAndGoods/deleteProduct.do',
+                    data: JSON.stringify(test),
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (res) {
+                        console.log(res);
+                    },
+                    error: function (res) {
+                        console.log("删除门店信息出错了！");
+                    }
+
+                })
+
+            },
+        }
+        });
 </script>
 
 <%--/////////////////////////////////////////////////////Xenia/////////////////////////////--%>

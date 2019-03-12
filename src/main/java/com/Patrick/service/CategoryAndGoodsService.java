@@ -13,5 +13,8 @@ public interface CategoryAndGoodsService {
                                String product_current_time, String product_update_time, String product_unit);
    CategoryMapper1 getcategoryMapper1Bysecond_category(String product_second_category);
    CategoryMapper2 getcategoryMapper2ByThirdCategory(String product_third_category);
+   int deleteProduct(int product_id);
+
+
 
    }

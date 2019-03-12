@@ -132,4 +132,8 @@ public class CategoryAndGoodsServiceImpl implements CategoryAndGoodsService {
         //url迭代的获取
         return JSON.toJSONString(add_num);
     }
+    public int deleteProduct(int product_id){
+        return webMapper.deleteProduct(product_id);
+    }
+
 }
