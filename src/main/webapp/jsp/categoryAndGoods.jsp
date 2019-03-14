@@ -36,17 +36,17 @@
     <%--<script src="../assets/js/minimal.min.js"></script>--%>
 
     <link href="../assets/css/minimal.css" rel="stylesheet">
-    <script type="text/javascript" src="../js/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <title>form</title>
+    <%--<title>form</title>--%>
     <link href="../css/bootstrap-3.3.4.css" rel="stylesheet">
     <%--<style type="text/css">--%>
     <%--.jq22-header{margin-bottom: 15px;font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;}--%>
     <%--.jq22-icon{color: #fff;}--%>
     <%--</style>--%>
     <script src="../js/vue.min.js"></script>
-    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
 
     <style>
         .upload_warp_img_div_del {
@@ -303,25 +303,30 @@
         })
     </script>
     <script>
-        my_products_data=[];
+        my_products_data = [];
         <c:forEach items="${my_products}" var="myproduct">
-
+        my_short_introduction = "${myproduct.product_brief_introduction}";
+        my_details = "${myproduct.product_detail}";
         my_products_data.push({
-            product_id:"${myproduct.id}",
-            product_name:"${myproduct.product_name}",
-            first_category:"${myproduct.first_category}",
-            second_category:"${myproduct.second_category}",
-            third_category:"${myproduct.third_category}",
-            unit:"${myproduct.unit}",
-            short_introduction:"${myproduct.product_brief_introduction}",
-            url1:"${myproduct.pic1_url}",
-            url2:"${myproduct.pic2_url}",
-            url3:"${myproduct.pic3_url}",
-            url4:"${myproduct.pic4_url}",
-            product_details:"${myproduct.product_detail}"
+            product_id: "${myproduct.id}",
+            product_name: "${myproduct.product_name}",
+            first_category: "${myproduct.first_category}",
+            second_category: "${myproduct.second_category}",
+            third_category: "${myproduct.third_category}",
+            unit: "${myproduct.unit}",
+            short_introduction: my_short_introduction,
+            url1: "${myproduct.pic1_url}",
+            url2: "${myproduct.pic2_url}",
+            url3: "${myproduct.pic3_url}",
+            url4: "${myproduct.pic4_url}",
+            product_details: my_details
         });
+        console.log(my_products_data);
         </c:forEach>
 
+        // $(function(){
+        //     alert("******"+my_products_data.length);
+        // });
     </script>
 
 </head>
@@ -476,7 +481,7 @@
                                         </li>
                                         <li>
                                             <a href="staff_list.html?key=0">
-                                                <i class="fa fa-caret-right"></i>  管理人员列表
+                                                <i class="fa fa-caret-right"></i> 管理人员列表
                                             </a>
                                         </li>
                                         <li>
@@ -522,8 +527,6 @@
             <!-- /page header -->
 
 
-
-
             <!-- /content container -->
             <br>
             <br>
@@ -548,12 +551,13 @@
 
                     <form class="form-horizontal">
                         <div style="margin-right: 200px">
-                            <div class="form-group">
-                                <label for="good_id" class="col-sm-4 control-label">商品编号</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="good_id" name="good_id">
-                                </div>
-                            </div>
+                            <%--丁赞涵注释--%>
+                            <%--<div class="form-group">--%>
+                            <%--<label for="good_id" class="col-sm-4 control-label">商品编号</label>--%>
+                            <%--<div class="col-sm-8">--%>
+                            <%--<input type="text" class="form-control" id="good_id" name="good_id">--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
 
                             <div class="form-group">
                                 <label for="good_name" class="col-sm-4 control-label">商品名称</label>
@@ -571,7 +575,7 @@
                                     <div class="col-sm-2">
                                         <%--<h2>输入</h2>--%>
                                         <div class="form-group">
-                                            <label for="input-select-node" class="sr-only">搜索类别:</label>
+                                            <label for="input-select-node" class="sr-only"> </label>
                                             <input type="input" class="form-control" id="input-select-node"
                                                    placeholder="识别类别..." value="搜索类别">
                                         </div>
@@ -618,14 +622,14 @@
                             <div class="form-group">
                                 <label for="good_short_introduction" class="col-sm-4 control-label">商品简介</label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" id="good_short_introduction"
+                                    <textarea class="form-control" id="good_short_introduction" rows="3"
                                               name="good_short_introduction" placeholder="简要描述本商品"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="good_details" class="col-sm-4 control-label">商品详情</label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" id="good_details"
+                                    <textarea class="form-control" id="good_details" rows="6"
                                               name="good_details" placeholder="本商品的详细规格参数等信息"></textarea>
                                 </div>
                             </div>
@@ -683,15 +687,13 @@
                             </div>
 
 
-
-
-                        <div class="form-group form-footer">
-                            <div class="col-sm-offset-4 col-sm-8">
-                                <input onclick="submitProduct()" type="button" value="提交"
-                                       class="btn btn-primary"/>
-                                <button type="reset" class="btn btn-default">重置</button>
+                            <div class="form-group form-footer">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <input onclick="submitProduct()" type="button" value="提交"
+                                           class="btn btn-primary"/>
+                                    <button type="reset" class="btn btn-default">重置</button>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </form>
 
@@ -715,23 +717,32 @@
                         <a href="#" class="remove"><i class="fa fa-times"></i></a>
                     </div>
                 </div>
-            <div id="goods_table" style="margin-left: 20px;margin-right: 20px">
-                <template>
-                    <i-table :columns="columns" :data="products_data" size="small" ref="table">
-                        <%--<template slot-scope="{ row, index }" slot="action">--%>
+                <div id="goods_table" style="margin-left: 20px;margin-right: 20px">
+                    <template>
+                        <i-table :columns="columns" :data="products_data" size="small" height="660" ref="table">
+                            <%--<template slot-scope="{ row, index }" slot="action">--%>
                             <%--<Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>--%>
                             <%--<Button type="error" size="small" @click="remove(index)">Delete</Button>--%>
-                        <%--</template>--%>
-                    </i-table>
-                    <br>
-                    <%--<Button  @click="add">添加</Button>--%>
-                    <Button type="primary" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
-                    <Button type="primary" size="large" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export sorting and filtered data</Button>
-                    <Button type="primary" size="large" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
-                    <br>
-                    <br>
-                </template>
-            </div>
+                            <%--</template>--%>
+                        </i-table>
+                        <br>
+                        <%--<Button  @click="add">添加</Button>--%>
+                        <Button type="primary" size="large" @click="exportData(1)">
+                            <Icon type="ios-download-outline"></Icon>
+                            Export source data
+                        </Button>
+                        <Button type="primary" size="large" @click="exportData(2)">
+                            <Icon type="ios-download-outline"></Icon>
+                            Export sorting and filtered data
+                        </Button>
+                        <Button type="primary" size="large" @click="exportData(3)">
+                            <Icon type="ios-download-outline"></Icon>
+                            Export custom data
+                        </Button>
+                        <br>
+                        <br>
+                    </template>
+                </div>
             </section>
             <%--/显示商品的表格--%>
 
@@ -807,7 +818,7 @@
 
     // 用于传送表单
     var formData = new FormData();
-    var myfiles=[];
+    var myfiles = [];
     $(function () {
 
         var $searchableTree = $('#treeview-searchable').treeview({
@@ -877,7 +888,7 @@
             }
         },
         methods: {
-            getList(){
+            getList() {
                 return this.vue.imgList[0].file;
             },
             fileClick() {
@@ -978,30 +989,30 @@
     // 接下来是获取表单信息然后提交的代码
     function submitProduct() {
         // var formData = new FormData();
-        formData.append("id", $("#good_id").val());
+        //丁赞涵注释
+        // formData.append("id", $("#good_id").val());
         formData.append("name", $("#good_name").val());
         formData.append("details", $("#good_details").val());
         formData.append("short_introduction", $("#good_short_introduction").val());
-        alert(myfiles);
+        // alert(myfiles);
         // 获取当前系统时间()
         var myTime = new Date();
         currentDate = myTime.getFullYear() + "-" + myTime.getMonth() + "-" + (myTime.getDay() + 1);
-        currentTime=myTime.toLocaleTimeString();
-        alert("current_time:"+currentTime);
-        formData.append("current_time",currentTime);
-        formData.append("current_date",currentDate);
+        currentTime = myTime.toLocaleTimeString();
+        // alert("current_time:"+currentTime);
+        formData.append("current_time", currentTime);
+        formData.append("current_date", currentDate);
         formData.append("unit", $("#good_unit").val());
 
         if (myfiles.length == 0) {
             alert("您未添加任何图片！");
             return;
-        }
-        else if (myfiles.length >= 4) {
+        } else if (myfiles.length > 4) {
             formData.append("file0", myfiles[0]);
             formData.append("file1", myfiles[1]);
             formData.append("file2", myfiles[2]);
             formData.append("file3", myfiles[3]);
-            formData.append("diffPhotos", 0);
+            formData.append("diffPhotos", 4);
         } else {
             for (index = 0; index < myfiles.length; index++) {
                 formData.append("file" + index, myfiles[index]);
@@ -1013,12 +1024,12 @@
             formData.append("diffPhotos", myfiles.length);
         }
 
-       alert("获取表单信息完成！");
+        // alert("获取表单信息完成！");
 
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             let result = xmlhttp.responseText;
-            alert(result);
+            console.log(result);
         }
         xmlhttp.open("post", "categoryAndGoods/addProduct.do", true);
         xmlhttp.send(formData);
@@ -1045,9 +1056,9 @@
 </script>
 <%--渲染商品表格所用的iview插件--%>
 <%--引入iview--%>
-<script src="js/vue.min.js"></script>
+<script src="//vuejs.org/js/vue.min.js"></script>
 <!-- import stylesheet -->
-<link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+<link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
 <!-- import iView -->
 <script src="//unpkg.com/iview/dist/iview.min.js"></script>
 <script>
@@ -1056,98 +1067,98 @@
 
         data() {
             return {
-                columns:[
+                columns: [
                     {
-                        "title":"商品编号",
-                        "key":"product_id",
-                        "fixed":"left",
-                        "width":150
-                    },{
-                        "title":"商品名称",
-                        "key":"product_name",
-                        "sortable":true,
-                        "width":150,
-                        "fixed":"left"
+                        "title": "商品编号",
+                        "key": "product_id",
+                        "fixed": "left",
+                        "width": 150
+                    }, {
+                        "title": "商品名称",
+                        "key": "product_name",
+                        "sortable": true,
+                        "width": 200,
+                        "fixed": "left"
                     },
                     {
-                        "title":"一级类别",
-                        "key":"first_category",
-                        "sortable":true,
-                        "width":150
-                    },{
-                        "title":"二级类别",
-                        "key":"second_category",
-                        "sortable":true,
-                        "width":150
-                    },{
-                        "title":"三级类别",
-                        "key":"third_category",
-                        "sortable":true,
-                        "width":150
-                    },{
-                        "title":"单位",
-                        "key":"unit",
-                        "width":100
-                    },{
-                        "title":"简介",
-                        "key":"short_introduction",
-                        "width":250
-                    },{
-                        "title":"详细信息",
-                        "key":"product_details",
-                        "sortable":true,
-                        "width":150
-                    },{
-                        title:'商品图片',
-                        key:'product_pic1',
-                        width:150,
-                        render:(h,params)=>{
-                            return h('img',{
-                                attrs:{
-                                    src:params.row.url1,style:'width:100px;border-radius:2px'
+                        "title": "一级类别",
+                        "key": "first_category",
+                        "sortable": true,
+                        "width": 150
+                    }, {
+                        "title": "二级类别",
+                        "key": "second_category",
+                        "sortable": true,
+                        "width": 150
+                    }, {
+                        "title": "三级类别",
+                        "key": "third_category",
+                        "sortable": true,
+                        "width": 150
+                    }, {
+                        "title": "单位",
+                        "key": "unit",
+                        "width": 80
+                    }, {
+                        "title": "简介",
+                        "key": "short_introduction",
+                        "width": 250
+                    }, {
+                        "title": "详细信息",
+                        "key": "product_details",
+                        "sortable": true,
+                        "width": 500
+                    }, {
+                        title: '商品图片',
+                        key: 'product_pic1',
+                        width: 150,
+                        render: (h, params) => {
+                            return h('img', {
+                                attrs: {
+                                    src: params.row.url1, style: 'width:100px;border-radius:2px'
                                 }
                             })
                         }
-                    },{
-                        title:'商品图片',
-                        key:'product_pic2',
-                        width:150,
-                        render:(h,params)=>{
-                            return h('img',{
-                                attrs:{
-                                    src:params.row.url2,style:'width:100px;border-radius:2px'
+                    }, {
+                        title: '商品图片',
+                        key: 'product_pic2',
+                        width: 150,
+                        render: (h, params) => {
+                            return h('img', {
+                                attrs: {
+                                    src: params.row.url2, style: 'width:100px;border-radius:2px'
                                 }
                             })
                         }
-                    },{
-                        title:'商品图片',
-                        key:'product_pic3',
-                        width:150,
-                        render:(h,params)=>{
-                            return h('img',{
-                                attrs:{
-                                    src:params.row.url3,style:'width:100px;border-radius:2px'
+                    }, {
+                        title: '商品图片',
+                        key: 'product_pic3',
+                        width: 150,
+                        render: (h, params) => {
+                            return h('img', {
+                                attrs: {
+                                    src: params.row.url3, style: 'width:100px;border-radius:2px'
                                 }
                             })
                         }
-                    },{
-                        title:'商品图片',
-                        key:'product_pic4',
-                        width:150,
-                        render:(h,params)=>{
-                            return h('img',{
-                                attrs:{
-                                    src:params.row.url4,style:'width:100px;border-radius:2px'
+                    }, {
+                        title: '商品图片',
+                        key: 'product_pic4',
+                        width: 150,
+                        render: (h, params) => {
+                            return h('img', {
+                                attrs: {
+                                    src: params.row.url4, style: 'width:100px;border-radius:2px'
                                 }
                             })
                         }
-                    },{
+                    }, {
                         title: '操作',
                         key: 'action',
                         fixed: 'right',
-                        slot:'action',
+                        slot: 'action',
                         width: 120,
-                        align:'center',
+                        align: 'center',
                         render: (h, params) => {
                             return h('div', [
                                 h('Button', {
@@ -1177,13 +1188,13 @@
                                 }, 'Delete')
                             ]);
                         }
-                }
+                    }
                 ],
-                products_data:my_products_data,
+                products_data: my_products_data,
             }
         },
         methods: {
-            exportData (type) {
+            exportData(type) {
                 if (type === 1) {
                     this.$refs.table.exportCsv({
                         filename: 'The original data'
@@ -1202,14 +1213,12 @@
                 }
             },
 
-            show (index) {
-
-                let this_in=this;
-                    var productData=this.products_data[index];
-                this.$Modal.info({
-                    title: '商品信息',
-                    content: '商品编号：${productData.product_id}<br>商品名称：${productData.product_name}<br>商品类别：${productData.first_category} ${productData.second_category} ${productData.third_category}<br>单位：${productData.unit}<br>详细信息：${productData.product_details}'
-                })
+            show(index) {
+                this.$Modal.info(
+                    {
+                        title: '商品信息',
+                        content: "商品编号："+this.products_data[index].product_id+"<br>商品名称："+this.products_data[index].product_name+"<br>商品类别："+this.products_data[index].first_category+" "+this.products_data[index].second_category+" "+this.products_data[index].third_category+"<br>单位："+this.products_data[index].unit+"<br>详细信息："+this.products_data[index].product_details
+                    })
             },
             remove(index) {
                 test = this.products_data[index];
@@ -1231,7 +1240,7 @@
 
             },
         }
-        });
+    });
 </script>
 
 <%--/////////////////////////////////////////////////////Xenia/////////////////////////////--%>

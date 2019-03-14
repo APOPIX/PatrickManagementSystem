@@ -298,6 +298,7 @@
                             <th>开门时间</th>
                             <th>关门时间</th>
                             <th>营业状态</th>
+                            <th>注册商品</th>
 
 
                             <%--<th style="width: 30px;"></th>--%>
@@ -841,13 +842,13 @@
         storeObj.province = $("#province option:selected").text();
         storeObj.city = $("#city option:selected").text();
         storeObj.district = $("#district option:selected").text();
-        alert(storeObj.closeTime, storeObj.storeLatitude);
+        // alert(storeObj.closeTime, storeObj.storeLatitude);
 
         //检查录入的东西是否为空
         for (key in storeObj) {
             console.log(storeObj[key]);
-            if (storeObj[key] == "") {
-                alert(key + " 不允许是空！");
+            if (!storeObj[key]) {
+                alert(key + " 不允许为空！");
                 return;
             }
         }
@@ -865,9 +866,8 @@
                     console.log("提交失败");
                 }
             }
-        })
-
-
+        });
+        window.location.href = "";
     }
 
 </script>

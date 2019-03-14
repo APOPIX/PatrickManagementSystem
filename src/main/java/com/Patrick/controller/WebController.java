@@ -468,6 +468,7 @@ public class WebController {
         JSONObject dataJson = webService.getCategoriesMapperJson();
         mv.addObject("categoryJson", dataJson.toString());
         List<Product> products = webService.getProducts();
+        System.out.println(" 获取商品数据：******"+products.size());
         mv.addObject("my_products", products);
         mv.setViewName("jsp/categoryAndGoods.jsp");
         //插入操作记录

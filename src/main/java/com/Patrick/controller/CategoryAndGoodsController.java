@@ -88,11 +88,14 @@ public class CategoryAndGoodsController {
     public String addProduct(HttpServletRequest request, @RequestParam("file0") MultipartFile file0, @RequestParam("file1")
             MultipartFile file1, @RequestParam("file2") MultipartFile file2, @RequestParam("file3") MultipartFile file3) throws IOException {
         System.out.println("我进入了添加商品的控制类");
-        String product_id_str = request.getParameter("id");
-        int product_id = Integer.parseInt(product_id_str);
-        String product_name = request.getParameter("name");
-        String product_details = request.getParameter("details");
-        String product_short_introduction = request.getParameter("short_introduction");
+//        String product_id_str = request.getParameter("id");
+//        int product_id = Integer.parseInt(product_id_str);
+        String product_name = request.getParameter("name").replaceAll("\"","\\\\\\\"");
+        if(product_name.contains("\n")){
+            product_name=product_name.substring(0,product_name.indexOf('\n'));
+        }
+        String product_details = request.getParameter("details").replaceAll("\"","\\\\\\\"").replaceAll("\n","\\\\n");
+        String product_short_introduction = request.getParameter("short_introduction").replaceAll("\"","\\\\\\\"").replaceAll("\n","\\\\n");
         String product_unit = request.getParameter("unit");
         String product_third_category = request.getParameter("third_category");
         String product_current_time = request.getParameter("current_time");
@@ -118,6 +121,7 @@ public class CategoryAndGoodsController {
         net.sf.json.JSONObject jo = new net.sf.json.JSONObject();
         File toFile = null;
         int photos_num = Integer.parseInt(request.getParameter("diffPhotos"));
+        System.out.println("获取的图片数量："+photos_num);
         for (int i = 0; i < photos_num; i++) {
             System.out.println("至少我是进入循环了的！");
             if (files[i].equals("") || files[i].getSize() <= 0) {
@@ -171,7 +175,7 @@ public class CategoryAndGoodsController {
             }
             //如果不满足的话，用空字符串代替，否则插入的时候仅仅用前4张的url字符串
         }
-        String uploadFeedback = categoryAndGoodsService.addNewProduct(product_id, product_name, product_short_introduction, product_details,
+        String uploadFeedback = categoryAndGoodsService.addNewProduct( product_name, product_short_introduction, product_details,
                 categorymap12.getFather_category(), categorymap12.getSon_category(), product_third_category,
                 urls.get(0), urls.get(1), urls.get(2), urls.get(3), processed_current_time, processed_current_time, product_unit);
         jo.put("add_num", uploadFeedback);

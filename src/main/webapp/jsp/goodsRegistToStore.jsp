@@ -42,7 +42,7 @@
     <!-- import Vue.js -->
     <script src="//vuejs.org/js/vue.min.js"></script>
     <!-- import stylesheet -->
-    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
     <!-- import iView -->
     <script src="//unpkg.com/iview/dist/iview.min.js"></script>
 
@@ -277,7 +277,7 @@
             <section class="tile color transparent-black">
                 <div class="main">
                     <br>
-                    <h3 class="title-w3">门店注册商品信息</h3>
+                    <h3 class="title-w3" style="color: #FFFFFF">门店注册商品信息</h3>
                     <div id="app2">
 
                         <template>

@@ -46,7 +46,7 @@
     <%--.jq22-icon{color: #fff;}--%>
     <%--</style>--%>
     <script src="../js/vue.min.js"></script>
-    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
 
     <style>
         .upload_warp_img_div_del {
@@ -675,7 +675,7 @@ X
                 this.newsList.push(newCategory);
                 $.ajax({
                     type: "POST",
-                    url: '/categpryOnly/addNewCategory.do',
+                    url: '/categoryOnly/addNewCategory.do',
                     data: JSON.stringify(newCategory),
                     contentType: "application/json;charset=UTF-8",
                     dataType: "json",
@@ -697,7 +697,7 @@ X
                 //其实只需要一个参数，i得到list的位置或者item就是该行的内容
                 $.ajax({
                     type: "POST",
-                    url: '/categpryOnly/deleteCategory.do',
+                    url: '/categoryOnly/deleteCategory.do',
                     data: JSON.stringify(item),
                     contentType: "application/json;charset=UTF-8",
                     dataType: "json",
@@ -750,7 +750,7 @@ X
                 }
                 $.ajax({
                     type: "POST",
-                    url: '/PatrickManagementSystem_war_exploded/categpryOnly/updateCategory.do',
+                    url: '/categoryOnly/updateCategory.do',
                     data: JSON.stringify(mydata),
                     contentType: "application/json;charset=UTF-8",
                     dataType: "json",
@@ -800,7 +800,7 @@ X
                 console.log(JSON.stringify(check_vals));
             }
             $.ajax({
-                url: "categpryOnly/deleteGoods.do",
+                url: "categoryOnly/deleteGoods.do",
                 type: "post",
                 data: {idsList: JSON.stringify(check_vals)},
                 dataType: "json",

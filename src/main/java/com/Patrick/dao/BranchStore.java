@@ -21,8 +21,10 @@ public class BranchStore {
     private double longitude;
     private double latitude;
     private String store_introduction;
-    private Time store_start_time;
-    private Time store_close_time;
+//    private Time store_start_time;
+//    private Time store_close_time;
+    private String store_start_time;
+    private String store_close_time;
     private int store_status;
 
     public int getStore_id() {
@@ -105,19 +107,19 @@ public class BranchStore {
         this.store_introduction = store_introduction;
     }
 
-    public Time getStore_start_time() {
+    public String getStore_start_time() {
         return store_start_time;
     }
 
-    public void setStore_start_time(Time store_start_time) {
+    public void setStore_start_time(String store_start_time) {
         this.store_start_time = store_start_time;
     }
 
-    public Time getStore_close_time() {
+    public String getStore_close_time() {
         return store_close_time;
     }
 
-    public void setStore_close_time(Time store_close_time) {
+    public void setStore_close_time(String store_close_time) {
         this.store_close_time = store_close_time;
     }
 

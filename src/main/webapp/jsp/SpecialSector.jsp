@@ -53,7 +53,7 @@
     <script src="//vuejs.org/js/vue.min.js"></script>
     <!-- import stylesheet -->
     <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
-    <%--<link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">--%>
     <!-- import iView -->
     <script src="//unpkg.com/iview/dist/iview.min.js"></script>
     <%--//iview引入--%>

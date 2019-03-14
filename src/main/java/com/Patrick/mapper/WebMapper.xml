@@ -395,13 +395,14 @@
     </select>
     <!--按照更新需求逐条更新-->
     <update id="updateFirstCategory">
-        update categorymapper1_2 set father_category=#{new_first_category} where father_category=#{old_first_category};
+        update categorymapper1_2 set father_category=#{new_first_category} where son_category=#{old_second_category};
     </update>
     <update id="updateSecondCategoryInMap12">
         update categorymapper1_2 set son_category=#{new_second_category} where son_category=#{old_second_category};
     </update>
     <update id="updateSecondCategoryInMap23">
-        update categorymapper2_3 set father_category=#{new_second_category} where son_category=#{old_third_category};
+        update categorymapper2_3 set father_category=#{new_second_category} where son_category in
+        (select b.son_category from (select son_category from categorymapper2_3 where father_category=#{old_second_category})b);
     </update>
     <update id="updateThirdCategory">
         update categorymapper2_3 set son_category=#{new_third_category} where son_category=#{old_third_category};
@@ -417,6 +418,12 @@
     </select>
     <select id="countFirstCategoryInMap12" resultType="int">
         SELECT count(son_category) from categorymapper1_2 WHERE father_category=#{first_category};
+    </select>
+    <select id="countSecondCategoryInMap12" resultType="int">
+        select count(son_category) from categorymapper1_2 where son_category=#{second_category};
+    </select>
+    <select id="countThirdCategoryInMap23" resultType="int">
+        select count(son_category) from categorymapper2_3 where son_category=#{third_category};
     </select>
     <delete id="deleteCategoryMap23">
         DELETE FROM categorymapper2_3 WHERE  father_category=#{second_category} and son_category=#{third_category};
@@ -467,8 +474,8 @@
 
     <!--处理商品-->
     <insert id="addProduct">
-        insert into products(id,product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit)
-         values (#{id},#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{unit});
+        insert into products(product_name,first_category,second_category,third_category,product_brief_introduction,product_detail,pic1_url,pic2_url,pic3_url,pic4_url,create_time,updatetime,unit)
+         values (#{product_name},#{first_category},#{second_category},#{third_category},#{product_short_introduction},#{product_detail},#{url0},#{url1},#{url2},#{url3},#{current_time},#{update_time},#{unit});
     </insert>
     <delete id="deleteProduct">
         delete from products where id=#{product_id};

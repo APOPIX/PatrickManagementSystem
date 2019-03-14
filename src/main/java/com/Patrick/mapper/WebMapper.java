@@ -206,17 +206,19 @@ public interface WebMapper {
     List<CategoriesMapper> getCategoriesMappers();
     int countSecondCategoryInMap23(@Param("second_category") String second_category);
     int countFirstCategoryInMap12(@Param("first_category") String first_category);
-
+    int countSecondCategoryInMap12(@Param("second_category")String second_category);
+    int countThirdCategoryInMap23(@Param("third_category")String third_category);
 
     int addCategoryMap12(@Param("first_category") String first_category,@Param("second_category") String second_category);
     int addCategoryMap23(@Param("second_category") String second_category,@Param("third_category") String third_category);
     int deleteCategoryMap12(@Param("first_category") String first_category,@Param("second_category") String second_category);
     int deleteCategoryMap23(@Param("second_category") String second_category,@Param("third_category") String third_category);
 
-    int updateFirstCategory(@Param("old_first_category") String old_first_category,@Param("new_first_category") String new_first_category);
+    int updateFirstCategory(@Param("old_second_category") String old_second_category,@Param("new_first_category") String new_first_category);
     int updateSecondCategoryInMap12(@Param("old_second_category") String old_second_category,@Param("new_second_category") String new_second_category);
-    int updateSecondCategoryInMap23(@Param("old_third_category") String old_third_category,@Param("new_second_category") String new_second_category);
+    int updateSecondCategoryInMap23(@Param("old_second_category") String old_second_category,@Param("new_second_category") String new_second_category);
     int updateThirdCategory(@Param("old_third_category")String old_third_category,@Param("new_third_category")String new_third_category);
+
 
     /**
      *@Description: 单独获取两级目录映射
@@ -240,7 +242,7 @@ public interface WebMapper {
      *Author:廖馨婷
      *Date:2019/3/10
      */
-    int addProduct(@Param("id")int id,@Param("product_name")String product_name,@Param("product_short_introduction")String product_short_introduction,
+    int addProduct(@Param("product_name")String product_name,@Param("product_short_introduction")String product_short_introduction,
                    @Param("product_detail")String product_detail,@Param("first_category")String first_category,
                    @Param("second_category")String second_category,@Param("third_category")String third_category,
 
