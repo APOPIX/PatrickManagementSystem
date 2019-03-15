@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Minimal 1.0 - Login Page</title>
+    <title>Patrick 后台管理系统 1.0 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8" />
 

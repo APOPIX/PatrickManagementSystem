@@ -230,7 +230,7 @@
 
 
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
-                    <span>后台管理系统.</span></h2>
+                    <span>门店信息管理.</span></h2>
 
 
             </div>

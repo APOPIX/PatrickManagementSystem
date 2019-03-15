@@ -263,7 +263,7 @@
 
 
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
-                    <span>后台管理系统.</span></h2>
+                    <span>门店商品注册.</span></h2>
 
 
             </div>
@@ -280,58 +280,58 @@
                     <h3 class="title-w3" style="color: #FFFFFF">门店注册商品信息</h3>
                     <div id="app2">
 
-                        <template>
+                        <div>
                             <div style="margin-left: 30px;margin-right: 20px">
                                 <i-table :columns="columns" :data="data">
-                                    <template slot-scope="{ row, index }" slot="store_id">
-                                        <Input type="text" v-model="editStore_id" v-if="editIndex === index"/>
+                                    <div slot-scope="{ row, index }" slot="store_id">
+                                        <i-input type="text" v-model="editStore_id" v-if="editIndex === index"/>
                                         <span v-else>{{ row.store_id }}</span>
-                                    </template>
+                                    </div>
 
-                                    <template slot-scope="{ row, index }" slot="product_id">
-                                        <Input type="text" v-model="editProduct_id" v-if="editIndex === index"/>
+                                    <div slot-scope="{ row, index }" slot="product_id">
+                                        <i-input type="text" v-model="editProduct_id" v-if="editIndex === index"/>
                                         <span v-else>{{ row.product_id }}</span>
-                                    </template>
+                                    </div>
 
-                                    <template slot-scope="{ row, index }" slot="inventory">
-                                        <Input type="text" v-model="editInventory" v-if="editIndex === index"/>
+                                    <div slot-scope="{ row, index }" slot="inventory">
+                                        <i-input type="text" v-model="editInventory" v-if="editIndex === index"/>
                                         <span v-else>{{ row.inventory }}</span>
-                                    </template>
+                                    </div>
 
-                                    <template slot-scope="{ row, index }" slot="original_price">
-                                        <Input type="text" v-model="editOriginal_price" v-if="editIndex === index"/>
+                                    <div slot-scope="{ row, index }" slot="original_price">
+                                        <i-input type="text" v-model="editOriginal_price" v-if="editIndex === index"/>
                                         <span v-else>{{ row.original_price }}</span>
-                                    </template>
-                                    <template slot-scope="{ row, index }" slot="discount">
-                                        <Input type="text" v-model="editDiscount" v-if="editIndex === index"/>
+                                    </div>
+                                    <div slot-scope="{ row, index }" slot="discount">
+                                        <i-input type="text" v-model="editDiscount" v-if="editIndex === index"/>
                                         <span v-else>{{ row.discount }}</span>
-                                    </template>
-                                    <template slot-scope="{ row, index }" slot="product_status">
-                                        <Input type="text" v-model="editProduct_status" v-if="editIndex === index"/>
+                                    </div>
+                                    <div slot-scope="{ row, index }" slot="product_status">
+                                        <i-input type="text" v-model="editProduct_status" v-if="editIndex === index"/>
                                         <span v-else>{{ row.product_status }}</span>
-                                    </template>
+                                    </div>
 
-                                    <template slot-scope="{ row, index }" slot="action">
+                                    <div slot-scope="{ row, index }" slot="action">
                                         <div v-if="editIndex === index">
-                                            <Button @click="handleSave(index)">更改</Button>
-                                            <Button @click="handleAdd(index)">保存</Button>
-                                            <Button @click="editIndex = -1">取消</Button>
-                                            <Button type="error" style="color:#EE0000" @click="remove(index)">删除
-                                            </Button>
+                                            <i-button @click="handleSave(index)">更改</i-button>
+                                            <i-button @click="handleAdd(index)">保存</i-button>
+                                            <i-button @click="editIndex = -1">取消</i-button>
+                                            <i-button type="error" style="color:#EE0000" @click="remove(index)">删除
+                                            </i-button>
 
                                         </div>
                                         <div v-else>
-                                            <Button @click="handleEdit(row, index)">操作</Button>
+                                            <i-button @click="handleEdit(row, index)">操作</i-button>
                                         </div>
-                                    </template>
+                                    </div>
 
                                 </i-table>
 
                             </div>
                             <Divider>
-                                <Button @click="addRow">添加新的数据</Button>
+                                <i-button @click="addRow">添加新的数据</i-button>
                             </Divider>
-                        </template>
+                        </div>
                     </div>
 
 

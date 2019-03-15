@@ -50,7 +50,7 @@
                 staff_id: "${log.staff_id}",
                 staff_name: "${log.staff_name}",
                 action: "${log.action}",
-                time_stamp: "${log.time_stamp.toString()}"
+                time_stamp: "${log.time_stamp}"
             }
         );
         </c:forEach>

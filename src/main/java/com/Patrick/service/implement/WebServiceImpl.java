@@ -104,8 +104,11 @@ public class WebServiceImpl implements WebService {
     @Override
     public void managementLog(int staff_id, String action) {
         //转换时区
-        String time_stamp = new Timestamp(new Date().getTime() - 1000 * 60 * 60 * 8).toString();
+//        String time_stamp = new Timestamp(new Date().getTime() - 1000 * 60 * 60 * 8).toString();
+        String time_stamp = new Timestamp(new Date().getTime() ).toString();
+
         webMapper.managementLog(staff_id, action, time_stamp);
+
     }
 
     @Override

@@ -30,8 +30,9 @@ public class WebController {
             //插入操作记录
             String log = "登陆成功";
             webService.managementLog(staffList.get(0).getStaff_id(), log);
-            String begin_date = new Timestamp(new Date().getTime() - (1000 * 60 * 60 * 8 + (long) 1000 * 86400 * 30)).toString();
-            String end_date = new Timestamp(new Date().getTime() - 1000 * 60 * 60 * 8).toString();
+            String begin_date = new Timestamp(new Date().getTime() - ((long) 1000 * 86400 * 30)).toString();
+            String end_date = new Timestamp(new Date().getTime()).toString();
+            System.out.println("起止时间"+begin_date+end_date);
             modelAndView.addObject("staff_name", staff_name);
             modelAndView.addObject("role", staffList.get(0).getRole());
             modelAndView.addObject("current_login_staff_id", staffList.get(0).getStaff_id());

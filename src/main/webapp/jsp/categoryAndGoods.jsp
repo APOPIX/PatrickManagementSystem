@@ -520,7 +520,7 @@
 
 
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
-                    <span>后台管理系统.</span></h2>
+                    <span>商品信息管理.</span></h2>
 
 
             </div>
@@ -1098,7 +1098,7 @@
                     }, {
                         "title": "单位",
                         "key": "unit",
-                        "width": 80
+                        "width": 100
                     }, {
                         "title": "简介",
                         "key": "short_introduction",
@@ -1167,7 +1167,7 @@
                                         size: 'small'
                                     },
                                     style: {
-                                        marginRight: '5px'
+                                        width: '80px'
                                     },
                                     on: {
                                         click: () => {
@@ -1179,6 +1179,10 @@
                                     props: {
                                         type: 'error',
                                         size: 'small'
+                                    },
+                                    style: {
+                                        marginTop:'5px',
+                                        width: '80px'
                                     },
                                     on: {
                                         click: () => {

@@ -7,7 +7,7 @@ public class ManagementLog {
     private int staff_id;
     private String staff_name;
     private String action;
-    private Timestamp time_stamp;
+    private String time_stamp;
 
     public int getId() {
         return id;
@@ -33,11 +33,11 @@ public class ManagementLog {
         this.action = action;
     }
 
-    public Timestamp getTime_stamp() {
+    public String getTime_stamp() {
         return time_stamp;
     }
 
-    public void setTime_stamp(Timestamp time_stamp) {
+    public void setTime_stamp(String time_stamp) {
         this.time_stamp = time_stamp;
     }
 

@@ -242,7 +242,7 @@
 
 
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
-                    <span>后台管理系统.</span></h2>
+                    <span>销量排行榜.</span></h2>
 
 
             </div>
@@ -272,6 +272,11 @@
                                     color: '#ffffff',
                                     width: 2,//这里是为了突出显示加上的
                                 }
+                            },
+                            //默认显示所有标签
+                            axisLabel: {
+                                show:true,
+                                interval:0
                             }
                         },
                         yAxis: {
@@ -281,6 +286,10 @@
                                     color: '#ffffff',
                                     width: 2,//这里是为了突出显示加上的
                                 }
+                            },
+                            //默认显示所有标签
+                            axisLabel: {
+                                interval:0
                             }
                         },
                         series: [{

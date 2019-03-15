@@ -74,17 +74,18 @@
             product_id: "${goodsForSector.product_id}",
         });
         </c:forEach>
-        mySectors_data = []
+        mySectors_data = [];
         <c:forEach items="${special_sectors_list}" var="sectors">
         mySectors_data.push({
             record_id: "${sectors.id}",
             sector_name: "${sectors.sector_name}",
         });
         </c:forEach>
-        myProducts_ids=[]
+        myProducts_ids=[];
         <c:forEach items="${products_list}" var="product">
         myProducts_ids.push({
-            product_id:"${product.id}"
+            product_id:"${product.id}",
+            product_name:"${product.product_name}"
         })
         </c:forEach>
     </script>
@@ -280,7 +281,7 @@
 
 
                 <h2><i class="fa fa-tachometer"></i> 派氏乐鲜生活馆
-                    <span>后台管理系统.</span></h2>
+                    <span>特殊板块管理.</span></h2>
 
 
             </div>
@@ -383,42 +384,44 @@
                     <div id="app">
 
 
-                        <template>
+                        <div>
                             <Divider>
                                 <div style="color:#ffffff;font-size: large">特殊版块注册表</div>
                             </Divider>
-                            <div style="margin-left: 20px;margin-right: 20px">
-                                <i-table :columns="columns" :data="data">
-                                    <template slot-scope="{ row, index }" slot="sector_name">
+                            <div style="margin-left: 20px;margin-right: 20px;color: #000000">
+                                <i-table :columns="columns" :data="data" style="color: #000000">
+                                    <div slot-scope="{ row, index }" slot="sector_name">
                                         <Input type="text" v-model="editSector_name" v-if="editIndex === index"/>
                                         <span v-else>{{ row.sector_name }}</span>
-                                    </template>
+                                    </div>
 
-                                    <%--<template slot-scope="{ row, index }" slot="product_id">--%>
+                                    <%--<div slot-scope="{ row, index }" slot="product_id">--%>
                                     <%--<Input type="text" v-model="editProduct_id" v-if="editIndex === index" />--%>
                                     <%--<span v-else>{{ row.product_id }}</span>--%>
-                                    <%--</template>--%>
+                                    <%--</div>--%>
 
-                                    <template slot-scope="{ row, index }" slot="action">
+                                    <div slot-scope="{ row, index }" slot="action">
                                         <div v-if="editIndex === index">
-                                            <Button @click="handleSave(index)">更改</Button>
-                                            <Button @click="handleAdd(index)">保存</Button>
-                                            <Button @click="editIndex = -1">取消</Button>
-                                            <Button type="error" style="color:#EE0000" @click="remove(index)">删除
-                                            </Button>
+                                            <i-button @click="handleSave(index)">更改</i-button>
+                                            <i-button @click="handleAdd(index)">保存</i-button>
+                                            <i-button @click="editIndex = -1">取消</i-button>
+                                            <i-button type="error" style="color:#EE0000" @click="remove(index)">删除
+                                            </i-button>
 
                                         </div>
                                         <div v-else>
-                                            <Button @click="handleEdit(row, index)">操作</Button>
+                                            <i-button @click="handleEdit(row, index)">操作</i-button>
                                         </div>
-                                    </template>
+                                    </div>
 
                                 </i-table>
                             </div>
                             <Divider>
-                                <Button @click="addRow">添加新的数据</Button>
+                                <i-button @click="addRow">添加新的数据</i-button>
                             </Divider>
-                        </template>
+                            <br>
+                            <br>
+                        </div>
                     </div>
 
                 </section>
@@ -433,62 +436,64 @@
                     </div>
                         <div id="app2">
                            <div style="margin-left: 20px;margin-right:20px">
-                               <template>
-                                   <Row>
-                                       <Col span="12" style="padding-right:10px">
-                                       <%--可搜索匹配板块--%>
-                                       <Select v-model="chooseSector_name" filterable >
-                                           <Option v-for="item in sector_data" :value="item.sector_name" :key="item.record_id">{{ item.sector_name }}</Option>
-                                       </Select>
-                                       </Col>
-                                       <Col span="12">
-                                       <%--多选罗列商品--%>
-                                       <Select v-model="chooseProducts_ids" multiple style="width:260px">
-                                           <Option v-for="item in products_data" :value="item.product_id" :key="item.product_id">{{ item.product_id }}</Option>
-                                       </Select>
-                                       </Col>
-                                       <Button  @click="addPSRecords">添加</Button>
-                                   </Row>
-                               </template>
+                               <Row>
+                                   <Col span="12" style="padding-right:10px">
+                                   <%--可搜索匹配板块--%>
+                                   <i-select v-model="chooseSector_name" filterable style="width:260px">
+                                       <i-option v-for="item in sector_data" :value="item.sector_name" :key="item.record_id">{{ item.sector_name }}</i-option>
+                                   </i-select>
+                                   </Col>
+                                   <Col span="12">
+                                   <%--多选罗列商品--%>
+                                   <i-select v-model="chooseProducts_ids" multiple style="width:260px">
+                                       <i-option v-for="item in products_data" :value="item.product_id" :key="item.product_id" >{{ item.product_name }}</i-option>
+                                   </i-select>
+                                   </Col>
+                                   <i-button  @click="addPSRecords">添加</i-button>
+                               </Row>
                            </div>
                         </div>
+                    <br><br><br>
                 </section>
             </div>
             <!-- /.container -->
             <%--模块和商品对应的表格--%>
             <section class="tile color transparent-black">
                 <div id="app3">
-                    <template>
-                        <Divider>
-                            <div style="color:#ffffff;font-size: large">特殊版块注册表</div>
-                        </Divider>
+                    <div>
+                        <div class="tile-header">
+                            <h1><strong>特殊板块</strong>注册表</h1>
+                            <div class="controls">
+                                <a href="SpecialSector" class="refresh"><i class="fa fa-refresh"></i></a>
+                                <a href="SpecialSector" class="remove"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
                         <div style="margin-left: 20px;margin-right: 20px">
                             <i-table :columns="columns" :data="data">
-                                <template slot-scope="{ row, index }" slot="sector_name">
+                                <div slot-scope="{ row, index }" slot="sector_name">
                                     <Input type="text" v-model="editSector_name" v-if="editIndex === index"/>
                                     <span v-else>{{ row.sector_name }}</span>
-                                </template>
+                                </div>
 
-                                <template slot-scope="{ row, index }" slot="product_id">
+                                <div slot-scope="{ row, index }" slot="product_id">
                                 <Input type="text" v-model="editProduct_id" v-if="editIndex === index" />
                                 <span v-else>{{ row.product_id }}</span>
-                                </template>
+                                </div>
 
-                                <template slot-scope="{ row, index }" slot="action">
+                                <div slot-scope="{ row, index }" slot="action">
                                     <div v-if="editIndex === index">
-                                        <Button type="error" style="color:#EE0000" @click="remove(index)">删除
-                                        </Button>
+                                        <i-button type="error" style="color:#EE0000" @click="remove(index)">删除
+                                        </i-button>
                                     </div>
                                     <div v-else>
-                                        <Button @click="handleEdit(row, index)">操作</Button>
+                                        <i-button @click="handleEdit(row, index)">操作</i-button>
                                     </div>
-                                </template>
+                                </div>
 
                             </i-table>
                         </div>
-                        <Divider>
-                        </Divider>
-                    </template>
+
+                    </div>
                 </div>
 
             </section>
@@ -850,12 +855,13 @@
         methods:{
             addPSRecords(){
                 myPSRecords=[];
-                for(product_id in this.chooseProducts_ids){
+
+                for(index in this.chooseProducts_ids){
                     myPSRecords.push({
                         sector_name:this.chooseSector_name,
-                        product_id:product_id
+                        product_id:this.chooseProducts_ids[index]
                     });
-                    // console.log(JSON.stringify(myPSRecords));
+                    console.log(JSON.stringify(myPSRecords));
                 }
                 $.ajax({
                     type: "POST",
@@ -875,6 +881,7 @@
     })
 </script>
 <script>
+
     var vue = new Vue({
         el: '#app3',
         data() {
