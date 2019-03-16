@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="PatrickManagementSystem:war2">
+    <output-path>$PROJECT_DIR$/..</output-path>
+    <root id="archive" name="PatrickManagementSystem_war.war">
+      <element id="artifact" artifact-name="PatrickManagementSystem:war exploded" />
+    </root>
+  </artifact>
+</component>
