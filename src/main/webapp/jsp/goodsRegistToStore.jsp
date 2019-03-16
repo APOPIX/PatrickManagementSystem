@@ -278,36 +278,37 @@
                 <div class="main">
                     <br>
                     <h3 class="title-w3" style="color: #FFFFFF">门店注册商品信息</h3>
+                    <br> <br>
                     <div id="app2">
 
                         <div>
                             <div style="margin-left: 30px;margin-right: 20px">
-                                <i-table :columns="columns" :data="data">
+                                <i-table :columns="columns" :data="data" height="660">
                                     <div slot-scope="{ row, index }" slot="store_id">
-                                        <i-input type="text" v-model="editStore_id" v-if="editIndex === index"/>
+                                        <Input type="text" v-model="editStore_id" v-if="editIndex === index"/>
                                         <span v-else>{{ row.store_id }}</span>
                                     </div>
 
                                     <div slot-scope="{ row, index }" slot="product_id">
-                                        <i-input type="text" v-model="editProduct_id" v-if="editIndex === index"/>
+                                        <Input type="text" v-model="editProduct_id" v-if="editIndex === index"/>
                                         <span v-else>{{ row.product_id }}</span>
                                     </div>
 
                                     <div slot-scope="{ row, index }" slot="inventory">
-                                        <i-input type="text" v-model="editInventory" v-if="editIndex === index"/>
+                                        <Input type="text" v-model="editInventory" v-if="editIndex === index"/>
                                         <span v-else>{{ row.inventory }}</span>
                                     </div>
 
                                     <div slot-scope="{ row, index }" slot="original_price">
-                                        <i-input type="text" v-model="editOriginal_price" v-if="editIndex === index"/>
+                                        <Input type="text" v-model="editOriginal_price" v-if="editIndex === index"/>
                                         <span v-else>{{ row.original_price }}</span>
                                     </div>
                                     <div slot-scope="{ row, index }" slot="discount">
-                                        <i-input type="text" v-model="editDiscount" v-if="editIndex === index"/>
+                                        <Input type="text" v-model="editDiscount" v-if="editIndex === index"/>
                                         <span v-else>{{ row.discount }}</span>
                                     </div>
                                     <div slot-scope="{ row, index }" slot="product_status">
-                                        <i-input type="text" v-model="editProduct_status" v-if="editIndex === index"/>
+                                        <Input type="text" v-model="editProduct_status" v-if="editIndex === index"/>
                                         <span v-else>{{ row.product_status }}</span>
                                     </div>
 
